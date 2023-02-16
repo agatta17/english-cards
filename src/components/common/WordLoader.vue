@@ -14,6 +14,7 @@
               label="Группа"
               outlined
               hide-details
+              color="cyan"
             >
             </v-text-field>
 
@@ -26,11 +27,12 @@
               label="Группа"
               outlined
               hide-details
+              color="cyan"
             >
             </v-select>
 
             <v-btn @click="showGroupInput = !showGroupInput" icon class="ml-2">
-              <v-icon color="primary" large>
+              <v-icon color="cyan" large>
                 {{ showGroupInput ? "mdi-close" : "mdi-plus" }}
               </v-icon>
             </v-btn>
@@ -41,6 +43,7 @@
             outlined
             name="input-7-4"
             label="Json"
+            color="cyan"
           ></v-textarea>
         </v-card-text>
 
@@ -48,11 +51,11 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn @click="toggleWordLoader" color="primary" text>
-            Отменить
-          </v-btn>
+          <v-btn @click="toggleWordLoader" color="cyan" text> Отменить </v-btn>
 
-          <v-btn @click="onAdd" color="primary" text> Добавить </v-btn>
+          <v-btn @click="onAdd" color="cyan" depressed>
+            <span class="white--text">Добавить</span>
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

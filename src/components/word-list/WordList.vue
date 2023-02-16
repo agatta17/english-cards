@@ -8,7 +8,6 @@
 
     <v-sheet
       v-if="words.length"
-      color="white"
       max-width="1100"
       class="align-self-center mt-8"
     >

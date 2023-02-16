@@ -21,6 +21,7 @@
                       label="change the picture"
                       dense
                       hide-details
+                      color="cyan"
                     />
                   </div>
                 </v-col>
@@ -49,6 +50,7 @@
                       label="add association"
                       dense
                       hide-details
+                      color="cyan"
                     />
                   </div>
 

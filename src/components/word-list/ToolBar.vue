@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-btn @click="setFilter('done')" icon :disabled="currentFilter === 'done'">
-      <v-icon color="green" large>mdi-check</v-icon>
+      <v-icon color="green darken-1" large>mdi-check</v-icon>
     </v-btn>
 
     <v-btn
@@ -9,7 +9,7 @@
       icon
       :disabled="currentFilter === 'process'"
     >
-      <v-icon color="red" large>mdi-close</v-icon>
+      <v-icon color="amber darken-4" large>mdi-close</v-icon>
     </v-btn>
 
     <v-btn @click="setFilter('all')" icon :disabled="currentFilter === 'all'">
@@ -21,7 +21,7 @@
     </v-btn> -->
 
     <v-btn @click="toggleWordLoader" icon>
-      <v-icon color="info" large>mdi-upload</v-icon>
+      <v-icon color="cyan" large>mdi-upload</v-icon>
     </v-btn>
   </div>
 </template>

@@ -1,20 +1,20 @@
 <template>
   <div>
-    <div class="text-h2">
+    <div class="text-h2 blue-grey--text text--darken-3">
       {{ word }}
 
       <v-btn @click="toggleDone(wordId)" icon x-large>
-        <v-icon :color="done ? 'red' : 'green'" x-large>
+        <v-icon :color="done ? 'amber darken-4' : 'green darken-1'" x-large>
           {{ done ? "mdi-close" : "mdi-check" }}
         </v-icon>
       </v-btn>
 
       <v-btn @click="say(word)" icon x-large>
-        <v-icon color="primary" x-large>mdi-bullhorn</v-icon>
+        <v-icon color="cyan" x-large>mdi-bullhorn</v-icon>
       </v-btn>
     </div>
 
-    <div class="text-h6" v-html="example"></div>
+    <div class="text-h6 blue-grey--text text--darken-1" v-html="example"></div>
   </div>
 </template>
 

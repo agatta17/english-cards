@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mb-4" outlined>
+  <v-card class="mb-4 word-card" flat tile>
     <v-container>
       <v-row>
         <v-col cols="4">
@@ -8,11 +8,15 @@
             v-model="changes.russianWord"
             dense
             hide-details
+            color="cyan"
           />
-          <div v-else class="text-h6 primary--text">
+          <div v-else class="text-h6 blue-grey--text text--darken-3">
             {{ word.russianWord }}
           </div>
-          <div v-html="word.russianExample"></div>
+          <div
+            class="blue-grey--text text--darken-1"
+            v-html="word.russianExample"
+          ></div>
         </v-col>
 
         <v-col cols="2" class="d-flex justify-center">
@@ -25,9 +29,15 @@
             v-model="changes.englishWord"
             dense
             hide-details
+            color="cyan"
           />
-          <div v-else class="text-h6 primary--text">{{ word.englishWord }}</div>
-          <div v-html="word.englishExample"></div>
+          <div v-else class="text-h6 blue-grey--text text--darken-3">
+            {{ word.englishWord }}
+          </div>
+          <div
+            class="blue-grey--text text--darken-1"
+            v-html="word.englishExample"
+          ></div>
         </v-col>
 
         <v-col cols="2">
@@ -38,9 +48,15 @@
             :isEditMode="isEditMode"
           />
           <div>
-            <v-chip small>{{ groupName }}</v-chip>
+            <v-chip
+              small
+              class="blue-grey--text text--darken-1 blue-grey lighten-5"
+              >{{ groupName }}</v-chip
+            >
           </div>
-          <div>{{ word.association }}</div>
+          <div class="blue-grey--text text--darken-1">
+            {{ word.association }}
+          </div>
         </v-col>
       </v-row>
     </v-container>
@@ -108,5 +124,9 @@ export default {
 <style scoped>
 .picture {
   max-width: 160px;
+}
+
+.word-card {
+  border-bottom: 1px #cfd8dc solid;
 }
 </style>
