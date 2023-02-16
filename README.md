@@ -1,4 +1,4 @@
-# reverso
+# english-cards
 
 ## Project setup
 ```
