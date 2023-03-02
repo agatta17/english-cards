@@ -45,13 +45,15 @@ export default {
 
   methods: {
     listVoices() {
-      const voices = (this.voices = this.synth.getVoices());
-      this.$emit("list-voices", voices);
+      this.voices = this.synth.getVoices();
+      // this.$emit("list-voices", voices);
     },
     speak() {
       if (this.text !== "") {
         this.utterance.text = this.text;
-        // this.utterance.voice = this.voices[49];
+        this.utterance.voice = this.voices.find(
+          ({ name }) => name === "Google UK English Male"
+        );
         this.utterance.pitch = this.pitch;
         this.utterance.rate = this.rate;
         this.synth.speak(this.utterance);
