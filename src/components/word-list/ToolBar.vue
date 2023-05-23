@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="toolbar">
     <v-btn @click="setFilter('done')" icon :disabled="currentFilter === 'done'">
       <v-icon color="green darken-1" large>mdi-check</v-icon>
     </v-btn>
@@ -19,10 +19,6 @@
     <!-- <v-btn icon>
       <v-icon color="orange" large>mdi-plus</v-icon>
     </v-btn> -->
-
-    <v-btn @click="toggleWordLoader" icon>
-      <v-icon color="cyan" large>mdi-upload</v-icon>
-    </v-btn>
   </div>
 </template>
 
@@ -43,7 +39,13 @@ export default {
   },
 
   methods: {
-    ...mapActions(useAppStore, ["toggleWordLoader", "setFilter"]),
+    ...mapActions(useAppStore, ["setFilter"]),
   },
 };
 </script>
+
+<style>
+.toolbar {
+  white-space: nowrap;
+}
+</style>

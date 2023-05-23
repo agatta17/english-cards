@@ -1,9 +1,8 @@
 <template>
   <div class="d-flex flex-column">
     <v-toolbar>
-      <group-filter />
-      <v-spacer></v-spacer>
       <tool-bar />
+      <group-filter />
     </v-toolbar>
 
     <v-sheet

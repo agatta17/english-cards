@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="group-filter">
     <v-chip
       v-for="group in groups"
       :key="group.id"
@@ -36,3 +36,19 @@ export default {
   },
 };
 </script>
+
+<style>
+.group-filter {
+  white-space: nowrap;
+  overflow-x: auto;
+}
+
+.group-filter::-webkit-scrollbar {
+  height: 4px;
+}
+
+.group-filter::-webkit-scrollbar-thumb {
+  background: #00acc1;
+  border-radius: 10px;
+}
+</style>

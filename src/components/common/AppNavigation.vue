@@ -11,16 +11,23 @@
         >Русские карточки</v-btn
       >
 
-      <v-btn @click="downloadWordList">Скачать слова</v-btn>
+      <v-btn @click="downloadWordList" class="mr-5">Скачать слова</v-btn>
+
+      <v-btn @click="toggleWordLoader">Загрузить слова</v-btn>
     </v-app-bar>
   </div>
 </template>
 
 <script>
+import { useAppStore } from "@/store";
+import { mapActions } from "pinia";
+
 export default {
   name: "AppNavigation",
 
   methods: {
+    ...mapActions(useAppStore, ["toggleWordLoader"]),
+
     async downloadWordList() {
       const words = JSON.parse(localStorage.getItem("words"));
       const groups = JSON.parse(localStorage.getItem("groups"));
