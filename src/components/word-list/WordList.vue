@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex flex-column">
     <v-toolbar>
-      <tool-bar />
+      <tool-bar v-if="!isMobile" />
       <group-filter />
     </v-toolbar>
 
@@ -18,7 +18,7 @@
 
 <script>
 import GroupFilter from "@/components/common/GroupFilter.vue";
-import ToolBar from "./ToolBar.vue";
+import ToolBar from "@/components/common/ToolBar.vue";
 import { useAppStore } from "@/store";
 import { mapStores } from "pinia";
 import WordCard from "./WordCard.vue";
@@ -39,6 +39,10 @@ export default {
 
     words() {
       return this.appStore.filteredWordsForList;
+    },
+
+    isMobile() {
+      return this.$vuetify.breakpoint.smAndDown;
     },
   },
 };

@@ -15,10 +15,6 @@
     <v-btn @click="setFilter('all')" icon :disabled="currentFilter === 'all'">
       all
     </v-btn>
-
-    <!-- <v-btn icon>
-      <v-icon color="orange" large>mdi-plus</v-icon>
-    </v-btn> -->
   </div>
 </template>
 

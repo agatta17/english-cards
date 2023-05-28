@@ -5,20 +5,27 @@
     </v-toolbar>
 
     <v-container v-if="words.length">
-      <v-sheet class="mt-8">
-        <v-carousel v-model="wordIndex" hide-delimiters>
+      <v-sheet class="mt-sm-8">
+        <v-carousel
+          v-model="wordIndex"
+          hide-delimiters
+          :height="isMobile ? 1100 : 500"
+        >
           <v-carousel-item v-for="(word, i) in words" :key="i">
-            <v-sheet height="100%" tile outlined class="pa-16">
-              <v-row justify="space-between">
-                <v-col class="d-flex flex-column justify-center align-center">
-                  <img class="picture" height="300px" :src="word.picture" />
+            <v-sheet tile outlined class="px-16 py-6 py-sm-16">
+              <v-row justify="center" :align="isMobile ? 'center' : 'start'">
+                <v-col
+                  :cols="isMobile ? 12 : 6"
+                  class="d-flex flex-column justify-center align-center"
+                >
+                  <img class="picture" :src="word.picture" height="300px" />
 
                   <div class="mt-4">
                     <v-text-field
                       @keydown.enter="
                         (event) => addPicture(event.target.value, word.id)
                       "
-                      label="change the picture"
+                      label="Change the picture"
                       dense
                       hide-details
                       color="cyan"
@@ -26,7 +33,10 @@
                   </div>
                 </v-col>
 
-                <v-col class="d-flex flex-column justify-space-between">
+                <v-col
+                  :cols="isMobile ? 12 : 6"
+                  class="d-flex flex-column justify-space-between"
+                >
                   <component
                     :is="`${languageOfCard}Word`"
                     :word="word[`${languageOfCard}Word`]"
@@ -47,7 +57,7 @@
                       v-else
                       @keydown.enter="(event) => editAssociation(event, word)"
                       :value="word.association"
-                      label="add association"
+                      label="Add association"
                       dense
                       hide-details
                       color="cyan"
@@ -123,6 +133,10 @@ export default {
     languageOfTranslation() {
       return this.languageOfCard === "english" ? "russian" : "english";
     },
+
+    isMobile() {
+      return this.$vuetify.breakpoint.smAndDown;
+    },
   },
 
   methods: {
@@ -151,10 +165,6 @@ export default {
 </script>
 
 <style scoped>
-.picture {
-  max-width: 500px;
-}
-
 .translation {
   min-height: 140px;
 }

@@ -2,7 +2,7 @@
   <v-card class="mb-4 word-card" flat tile>
     <v-container>
       <v-row>
-        <v-col cols="4">
+        <v-col cols="12" sm="6" md="4">
           <v-text-field
             v-if="isEditMode"
             v-model="changes.russianWord"
@@ -19,11 +19,11 @@
           ></div>
         </v-col>
 
-        <v-col cols="2" class="d-flex justify-center">
+        <v-col cols="12" sm="6" md="2" class="d-flex justify-center">
           <img class="picture" height="100px" :src="word.picture" />
         </v-col>
 
-        <v-col cols="4">
+        <v-col cols="12" sm="6" md="4">
           <v-text-field
             v-if="isEditMode"
             v-model="changes.englishWord"
@@ -40,7 +40,7 @@
           ></div>
         </v-col>
 
-        <v-col cols="2">
+        <v-col cols="12" sm="12" md="2">
           <word-actions
             @onEdit="toggleEditMode"
             :wordId="word.id"
