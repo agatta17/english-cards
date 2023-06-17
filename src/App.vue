@@ -29,14 +29,6 @@ export default {
   computed: {
     ...mapStores(useAppStore),
 
-    words() {
-      return this.appStore.words;
-    },
-
-    groups() {
-      return this.appStore.groups;
-    },
-
     play: {
       get() {
         return this.appStore.speechSounds;
@@ -48,27 +40,11 @@ export default {
   },
 
   methods: {
-    ...mapActions(useAppStore, ["getWordsFromLocalStorage"]),
-  },
-
-  watch: {
-    words: {
-      handler(newVal) {
-        localStorage.setItem("words", JSON.stringify(newVal));
-      },
-      deep: true,
-    },
-
-    groups: {
-      handler(newVal) {
-        localStorage.setItem("groups", JSON.stringify(newVal));
-      },
-      deep: true,
-    },
+    ...mapActions(useAppStore, ["getInit"]),
   },
 
   mounted() {
-    if (localStorage.length) this.getWordsFromLocalStorage();
+    this.getInit();
   },
 };
 </script>

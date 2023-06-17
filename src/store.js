@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import apiFetch from "@/utils/api";
 
 export const useAppStore = defineStore("app", {
   state: () => ({
@@ -41,9 +42,9 @@ export const useAppStore = defineStore("app", {
     },
   },
   actions: {
-    getWordsFromLocalStorage() {
-      this.words = JSON.parse(localStorage.getItem("words"));
-      this.groups = JSON.parse(localStorage.getItem("groups"));
+    async getInit() {
+      this.groups = await apiFetch("groups");
+      this.words = await apiFetch("words");
     },
 
     toggleWordLoader() {
