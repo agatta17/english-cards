@@ -1,7 +1,7 @@
 <template>
   <div class="toolbar">
     <v-btn @click="setFilter('done')" icon :disabled="currentFilter === 'done'">
-      <v-icon color="green darken-1" large>mdi-check</v-icon>
+      <v-icon color="green darken-2" large>mdi-checkbox-marked-outline</v-icon>
     </v-btn>
 
     <v-btn

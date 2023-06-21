@@ -3,18 +3,21 @@
     <div class="text-h5 text-md-h3 blue-grey--text text--darken-3">
       {{ word }}
 
-      <v-btn @click="toggleDone(wordId)" icon x-large>
-        <v-icon :color="done ? 'amber darken-4' : 'green darken-1'" x-large>
-          {{ done ? "mdi-close" : "mdi-check" }}
+      <v-btn v-if="!isMobile" @click="toggleDone(wordId)" icon x-large>
+        <v-icon x-large>
+          {{ done ? "mdi-close" : "mdi-checkbox-marked-outline" }}
         </v-icon>
       </v-btn>
 
-      <v-btn @click="say(word)" icon x-large>
-        <v-icon color="cyan" x-large>mdi-bullhorn</v-icon>
+      <v-btn v-if="!isMobile" @click="say(word)" icon x-large>
+        <v-icon x-large>mdi-bullhorn</v-icon>
       </v-btn>
     </div>
 
-    <div class="text-h6 blue-grey--text text--darken-1" v-html="example"></div>
+    <div
+      class="text-h6 blue-grey--text text--darken-1 mt-2"
+      v-html="example"
+    ></div>
   </div>
 </template>
 

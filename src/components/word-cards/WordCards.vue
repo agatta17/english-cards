@@ -13,7 +13,22 @@
           :show-arrows="!isMobile"
         >
           <v-carousel-item v-for="(word, i) in words" :key="i">
-            <v-sheet tile class="px-8 py-1 py-sm-16">
+            <v-sheet
+              tile
+              class="px-1 px-sm-16 py-1 py-sm-16 carousel-item-wrap"
+            >
+              <div v-if="isMobile" class="actions">
+                <v-btn @click="toggleDone(word._id)" icon x-large>
+                  <v-icon x-large>
+                    {{ done ? "mdi-close" : "mdi-checkbox-marked-outline" }}
+                  </v-icon>
+                </v-btn>
+
+                <v-btn @click="say(word.englishWord)" icon x-large>
+                  <v-icon x-large>mdi-bullhorn</v-icon>
+                </v-btn>
+              </div>
+
               <v-row justify="center" :align="isMobile ? 'center' : 'start'">
                 <v-col
                   :cols="isMobile ? 12 : 6"
@@ -49,6 +64,27 @@
                     :wordId="word._id"
                   />
 
+                  <div class="translation d-flex align-end">
+                    <div v-show="showTranslation">
+                      <component
+                        :is="`${languageOfTranslation}Word`"
+                        :word="word[`${languageOfTranslation}Word`]"
+                        :example="word[`${languageOfTranslation}Example`]"
+                        :wordId="word._id"
+                      />
+                    </div>
+
+                    <v-btn
+                      v-show="!showTranslation"
+                      @click="showTranslation = true"
+                      depressed
+                      outlined
+                      color="blue-grey darken-2"
+                    >
+                      Translation
+                    </v-btn>
+                  </div>
+
                   <div class="mt-8">
                     <span
                       v-if="word.association && !showAssociationEditor"
@@ -67,24 +103,6 @@
                       hide-details
                       color="cyan"
                     />
-                  </div>
-
-                  <div class="translation d-flex align-end">
-                    <div v-show="showTranslation">
-                      <component
-                        :is="`${languageOfTranslation}Word`"
-                        :word="word[`${languageOfTranslation}Word`]"
-                        :example="word[`${languageOfTranslation}Example`]"
-                        :wordId="word._id"
-                      />
-                    </div>
-
-                    <v-btn
-                      v-show="!showTranslation"
-                      @click="showTranslation = true"
-                    >
-                      Translation
-                    </v-btn>
                   </div>
                 </v-col>
               </v-row>
@@ -145,7 +163,12 @@ export default {
   },
 
   methods: {
-    ...mapActions(useAppStore, ["addPicture", "addAssociation"]),
+    ...mapActions(useAppStore, [
+      "addPicture",
+      "addAssociation",
+      "say",
+      "toggleDone",
+    ]),
 
     editAssociation(event, word) {
       this.addAssociation(event.target.value, word._id);
@@ -172,5 +195,16 @@ export default {
 <style scoped>
 .translation {
   min-height: 140px;
+}
+
+.carousel-item-wrap {
+  position: relative;
+}
+
+.actions {
+  position: absolute;
+  right: 0;
+  display: flex;
+  flex-direction: column;
 }
 </style>
