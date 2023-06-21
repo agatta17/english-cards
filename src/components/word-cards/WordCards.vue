@@ -23,7 +23,7 @@
                   <div class="mt-4">
                     <v-text-field
                       @keydown.enter="
-                        (event) => addPicture(event.target.value, word.id)
+                        (event) => addPicture(event.target.value, word._id)
                       "
                       label="Change the picture"
                       dense
@@ -41,7 +41,7 @@
                     :is="`${languageOfCard}Word`"
                     :word="word[`${languageOfCard}Word`]"
                     :example="word[`${languageOfCard}Example`]"
-                    :wordId="word.id"
+                    :wordId="word._id"
                   />
 
                   <div class="mt-8">
@@ -70,7 +70,7 @@
                         :is="`${languageOfTranslation}Word`"
                         :word="word[`${languageOfTranslation}Word`]"
                         :example="word[`${languageOfTranslation}Example`]"
-                        :wordId="word.id"
+                        :wordId="word._id"
                       />
                     </div>
 
@@ -143,7 +143,7 @@ export default {
     ...mapActions(useAppStore, ["addPicture", "addAssociation"]),
 
     editAssociation(event, word) {
-      this.addAssociation(event.target.value, word.id);
+      this.addAssociation(event.target.value, word._id);
       this.showAssociationEditor = false;
     },
   },

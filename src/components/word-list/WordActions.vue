@@ -31,7 +31,7 @@ export default {
 
   props: {
     englishWord: { type: String, default: "" },
-    wordId: { type: Number, require: true },
+    wordId: { type: String, require: true },
     isEditMode: { type: Boolean, default: false },
   },
 
@@ -39,7 +39,7 @@ export default {
     ...mapStores(useAppStore),
 
     done() {
-      return this.appStore.words.find(({ id }) => id === this.wordId).done;
+      return this.appStore.words.find(({ _id }) => _id === this.wordId).done;
     },
   },
 

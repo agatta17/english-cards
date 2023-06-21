@@ -1,7 +1,7 @@
 <template>
-  <v-card class="mb-4 word-card" flat tile>
-    <v-container>
-      <v-row>
+  <v-card class="word-card" flat tile>
+    <v-container class="px-0 py-1">
+      <v-row no-gutters justify="space-between">
         <v-col cols="12" sm="6" md="4">
           <v-text-field
             v-if="isEditMode"
@@ -10,7 +10,7 @@
             hide-details
             color="cyan"
           />
-          <div v-else class="text-h6 blue-grey--text text--darken-3">
+          <div v-else class="blue-grey--text text--darken-3 font-weight-medium">
             {{ word.russianWord }}
           </div>
           <div
@@ -19,8 +19,8 @@
           ></div>
         </v-col>
 
-        <v-col cols="12" sm="6" md="2" class="d-flex justify-center">
-          <img class="picture" height="100px" :src="word.picture" />
+        <v-col cols="12" sm="6" md="auto" class="d-flex justify-center">
+          <v-img max-height="50px" max-width="80px" :src="word.picture" />
         </v-col>
 
         <v-col cols="12" sm="6" md="4">
@@ -31,7 +31,7 @@
             hide-details
             color="cyan"
           />
-          <div v-else class="text-h6 blue-grey--text text--darken-3">
+          <div v-else class="blue-grey--text text--darken-3 font-weight-medium">
             {{ word.englishWord }}
           </div>
           <div
@@ -40,10 +40,10 @@
           ></div>
         </v-col>
 
-        <v-col cols="12" sm="12" md="2">
+        <v-col cols="12" sm="12" md="auto">
           <word-actions
             @onEdit="toggleEditMode"
-            :wordId="word.id"
+            :wordId="word._id"
             :englishWord="word.englishWord"
             :isEditMode="isEditMode"
           />
@@ -53,9 +53,6 @@
               class="blue-grey--text text--darken-1 blue-grey lighten-5"
               >{{ groupName }}</v-chip
             >
-          </div>
-          <div class="blue-grey--text text--darken-1">
-            {{ word.association }}
           </div>
         </v-col>
       </v-row>
@@ -113,7 +110,7 @@ export default {
         this.saveWordsChanges({
           englishWord: this.changes.englishWord,
           russianWord: this.changes.russianWord,
-          wordId: this.word.id,
+          wordId: this.word._id,
         });
       }
     },
@@ -122,10 +119,6 @@ export default {
 </script>
 
 <style scoped>
-.picture {
-  max-width: 160px;
-}
-
 .word-card {
   border-bottom: 1px #cfd8dc solid;
 }

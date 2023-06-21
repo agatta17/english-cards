@@ -46,7 +46,7 @@ export default {
     ...mapStores(useAppStore),
 
     done() {
-      return this.appStore.words.find(({ id }) => id === this.wordId).done;
+      return this.appStore.words.find(({ _id }) => _id === this.wordId).done;
     },
   },
 

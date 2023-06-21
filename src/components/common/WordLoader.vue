@@ -42,7 +42,7 @@
             v-model="wordList"
             outlined
             name="input-7-4"
-            label="Json"
+            :label="mode === 'generate' ? 'Список слов через запятую' : 'Json'"
             color="cyan"
           ></v-textarea>
         </v-card-text>
@@ -74,6 +74,7 @@ export default {
     groupId: null,
     showGroupInput: false,
     newGroupName: "",
+    mode: "generate",
   }),
 
   computed: {
@@ -98,13 +99,20 @@ export default {
     ...mapActions(useAppStore, [
       "toggleWordLoader",
       "addWordList",
+      "generateSetByList",
       "addNewGroup",
     ]),
 
-    onAdd() {
+    async onAdd() {
       if (this.showGroupInput)
-        this.groupId = this.addNewGroup(this.newGroupName);
-      this.addWordList(JSON.parse(this.wordList).results, this.groupId);
+        this.groupId = await this.addNewGroup(this.newGroupName);
+
+      if (this.mode === "generate")
+        await this.generateSetByList(this.wordList, this.groupId);
+
+      if (this.mode === "add")
+        await this.addWordList(JSON.parse(this.wordList).results, this.groupId);
+
       this.toggleWordLoader();
     },
   },

@@ -51,26 +51,29 @@ export const useAppStore = defineStore("app", {
       this.wordLoaderOpened = !this.wordLoaderOpened;
     },
 
-    addWordList(list, groupId) {
-      for (const word of list) {
-        this.words.push({
-          id: word.id,
-          englishWord: word.srcText,
-          englishExample: word.srcContext,
-          russianWord: word.trgText,
-          russianExample: word.trgContext,
-          association: "",
-          groupId: groupId,
-          done: false,
-          picture: "https://cdn-icons-png.flaticon.com/512/3983/3983886.png",
-        });
-      }
+    async addWordList(list, groupId) {
+      const words = list.map((word) => ({
+        englishWord: word.srcText,
+        englishExample: word.srcContext,
+        russianWord: word.trgText,
+        russianExample: word.trgContext,
+        association: "",
+        groupId: groupId,
+        done: false,
+        picture: "https://cdn-icons-png.flaticon.com/512/3983/3983886.png",
+      }));
+
+      await apiFetch("word", "POST", { words });
     },
 
-    addNewGroup(name) {
+    async addNewGroup(name) {
       const id = Date.now();
-      this.groups.push({ id, name });
+      await apiFetch("group", "POST", { group: { id, name } });
       return id;
+    },
+
+    async generateSetByList(wordList, groupId) {
+      await apiFetch("ai", "POST", { wordList, groupId });
     },
 
     setGroup(id) {

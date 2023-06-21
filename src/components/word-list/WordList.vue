@@ -10,7 +10,7 @@
       max-width="1100"
       class="align-self-center mt-8"
     >
-      <word-card v-for="(word, i) in words" :key="i" :word="word" />
+      <word-card v-for="word in words" :key="word._id" :word="word" />
     </v-sheet>
     <plug-component v-else />
   </div>
