@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="text-h2 blue-grey--text text--darken-3">
+    <div class="text-h5 text-md-h3 blue-grey--text text--darken-3">
       {{ word }}
 
       <v-btn @click="toggleDone(wordId)" icon x-large>
@@ -47,6 +47,10 @@ export default {
 
     done() {
       return this.appStore.words.find(({ _id }) => _id === this.wordId).done;
+    },
+
+    isMobile() {
+      return this.$vuetify.breakpoint.smAndDown;
     },
   },
 

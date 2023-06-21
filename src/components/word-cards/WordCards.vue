@@ -5,22 +5,27 @@
     </v-toolbar>
 
     <v-container v-if="words.length">
-      <v-sheet class="mt-sm-8">
+      <v-sheet>
         <v-carousel
           v-model="wordIndex"
           hide-delimiters
-          :height="isMobile ? 1100 : 500"
+          :height="isMobile ? '100%' : 500"
+          :show-arrows="!isMobile"
         >
           <v-carousel-item v-for="(word, i) in words" :key="i">
-            <v-sheet tile outlined class="px-16 py-6 py-sm-16">
+            <v-sheet tile class="px-8 py-1 py-sm-16">
               <v-row justify="center" :align="isMobile ? 'center' : 'start'">
                 <v-col
                   :cols="isMobile ? 12 : 6"
                   class="d-flex flex-column justify-center align-center"
                 >
-                  <img class="picture" :src="word.picture" height="300px" />
+                  <img
+                    class="picture"
+                    :src="word.picture"
+                    :height="isMobile ? '150px' : '300px'"
+                  />
 
-                  <div class="mt-4">
+                  <div v-if="!isMobile" class="mt-4">
                     <v-text-field
                       @keydown.enter="
                         (event) => addPicture(event.target.value, word._id)
