@@ -81,7 +81,7 @@ export const useAppStore = defineStore("app", {
     },
 
     addPicture(src, wordId) {
-      const index = this.words.findIndex(({ id }) => id === wordId);
+      const index = this.words.findIndex(({ _id }) => _id === wordId);
       this.words[index].picture = src;
     },
 
