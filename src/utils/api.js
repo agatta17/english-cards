@@ -1,5 +1,5 @@
-// const apiUrl = "https://english-cards-q23m.onrender.com/";
-const apiUrl = "http://localhost/";
+const apiUrl = "https://english-cards-q23m.onrender.com/";
+// const apiUrl = "http://localhost/";
 
 export default async function apiFetch(route, method = "GET", request) {
   try {
