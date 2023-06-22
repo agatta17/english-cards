@@ -13,24 +13,23 @@ export const useAppStore = defineStore("app", {
 
     words: [],
     groups: [],
+
+    isLoading: false,
   }),
 
   getters: {
-    filteredWordsForList: (state) => {
-      return state.words.filter(({ groupId, done }) => {
-        const checkGroupId = () =>
-          state.currentGroupId ? groupId === state.currentGroupId : true;
+    // filteredWordsForList: (state) => {
+    //   return state.words.filter(({ done }) => {
+    //     const checkDone = () =>
+    //       state.currentFilter === "all"
+    //         ? true
+    //         : state.currentFilter === "done"
+    //         ? done
+    //         : !done;
 
-        const checkDone = () =>
-          state.currentFilter === "all"
-            ? true
-            : state.currentFilter === "done"
-            ? done
-            : !done;
-
-        return checkGroupId() && checkDone();
-      });
-    },
+    //     return checkDone();
+    //   });
+    // },
 
     filteredWordsForCards: (state) => {
       return state.words.filter(({ groupId, done }) => {
@@ -42,9 +41,14 @@ export const useAppStore = defineStore("app", {
     },
   },
   actions: {
-    async getInit() {
+    async getWords(groupId = null) {
+      this.words = await apiFetch(`words?group_id=${groupId}`);
+    },
+
+    async getGroups() {
+      this.isLoading = true;
       this.groups = await apiFetch("groups");
-      this.words = await apiFetch("words");
+      this.isLoading = false;
     },
 
     toggleWordLoader() {
@@ -76,8 +80,11 @@ export const useAppStore = defineStore("app", {
       await apiFetch("ai", "POST", { wordList, groupId });
     },
 
-    setGroup(id) {
-      this.currentGroupId = id;
+    async setGroup(id) {
+      this.isLoading = true;
+      this.currentGroupId = Number(id);
+      this.words = await apiFetch(`words?group_id=${id}`);
+      this.isLoading = false;
     },
 
     addPicture(src, wordId) {

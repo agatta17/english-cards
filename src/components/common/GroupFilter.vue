@@ -3,7 +3,7 @@
     <v-chip
       v-for="group in groups"
       :key="group.id"
-      @click="setGroup(group.id)"
+      @click="onSetGroup(group.id)"
       class="ma-2"
       :color="currentGroupId === group.id ? 'cyan lighten-3' : 'grey lighten-2'"
     >
@@ -33,6 +33,14 @@ export default {
 
   methods: {
     ...mapActions(useAppStore, ["setGroup"]),
+
+    onSetGroup(id) {
+      this.setGroup(id);
+      this.$router.push({
+        path: this.$router.currentRoute.path,
+        query: { group: this.currentGroupId },
+      });
+    },
   },
 };
 </script>

@@ -37,14 +37,22 @@ export default {
         this.appStore.speechSounds = newVal;
       },
     },
+
+    initialGroupId() {
+      return this.$router.currentRoute.query.group;
+    },
   },
 
   methods: {
-    ...mapActions(useAppStore, ["getInit"]),
+    ...mapActions(useAppStore, ["getGroups", "setGroup"]),
   },
 
-  mounted() {
-    this.getInit();
+  async mounted() {
+    await this.getGroups();
+
+    if (this.initialGroupId) {
+      this.setGroup(this.initialGroupId);
+    }
   },
 };
 </script>
