@@ -67,7 +67,7 @@ export const useAppStore = defineStore("app", {
         picture: "https://cdn-icons-png.flaticon.com/512/3983/3983886.png",
       }));
 
-      await apiFetch("word", "POST", { words });
+      await apiFetch("words", "POST", { words });
     },
 
     async addNewGroup(name) {
@@ -77,7 +77,7 @@ export const useAppStore = defineStore("app", {
     },
 
     async generateSetByList(wordList, groupId) {
-      await apiFetch("ai", "POST", { wordList, groupId });
+      await apiFetch("generate-by-list", "POST", { wordList, groupId });
     },
 
     async setGroup(id) {
