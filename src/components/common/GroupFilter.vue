@@ -23,7 +23,7 @@ export default {
     ...mapStores(useAppStore),
 
     groups() {
-      return [...this.appStore.groups, { id: null, name: "All" }];
+      return [...this.appStore.groups, { id: 0, name: "All" }];
     },
 
     currentGroupId() {

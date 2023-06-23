@@ -91,36 +91,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(useAppStore, ["toggleWordLoader"]),
-
-    async downloadWordList() {
-      const words = JSON.parse(localStorage.getItem("words"));
-      const groups = JSON.parse(localStorage.getItem("groups"));
-
-      const data = JSON.stringify({
-        words,
-        groups,
-      });
-
-      const options = {
-        suggestedName: "words.json",
-        types: [
-          {
-            description: "Text",
-            accept: {
-              "text/plain": ".json",
-            },
-          },
-        ],
-        excludeAcceptAllOption: true,
-      };
-
-      const fileHandle = await window.showSaveFilePicker(options);
-      const writableStream = await fileHandle.createWritable(options);
-      await writableStream.write(data);
-
-      await writableStream.close();
-    },
+    ...mapActions(useAppStore, ["toggleWordLoader", "downloadWordList"]),
 
     toggleDrawer() {
       this.drawerOpen = !this.drawerOpen;

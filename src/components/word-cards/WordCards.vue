@@ -4,7 +4,13 @@
       <group-filter />
     </v-toolbar>
 
-    <v-container v-if="words.length">
+    <loader-component v-if="isLoading" />
+
+    <choose-group v-else-if="currentGroupId === null" />
+
+    <plug-component v-else-if="!words.length" />
+
+    <v-container v-else>
       <v-sheet>
         <v-carousel
           v-model="wordIndex"
@@ -111,8 +117,6 @@
         </v-carousel>
       </v-sheet>
     </v-container>
-
-    <plug-component v-else />
   </div>
 </template>
 
@@ -123,6 +127,8 @@ import { mapStores, mapActions } from "pinia";
 import EnglishWord from "./EnglishWord.vue";
 import RussianWord from "./RussianWord.vue";
 import PlugComponent from "@/components/common/PlugComponent.vue";
+import ChooseGroup from "@/components/common/ChooseGroup.vue";
+import LoaderComponent from "@/components/common/LoaderComponent.vue";
 
 export default {
   name: "WordCards",
@@ -132,6 +138,8 @@ export default {
     EnglishWord,
     RussianWord,
     PlugComponent,
+    ChooseGroup,
+    LoaderComponent,
   },
 
   data() {
@@ -145,6 +153,10 @@ export default {
   computed: {
     ...mapStores(useAppStore),
 
+    isLoading() {
+      return this.appStore.isLoading;
+    },
+
     words() {
       return this.appStore.filteredWordsForCards;
     },
@@ -155,6 +167,10 @@ export default {
 
     languageOfTranslation() {
       return this.languageOfCard === "english" ? "russian" : "english";
+    },
+
+    currentGroupId() {
+      return this.appStore.currentGroupId;
     },
 
     isMobile() {

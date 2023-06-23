@@ -41,6 +41,32 @@ export const useAppStore = defineStore("app", {
     },
   },
   actions: {
+    async downloadWordList() {
+      const data = JSON.stringify({
+        words: this.words,
+        groups: this.groups,
+      });
+
+      const options = {
+        suggestedName: "words.json",
+        types: [
+          {
+            description: "Text",
+            accept: {
+              "text/plain": ".json",
+            },
+          },
+        ],
+        excludeAcceptAllOption: true,
+      };
+
+      const fileHandle = await window.showSaveFilePicker(options);
+      const writableStream = await fileHandle.createWritable(options);
+      await writableStream.write(data);
+
+      await writableStream.close();
+    },
+
     async getWords(groupId = null) {
       this.words = await apiFetch(`words?group_id=${groupId}`);
     },
