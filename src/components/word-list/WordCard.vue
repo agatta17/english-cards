@@ -31,8 +31,14 @@
             hide-details
             color="cyan"
           />
-          <div v-else class="blue-grey--text text--darken-3 font-weight-medium">
-            {{ word.englishWord }}
+          <div v-else>
+            <a
+              :href="`https://context.reverso.net/перевод/английский-русский/${word.englishWord}`"
+              class="blue-grey--text text--darken-3 font-weight-medium text-decoration-none"
+              target="_blank"
+            >
+              {{ word.englishWord }}
+            </a>
           </div>
           <div
             class="blue-grey--text text--darken-1"
@@ -121,5 +127,9 @@ export default {
 <style scoped>
 .word-card {
   border-bottom: 1px #cfd8dc solid;
+}
+
+.text-decoration-none {
+  text-decoration: none;
 }
 </style>

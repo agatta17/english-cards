@@ -65,7 +65,7 @@
                   />
 
                   <div class="translation d-flex align-end">
-                    <div v-show="showTranslation">
+                    <div v-show="isShowTranslation">
                       <component
                         :is="`${languageOfTranslation}Word`"
                         :word="word[`${languageOfTranslation}Word`]"
@@ -75,8 +75,8 @@
                     </div>
 
                     <v-btn
-                      v-show="!showTranslation"
-                      @click="showTranslation = true"
+                      v-show="!isShowTranslation"
+                      @click="showTranslation"
                       depressed
                       outlined
                       color="blue-grey darken-2"
@@ -137,7 +137,7 @@ export default {
   data() {
     return {
       wordIndex: 0,
-      showTranslation: false,
+      isShowTranslation: false,
       showAssociationEditor: false,
     };
   },
@@ -174,19 +174,27 @@ export default {
       this.addAssociation(event.target.value, word._id);
       this.showAssociationEditor = false;
     },
+
+    showTranslation() {
+      this.isShowTranslation = true;
+      if (this.languageOfCard === "russian")
+        this.say(this.words[this.wordIndex].englishWord);
+    },
   },
 
   watch: {
     wordIndex() {
-      this.showTranslation = false;
+      this.isShowTranslation = false;
+      if (this.languageOfCard === "english")
+        this.say(this.words[this.wordIndex].englishWord);
     },
 
     words(newVal, oldVal) {
-      if (newVal.length < oldVal.length) this.showTranslation = false;
+      if (newVal.length < oldVal.length) this.isShowTranslation = false;
     },
 
     languageOfCard() {
-      this.showTranslation = false;
+      this.isShowTranslation = false;
     },
   },
 };

@@ -1,7 +1,13 @@
 <template>
   <div>
-    <div class="text-h5 text-md-h3 blue-grey--text text--darken-3">
-      {{ word }}
+    <div>
+      <a
+        :href="`https://context.reverso.net/перевод/английский-русский/${word}`"
+        class="text-h5 text-md-h3 blue-grey--text text--darken-3 text-decoration-none"
+        target="_blank"
+      >
+        {{ word }}
+      </a>
 
       <v-btn v-if="!isMobile" @click="toggleDone(wordId)" icon x-large>
         <v-icon x-large>
@@ -62,3 +68,8 @@ export default {
   },
 };
 </script>
+<style>
+.text-decoration-none {
+  text-decoration: none;
+}
+</style>
