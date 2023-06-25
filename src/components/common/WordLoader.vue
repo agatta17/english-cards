@@ -7,11 +7,23 @@
         </v-card-title>
 
         <v-card-text class="pt-4">
-          <div class="d-flex align-center mb-4">
+          <v-select
+            v-model="modeId"
+            :items="modeTypes"
+            item-value="id"
+            item-text="name"
+            label="Mode"
+            outlined
+            hide-details
+            color="cyan"
+          >
+          </v-select>
+
+          <div class="d-flex align-center mt-4">
             <v-text-field
               v-if="showGroupInput"
               v-model="newGroupName"
-              label="Группа"
+              label="Group"
               outlined
               hide-details
               color="cyan"
@@ -24,7 +36,7 @@
               :items="groups"
               item-value="id"
               item-text="name"
-              label="Группа"
+              label="Group"
               outlined
               hide-details
               color="cyan"
@@ -39,12 +51,30 @@
           </div>
 
           <v-textarea
-            v-model="wordList"
+            v-model="inputData"
             outlined
             name="input-7-4"
-            :label="mode === 'generate' ? 'Список слов через запятую' : 'Json'"
+            :label="
+              modeId === 'generateByList'
+                ? 'Word list'
+                : modeId === 'generateByTopic'
+                ? 'Topic'
+                : 'Json'
+            "
             color="cyan"
+            hide-details
+            class="mt-4"
           ></v-textarea>
+
+          <div v-if="modeId === 'addFromReverso'" class="mt-1">
+            <a
+              href="https://context.reverso.net/bst-web-user/user/favourites/shared?userName=adephimova&start=0&length=2000&order=10"
+              target="_blank"
+              class="grey--text"
+            >
+              Get Reverso data
+            </a>
+          </div>
         </v-card-text>
 
         <v-divider></v-divider>
@@ -70,11 +100,25 @@ export default {
   name: "WordLoader",
 
   data: () => ({
-    wordList: "",
+    inputData: "",
     groupId: null,
     showGroupInput: false,
     newGroupName: "",
-    mode: "generate",
+    modeId: "generateByList",
+    modeTypes: [
+      {
+        id: "generateByList",
+        name: "Generate by list",
+      },
+      {
+        id: "generateByTopic",
+        name: "Generate by topic",
+      },
+      {
+        id: "addFromReverso",
+        name: "Add from Reverso",
+      },
+    ],
   }),
 
   computed: {
@@ -100,6 +144,7 @@ export default {
       "toggleWordLoader",
       "addWordList",
       "generateSetByList",
+      "generateSetByTopic",
       "addNewGroup",
     ]),
 
@@ -107,13 +152,17 @@ export default {
       if (this.showGroupInput)
         this.groupId = await this.addNewGroup(this.newGroupName);
 
-      if (this.mode === "generate")
-        await this.generateSetByList(this.wordList, this.groupId);
+      if (this.modeId === "generateByList")
+        await this.generateSetByList(this.inputData, this.groupId);
 
-      if (this.mode === "add")
-        await this.addWordList(JSON.parse(this.wordList).results, this.groupId);
+      if (this.modeId === "generateByTopic")
+        await this.generateSetByTopic(this.inputData, this.groupId);
 
-      this.toggleWordLoader();
+      if (this.modeId === "addFromReverso")
+        await this.addWordList(
+          JSON.parse(this.inputData).results,
+          this.groupId
+        );
     },
   },
 };

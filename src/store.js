@@ -18,26 +18,21 @@ export const useAppStore = defineStore("app", {
   }),
 
   getters: {
-    // filteredWordsForList: (state) => {
-    //   return state.words.filter(({ done }) => {
-    //     const checkDone = () =>
-    //       state.currentFilter === "all"
-    //         ? true
-    //         : state.currentFilter === "done"
-    //         ? done
-    //         : !done;
+    filteredWordsForList: (state) => {
+      return state.words.filter(({ done }) => {
+        const checkDone = () =>
+          state.currentFilter === "all"
+            ? true
+            : state.currentFilter === "done"
+            ? done
+            : !done;
 
-    //     return checkDone();
-    //   });
-    // },
+        return checkDone();
+      });
+    },
 
     filteredWordsForCards: (state) => {
-      return state.words.filter(({ groupId, done }) => {
-        return (
-          !done &&
-          (state.currentGroupId ? groupId === state.currentGroupId : true)
-        );
-      });
+      return state.words.filter(({ done }) => !done);
     },
   },
   actions: {
@@ -67,10 +62,6 @@ export const useAppStore = defineStore("app", {
       await writableStream.close();
     },
 
-    async getWords(groupId = null) {
-      this.words = await apiFetch(`words?group_id=${groupId}`);
-    },
-
     async getGroups() {
       this.isLoading = true;
       this.groups = await apiFetch("groups");
@@ -82,6 +73,8 @@ export const useAppStore = defineStore("app", {
     },
 
     async addWordList(list, groupId) {
+      this.isLoading = true;
+      this.toggleWordLoader();
       const words = list.map((word) => ({
         englishWord: word.srcText,
         englishExample: word.srcContext,
@@ -94,6 +87,8 @@ export const useAppStore = defineStore("app", {
       }));
 
       await apiFetch("words", "POST", { words });
+      await this.setGroup(groupId);
+      this.isLoading = false;
     },
 
     async addNewGroup(name) {
@@ -103,7 +98,19 @@ export const useAppStore = defineStore("app", {
     },
 
     async generateSetByList(wordList, groupId) {
+      this.isLoading = true;
+      this.toggleWordLoader();
       await apiFetch("generate-by-list", "POST", { wordList, groupId });
+      await this.setGroup(groupId);
+      this.isLoading = false;
+    },
+
+    async generateSetByTopic(topic, groupId) {
+      this.isLoading = true;
+      this.toggleWordLoader();
+      await apiFetch("generate-by-topic", "POST", { topic, groupId });
+      await this.setGroup(groupId);
+      this.isLoading = false;
     },
 
     async setGroup(id) {
@@ -129,19 +136,29 @@ export const useAppStore = defineStore("app", {
     },
 
     toggleDone(wordId) {
-      const index = this.words.findIndex(({ id }) => id === wordId);
+      const index = this.words.findIndex(({ _id }) => _id === wordId);
       this.words[index].done = !this.words[index].done;
     },
 
-    removeWord(wordId) {
-      this.words = this.words.filter(({ id }) => id !== wordId);
+    async removeWord(wordId) {
+      this.isLoading = true;
+      try {
+        const data = await apiFetch("word", "DELETE", { _id: wordId });
+        if (data?.ok)
+          this.words = this.words.filter(({ _id }) => _id !== wordId);
+      } catch (error) {
+        console.log("error >> ", error);
+      } finally {
+        this.isLoading = false;
+      }
     },
 
     setFilter(filter) {
       this.currentFilter = filter;
     },
+
     saveWordsChanges({ englishWord, russianWord, wordId }) {
-      const index = this.words.findIndex(({ id }) => id === wordId);
+      const index = this.words.findIndex(({ _id }) => _id === wordId);
       this.words[index].englishWord = englishWord;
       this.words[index].russianWord = russianWord;
     },

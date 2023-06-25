@@ -43,7 +43,7 @@ export default {
     ...mapStores(useAppStore),
 
     words() {
-      return this.appStore.words;
+      return this.appStore.filteredWordsForList;
     },
 
     isLoading() {
