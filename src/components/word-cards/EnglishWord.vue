@@ -9,7 +9,7 @@
         {{ word }}
       </a>
 
-      <v-btn v-if="!isMobile" @click="toggleDone(wordId)" icon x-large>
+      <v-btn v-if="!isMobile" @click="toggleDone(wordId, !done)" icon x-large>
         <v-icon x-large>
           {{ done ? "mdi-close" : "mdi-checkbox-marked-outline" }}
         </v-icon>

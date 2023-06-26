@@ -105,7 +105,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(useAppStore, ["saveWordsChanges"]),
+    ...mapActions(useAppStore, ["updateWord"]),
 
     toggleEditMode() {
       this.isEditMode = !this.isEditMode;
@@ -113,11 +113,7 @@ export default {
         this.changes.englishWord = this.word.englishWord;
         this.changes.russianWord = this.word.russianWord;
       } else {
-        this.saveWordsChanges({
-          englishWord: this.changes.englishWord,
-          russianWord: this.changes.russianWord,
-          wordId: this.word._id,
-        });
+        this.updateWord(this.word._id, this.changes);
       }
     },
   },

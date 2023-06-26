@@ -4,7 +4,7 @@
       <v-icon color="cyan">mdi-bullhorn</v-icon>
     </v-btn>
 
-    <v-btn @click="toggleDone(wordId)" icon>
+    <v-btn @click="toggleDone(wordId, !done)" icon>
       <v-icon :color="done ? 'amber darken-4' : 'green darken-2'">
         {{ done ? "mdi-close" : "mdi-checkbox-marked-outline" }}
       </v-icon>

@@ -24,7 +24,7 @@
               class="px-1 px-sm-16 py-1 py-sm-16 carousel-item-wrap"
             >
               <div v-if="isMobile" class="actions">
-                <v-btn @click="toggleDone(word._id)" icon x-large>
+                <v-btn @click="toggleDone(word._id, !done)" icon x-large>
                   <v-icon x-large>
                     {{ done ? "mdi-close" : "mdi-checkbox-marked-outline" }}
                   </v-icon>

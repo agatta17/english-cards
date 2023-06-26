@@ -35,6 +35,7 @@ export const useAppStore = defineStore("app", {
       return state.words.filter(({ done }) => !done);
     },
   },
+
   actions: {
     async downloadWordList() {
       const data = JSON.stringify({
@@ -120,24 +121,9 @@ export const useAppStore = defineStore("app", {
       this.isLoading = false;
     },
 
-    addPicture(src, wordId) {
-      const index = this.words.findIndex(({ _id }) => _id === wordId);
-      this.words[index].picture = src;
-    },
-
-    addAssociation(text, wordId) {
-      const index = this.words.findIndex(({ id }) => id === wordId);
-      this.words[index].association = text;
-    },
-
     say(text) {
       this.textForSpeech = text;
       this.speechSounds = true;
-    },
-
-    toggleDone(wordId) {
-      const index = this.words.findIndex(({ _id }) => _id === wordId);
-      this.words[index].done = !this.words[index].done;
     },
 
     async removeWord(wordId) {
@@ -153,14 +139,36 @@ export const useAppStore = defineStore("app", {
       }
     },
 
-    setFilter(filter) {
-      this.currentFilter = filter;
+    async updateWord(wordId, newData) {
+      this.isLoading = true;
+      try {
+        const data = await apiFetch("word", "PUT", { _id: wordId, newData });
+        if (data?.ok) {
+          this.words = this.words.map((word) =>
+            word._id === wordId ? { ...word, ...newData } : word
+          );
+        }
+      } catch (error) {
+        console.log("error >> ", error);
+      } finally {
+        this.isLoading = false;
+      }
     },
 
-    saveWordsChanges({ englishWord, russianWord, wordId }) {
-      const index = this.words.findIndex(({ _id }) => _id === wordId);
-      this.words[index].englishWord = englishWord;
-      this.words[index].russianWord = russianWord;
+    async toggleDone(wordId, done) {
+      await this.updateWord(wordId, { done });
+    },
+
+    async addPicture(src, wordId) {
+      await this.updateWord(wordId, { picture: src });
+    },
+
+    async addAssociation(text, wordId) {
+      await this.updateWord(wordId, { association: text });
+    },
+
+    setFilter(filter) {
+      this.currentFilter = filter;
     },
   },
 });
