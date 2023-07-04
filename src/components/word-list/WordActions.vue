@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-btn @click="say(englishWord)" icon>
+    <v-btn @click="say(englishWord)" icon class="d-sm-inline-flex d-none">
       <v-icon color="cyan">mdi-bullhorn</v-icon>
     </v-btn>
 
@@ -16,7 +16,7 @@
 
     <v-btn @click="$emit('onEdit')" icon>
       <v-icon>
-        {{ isEditMode ? "mdi-check" : "mdi-pencil" }}
+        {{ isEditMode ? "mdi-content-save" : "mdi-pencil" }}
       </v-icon>
     </v-btn>
   </div>
