@@ -1,6 +1,6 @@
 <template>
   <v-card class="word-card" flat tile>
-    <v-container class="px-0 py-1">
+    <v-container class="px-md-0 py-md-1">
       <v-row no-gutters justify="space-between">
         <v-col cols="12" sm="6" md="4">
           <v-text-field
@@ -19,7 +19,12 @@
           ></div>
         </v-col>
 
-        <v-col cols="12" sm="6" md="auto" class="d-flex justify-center">
+        <v-col
+          cols="12"
+          sm="6"
+          md="auto"
+          class="d-sm-flex justify-center d-none"
+        >
           <v-img max-height="50px" max-width="80px" :src="word.picture" />
         </v-col>
 
@@ -46,7 +51,12 @@
           ></div>
         </v-col>
 
-        <v-col cols="12" sm="12" md="auto">
+        <v-col
+          cols="12"
+          sm="12"
+          md="auto"
+          class="d-sm-block d-flex align-center justify-space-between"
+        >
           <word-actions
             @onEdit="toggleEditMode"
             :wordId="word._id"

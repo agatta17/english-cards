@@ -93,9 +93,14 @@ export const useAppStore = defineStore("app", {
     },
 
     async addNewGroup(name) {
-      const id = Date.now();
-      await apiFetch("group", "POST", { group: { id, name } });
-      return id;
+      try {
+        const id = Date.now();
+        await apiFetch("group", "POST", { group: { id, name } });
+        this.groups.push({ id, name });
+        return id;
+      } catch (error) {
+        console.log("error >> ", error);
+      }
     },
 
     async generateSetByList(wordList, groupId) {

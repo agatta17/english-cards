@@ -11,7 +11,12 @@
 
     <plug-component v-else-if="!words.length" />
 
-    <v-sheet v-else max-width="1100" class="align-self-center mt-8">
+    <v-sheet
+      v-else
+      max-width="1100"
+      width="100%"
+      class="align-self-center mt-md-8"
+    >
       <word-card v-for="word in words" :key="word._id" :word="word" />
     </v-sheet>
   </div>
