@@ -21,7 +21,7 @@
   display: inline-block;
   width: 48px;
   height: 48px;
-  background-color: #00acc1;
+  background-color: #41b3a3;
   background-image: radial-gradient(circle 14px, #0d161b 100%, transparent 0);
   background-repeat: no-repeat;
   border-radius: 50%;

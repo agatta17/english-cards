@@ -7,16 +7,11 @@ import en from "vuetify/lib/locale/en";
 Vue.use(Vuetify);
 
 const colors = {
-  primary: "#2A6EF1",
-
-  profit: "#82D4BB",
-  loss: "#E87461",
-
-  primaryText: "#325276",
-  secondaryText: "#7486AA",
-
-  success: "#82D4BB",
-  warning: "#E87461",
+  terracotta: "#E27D60",
+  sky: "#85CDCA",
+  peach: "#E8A87C",
+  cherry: "#C38D9E",
+  emerald: "#41B3A3",
 };
 
 export default new Vuetify({

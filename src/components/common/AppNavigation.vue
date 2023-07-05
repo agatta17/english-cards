@@ -1,6 +1,6 @@
 <template>
   <div v-if="!isMobile">
-    <v-app-bar color="cyan darken-1" dense class="d-flex justify-center">
+    <v-app-bar color="terracotta" dense class="d-flex justify-center">
       <v-btn to="/" text color="white" class="mr-5"> Список </v-btn>
 
       <v-btn text to="/cards/english" color="white" class="mr-5"

@@ -1,21 +1,21 @@
 <template>
   <div>
     <v-btn @click="say(englishWord)" icon class="d-sm-inline-flex d-none">
-      <v-icon color="cyan">mdi-bullhorn</v-icon>
+      <v-icon color="peach ">mdi-bullhorn-outline</v-icon>
     </v-btn>
 
     <v-btn @click="toggleDone(wordId, !done)" icon>
-      <v-icon :color="done ? 'amber darken-4' : 'green darken-2'">
-        {{ done ? "mdi-close" : "mdi-checkbox-marked-outline" }}
+      <v-icon :color="done ? 'cherry darken-1' : 'emerald '">
+        {{ done ? "mdi-clock-outline" : "mdi-checkbox-marked-outline" }}
       </v-icon>
     </v-btn>
 
     <v-btn @click="removeWord(wordId)" icon>
-      <v-icon color="red lighten-2">mdi-delete-outline</v-icon>
+      <v-icon color="terracotta ">mdi-delete-outline</v-icon>
     </v-btn>
 
     <v-btn @click="$emit('onEdit')" icon>
-      <v-icon>
+      <v-icon color="sky">
         {{ isEditMode ? "mdi-content-save" : "mdi-pencil" }}
       </v-icon>
     </v-btn>

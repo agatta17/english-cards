@@ -5,7 +5,9 @@
       :key="group.id"
       @click="onSetGroup(group.id)"
       class="ma-2"
-      :color="currentGroupId === group.id ? 'cyan lighten-3' : 'grey lighten-2'"
+      :color="
+        currentGroupId === group.id ? 'peach lighten-1' : 'grey lighten-2'
+      "
     >
       {{ group.name }}
     </v-chip>
@@ -56,7 +58,7 @@ export default {
 }
 
 .group-filter::-webkit-scrollbar-thumb {
-  background: #00acc1;
+  background: #e27d60;
   border-radius: 10px;
 }
 </style>
