@@ -5,7 +5,7 @@
     </v-btn>
 
     <v-btn @click="toggleDone(wordId, !done)" icon>
-      <v-icon :color="done ? 'cherry darken-1' : 'emerald '">
+      <v-icon :color="done ? 'cherry darken-1' : 'emerald'">
         {{ done ? "mdi-clock-outline" : "mdi-checkbox-marked-outline" }}
       </v-icon>
     </v-btn>

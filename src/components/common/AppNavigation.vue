@@ -18,7 +18,7 @@
   </div>
 
   <div v-else>
-    <v-app-bar color="cyan darken-1" dense class="d-flex justify-end">
+    <v-app-bar color="terracotta" dense class="d-flex justify-end">
       <tool-bar />
       <v-btn @click="toggleDrawer" icon>
         <v-icon>mdi-menu</v-icon>

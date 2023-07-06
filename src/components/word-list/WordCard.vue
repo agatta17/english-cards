@@ -37,7 +37,7 @@
               small
               class="d-sm-none"
             >
-              <v-icon color="green">mdi-dots-horizontal</v-icon>
+              <v-icon color="emerald">mdi-dots-horizontal</v-icon>
             </v-btn>
           </div>
 
@@ -87,7 +87,7 @@
                 small
                 class="d-sm-none"
               >
-                <v-icon color="cyan">mdi-bullhorn</v-icon>
+                <v-icon color="peach">mdi-bullhorn</v-icon>
               </v-btn>
             </div>
             <v-btn
@@ -96,7 +96,7 @@
               small
               class="d-sm-none"
             >
-              <v-icon color="green">mdi-dots-horizontal</v-icon>
+              <v-icon color="emerald">mdi-dots-horizontal</v-icon>
             </v-btn>
           </div>
           <div
