@@ -6,6 +6,7 @@
         <app-navigation :group-filter-is-open.sync="groupFilterIsOpen" />
         <router-view> </router-view>
         <word-loader />
+        <edit-form />
       </v-main>
     </v-app>
 
@@ -17,6 +18,7 @@
 import GroupFilter from "@/components/common/GroupFilter.vue";
 import AppNavigation from "@/components/common/AppNavigation.vue";
 import WordLoader from "@/components/common/WordLoader.vue";
+import EditForm from "@/components/common/EditForm.vue";
 import Speech from "@/components/common/SpeechComponent.vue";
 import { useAppStore } from "@/store";
 import { mapStores, mapActions } from "pinia";
@@ -28,6 +30,7 @@ export default {
     GroupFilter,
     AppNavigation,
     WordLoader,
+    EditForm,
     Speech,
   },
 

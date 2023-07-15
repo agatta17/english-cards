@@ -70,6 +70,10 @@ export default {
         this.$emit("update:isOpen", value);
       },
     },
+
+    isMobile() {
+      return this.$vuetify.breakpoint.smAndDown;
+    },
   },
 
   methods: {
@@ -105,10 +109,5 @@ export default {
 .v-navigation-drawer__content::-webkit-scrollbar-thumb {
   background: var(--v-sky-base);
   border-radius: 5px;
-}
-
-.absolute {
-  position: absolute !important;
-  z-index: 1;
 }
 </style>

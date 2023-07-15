@@ -6,18 +6,22 @@
 
     <v-btn @click="toggleDone(wordId, !done)" icon>
       <v-icon :color="done ? 'cherry darken-1' : 'emerald'">
-        {{ done ? "mdi-clock-outline" : "mdi-checkbox-marked-outline" }}
+        {{
+          done
+            ? `mdi-clock-outline ${isSpinToggle}`
+            : `mdi-checkbox-marked-outline ${isSpinToggle}`
+        }}
       </v-icon>
     </v-btn>
 
     <v-btn @click="removeWord(wordId)" icon>
-      <v-icon color="terracotta ">mdi-delete-outline</v-icon>
+      <v-icon color="terracotta ">
+        {{ `mdi-delete-outline ${isSpinRemove}` }}
+      </v-icon>
     </v-btn>
 
     <v-btn @click="$emit('onEdit')" icon>
-      <v-icon color="sky">
-        {{ isEditMode ? "mdi-content-save" : "mdi-pencil" }}
-      </v-icon>
+      <v-icon color="sky"> mdi-pencil </v-icon>
     </v-btn>
   </div>
 </template>
@@ -32,7 +36,6 @@ export default {
   props: {
     englishWord: { type: String, default: "" },
     wordId: { type: String, require: true },
-    isEditMode: { type: Boolean, default: false },
   },
 
   computed: {
@@ -40,6 +43,18 @@ export default {
 
     done() {
       return this.appStore.words.find(({ _id }) => _id === this.wordId).done;
+    },
+
+    isSpinToggle() {
+      return this.appStore.loadingToggleWordId === this.wordId
+        ? "mdi-spin"
+        : "";
+    },
+
+    isSpinRemove() {
+      return this.appStore.loadingRemoveWordId === this.wordId
+        ? "mdi-spin"
+        : "";
     },
   },
 

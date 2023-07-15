@@ -1,11 +1,10 @@
 <template>
   <v-card class="word-card" flat tile>
-    <div v-if="actionsOpen" @click="actionsOpen = false" class="actions-toggle">
+    <div v-if="actionsOpen" class="actions-toggle">
       <word-actions
-        @onEdit="toggleEditMode"
+        @onEdit="toggleEditForm(word._id, true)"
         :wordId="word._id"
         :englishWord="word.englishWord"
-        :isEditMode="isEditMode"
       />
     </div>
 
@@ -18,16 +17,7 @@
           sm="6"
           md="4"
         >
-          <v-text-field
-            v-if="isEditMode"
-            v-model="changes.russianWord"
-            @click="stopPropagation"
-            dense
-            hide-details
-            color="cyan"
-            class="mr-16"
-          />
-          <div v-else class="d-flex justify-space-between">
+          <div class="d-flex justify-space-between">
             <div class="blue-grey--text text--darken-3 font-weight-medium">
               {{ word.russianWord }}
             </div>
@@ -63,16 +53,7 @@
           sm="6"
           md="4"
         >
-          <v-text-field
-            v-if="isEditMode"
-            v-model="changes.englishWord"
-            @click="stopPropagation"
-            dense
-            hide-details
-            color="cyan"
-            class="mr-16"
-          />
-          <div v-else class="d-flex justify-space-between">
+          <div class="d-flex justify-space-between">
             <div>
               <a
                 :href="`https://context.reverso.net/перевод/английский-русский/${word.englishWord}`"
@@ -107,10 +88,9 @@
 
         <v-col cols="12" sm="12" md="auto" class="d-sm-block d-none">
           <word-actions
-            @onEdit="toggleEditMode"
+            @onEdit="toggleEditForm(word._id, true)"
             :wordId="word._id"
             :englishWord="word.englishWord"
-            :isEditMode="isEditMode"
           />
           <div>
             <v-chip
@@ -143,11 +123,6 @@ export default {
 
   data() {
     return {
-      isEditMode: false,
-      changes: {
-        englishWord: "",
-        russianWord: "",
-      },
       showTranslation: false,
       actionsOpen: false,
     };
@@ -170,17 +145,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(useAppStore, ["updateWord", "say"]),
-
-    toggleEditMode() {
-      this.isEditMode = !this.isEditMode;
-      if (this.isEditMode) {
-        this.changes.englishWord = this.word.englishWord;
-        this.changes.russianWord = this.word.russianWord;
-      } else {
-        this.updateWord(this.word._id, this.changes);
-      }
-    },
+    ...mapActions(useAppStore, ["say", "toggleEditForm"]),
 
     stopPropagation(event) {
       event.stopPropagation();

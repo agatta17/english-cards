@@ -22,7 +22,13 @@
               <div v-if="isMobile" class="actions">
                 <v-btn @click="toggleDone(word._id, !done)" icon x-large>
                   <v-icon x-large>
-                    {{ done ? "mdi-close" : "mdi-checkbox-marked-outline" }}
+                    {{
+                      done
+                        ? "mdi-close"
+                        : `mdi-checkbox-marked-outline ${getIsSpinToggle(
+                            word._id
+                          )}`
+                    }}
                   </v-icon>
                 </v-btn>
 
@@ -179,6 +185,10 @@ export default {
       "say",
       "toggleDone",
     ]),
+
+    getIsSpinToggle(wordId) {
+      return this.appStore.loadingToggleWordId === wordId ? "mdi-spin" : "";
+    },
 
     editAssociation(event, word) {
       this.addAssociation(event.target.value, word._id);

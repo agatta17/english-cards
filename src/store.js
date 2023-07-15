@@ -14,7 +14,12 @@ export const useAppStore = defineStore("app", {
     words: [],
     groups: [],
 
+    wordIdForEdit: null,
+    editFormOpen: false,
+
     isLoading: false,
+    loadingToggleWordId: null,
+    loadingRemoveWordId: null,
   }),
 
   getters: {
@@ -132,7 +137,7 @@ export const useAppStore = defineStore("app", {
     },
 
     async removeWord(wordId) {
-      this.isLoading = true;
+      this.loadingRemoveWordId = wordId;
       try {
         const data = await apiFetch("word", "DELETE", { _id: wordId });
         if (data?.ok)
@@ -140,12 +145,11 @@ export const useAppStore = defineStore("app", {
       } catch (error) {
         console.log("error >> ", error);
       } finally {
-        this.isLoading = false;
+        this.loadingRemoveWordId = null;
       }
     },
 
     async updateWord(wordId, newData) {
-      this.isLoading = true;
       try {
         const data = await apiFetch("word", "PUT", { _id: wordId, newData });
         if (data?.ok) {
@@ -155,13 +159,13 @@ export const useAppStore = defineStore("app", {
         }
       } catch (error) {
         console.log("error >> ", error);
-      } finally {
-        this.isLoading = false;
       }
     },
 
     async toggleDone(wordId, done) {
+      this.loadingToggleWordId = wordId;
       await this.updateWord(wordId, { done });
+      this.loadingToggleWordId = null;
     },
 
     async addPicture(src, wordId) {
@@ -174,6 +178,11 @@ export const useAppStore = defineStore("app", {
 
     setFilter(filter) {
       this.currentFilter = filter;
+    },
+
+    toggleEditForm(wordId, isFormOpen) {
+      this.wordIdForEdit = wordId;
+      this.editFormOpen = isFormOpen;
     },
   },
 });

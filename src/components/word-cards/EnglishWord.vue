@@ -11,7 +11,11 @@
 
       <v-btn v-if="!isMobile" @click="toggleDone(wordId, !done)" icon x-large>
         <v-icon x-large>
-          {{ done ? "mdi-close" : "mdi-checkbox-marked-outline" }}
+          {{
+            done
+              ? "mdi-close"
+              : `mdi-checkbox-marked-outline ${getIsSpinToggle(wordId)}`
+          }}
         </v-icon>
       </v-btn>
 
@@ -46,7 +50,7 @@ export default {
     },
 
     wordId: {
-      type: Number,
+      type: String,
       require: true,
     },
   },
@@ -65,6 +69,10 @@ export default {
 
   methods: {
     ...mapActions(useAppStore, ["say", "toggleDone"]),
+
+    getIsSpinToggle(wordId) {
+      return this.appStore.loadingToggleWordId === wordId ? "mdi-spin" : "";
+    },
   },
 };
 </script>
