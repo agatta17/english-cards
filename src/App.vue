@@ -1,9 +1,12 @@
 <template>
   <div id="app">
     <v-app>
-      <app-navigation />
-      <router-view> </router-view>
-      <word-loader />
+      <group-filter :is-open.sync="groupFilterIsOpen" />
+      <v-main>
+        <app-navigation :group-filter-is-open.sync="groupFilterIsOpen" />
+        <router-view> </router-view>
+        <word-loader />
+      </v-main>
     </v-app>
 
     <speech v-model="play" />
@@ -11,6 +14,7 @@
 </template>
 
 <script>
+import GroupFilter from "@/components/common/GroupFilter.vue";
 import AppNavigation from "@/components/common/AppNavigation.vue";
 import WordLoader from "@/components/common/WordLoader.vue";
 import Speech from "@/components/common/SpeechComponent.vue";
@@ -21,9 +25,16 @@ export default {
   name: "App",
 
   components: {
+    GroupFilter,
     AppNavigation,
     WordLoader,
     Speech,
+  },
+
+  data() {
+    return {
+      groupFilterIsOpen: false,
+    };
   },
 
   computed: {
@@ -41,6 +52,10 @@ export default {
     initialGroupId() {
       return this.$router.currentRoute.query.group;
     },
+
+    isMobile() {
+      return this.$vuetify.breakpoint.smAndDown;
+    },
   },
 
   methods: {
@@ -48,6 +63,8 @@ export default {
   },
 
   async mounted() {
+    this.groupFilterIsOpen = this.isMobile ? false : true;
+
     await this.getGroups();
 
     if (this.initialGroupId) {

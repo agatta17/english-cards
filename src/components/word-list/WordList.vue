@@ -1,30 +1,18 @@
 <template>
-  <div class="d-flex flex-column">
-    <v-toolbar>
-      <tool-bar v-if="!isMobile" />
-      <group-filter />
-    </v-toolbar>
-
+  <v-container>
     <loader-component v-if="isLoading" />
 
     <choose-group v-else-if="currentGroupId === null" />
 
     <plug-component v-else-if="!words.length" />
 
-    <v-sheet
-      v-else
-      max-width="1100"
-      width="100%"
-      class="align-self-center mt-md-8"
-    >
+    <v-sheet v-else max-width="1100" width="100%" class="mt-md-2">
       <word-card v-for="word in words" :key="word._id" :word="word" />
     </v-sheet>
-  </div>
+  </v-container>
 </template>
 
 <script>
-import GroupFilter from "@/components/common/GroupFilter.vue";
-import ToolBar from "@/components/common/ToolBar.vue";
 import { useAppStore } from "@/store";
 import { mapStores } from "pinia";
 import WordCard from "./WordCard.vue";
@@ -36,8 +24,6 @@ export default {
   name: "WordList",
 
   components: {
-    GroupFilter,
-    ToolBar,
     WordCard,
     PlugComponent,
     ChooseGroup,

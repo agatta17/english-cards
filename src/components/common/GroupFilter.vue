@@ -1,25 +1,55 @@
 <template>
-  <div class="group-filter">
-    <v-chip
-      v-for="group in groups"
-      :key="group.id"
-      @click="onSetGroup(group.id)"
-      class="ma-2"
-      :color="
-        currentGroupId === group.id ? 'peach lighten-1' : 'grey lighten-2'
-      "
+  <div>
+    <v-navigation-drawer
+      v-model="drawerIsOpen"
+      app
+      color="emerald"
+      mobile-breakpoint="600"
+      :temporary="isMobile"
     >
-      {{ group.name }}
-    </v-chip>
+      <v-list-item>
+        <v-list-item-content>
+          <v-list-item-title class="text-h6 white--text">
+            Groups
+          </v-list-item-title>
+        </v-list-item-content>
+        <tool-bar />
+      </v-list-item>
+
+      <v-list dense nav>
+        <v-list-item
+          v-for="group in groups"
+          :key="group.id"
+          :to="`${$route.path}?group=${group.id}`"
+          class="item"
+          exact-active-class="active-item"
+        >
+          <v-list-item-content>
+            <v-list-item-title>{{ group.name }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
   </div>
 </template>
 
 <script>
 import { useAppStore } from "@/store";
 import { mapStores, mapActions } from "pinia";
+import ToolBar from "@/components/common/ToolBar.vue";
 
 export default {
   name: "GroupFilter",
+
+  components: {
+    ToolBar,
+  },
+
+  props: {
+    isOpen: {
+      type: Boolean,
+    },
+  },
 
   computed: {
     ...mapStores(useAppStore),
@@ -28,37 +58,57 @@ export default {
       return [...this.appStore.groups, { id: 0, name: "All" }];
     },
 
-    currentGroupId() {
-      return this.appStore.currentGroupId;
+    group() {
+      return this.$route.query.group;
+    },
+
+    drawerIsOpen: {
+      get() {
+        return this.isOpen;
+      },
+      set(value) {
+        this.$emit("update:isOpen", value);
+      },
     },
   },
 
   methods: {
     ...mapActions(useAppStore, ["setGroup"]),
+  },
 
-    onSetGroup(id) {
-      this.setGroup(id);
-      this.$router.push({
-        path: this.$router.currentRoute.path,
-        query: { group: this.currentGroupId },
-      });
+  watch: {
+    group(value) {
+      this.setGroup(value);
     },
   },
 };
 </script>
 
 <style>
-.group-filter {
-  white-space: nowrap;
-  overflow-x: auto;
+.v-list-item--link:before,
+.v-list-item--link {
+  background-color: #fff;
+}
+.active-item {
+  background: var(--v-sky-base);
+  color: #fff !important;
 }
 
-.group-filter::-webkit-scrollbar {
-  height: 4px;
+.v-navigation-drawer__content::-webkit-scrollbar-track {
+  background: #fff;
 }
 
-.group-filter::-webkit-scrollbar-thumb {
-  background: #e27d60;
-  border-radius: 10px;
+.v-navigation-drawer__content::-webkit-scrollbar {
+  width: 5px;
+}
+
+.v-navigation-drawer__content::-webkit-scrollbar-thumb {
+  background: var(--v-sky-base);
+  border-radius: 5px;
+}
+
+.absolute {
+  position: absolute !important;
+  z-index: 1;
 }
 </style>

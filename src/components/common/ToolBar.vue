@@ -1,7 +1,7 @@
 <template>
   <div class="toolbar">
     <v-btn @click="setFilter('done')" icon :disabled="currentFilter === 'done'">
-      <v-icon color="emerald" large>mdi-checkbox-marked-outline</v-icon>
+      <v-icon color="#fff">mdi-checkbox-marked-outline</v-icon>
     </v-btn>
 
     <v-btn
@@ -9,14 +9,14 @@
       icon
       :disabled="currentFilter === 'process'"
     >
-      <v-icon color="cherry darken-1" large>mdi-clock-outline</v-icon>
+      <v-icon color="#fff">mdi-clock-outline</v-icon>
     </v-btn>
 
     <v-btn
       @click="setFilter('all')"
       icon
       :disabled="currentFilter === 'all'"
-      class="peach--text"
+      class="white--text"
     >
       all
     </v-btn>

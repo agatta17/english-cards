@@ -1,9 +1,5 @@
 <template>
   <div>
-    <v-toolbar>
-      <group-filter />
-    </v-toolbar>
-
     <loader-component v-if="isLoading" />
 
     <choose-group v-else-if="currentGroupId === null" />
@@ -20,8 +16,8 @@
         >
           <v-carousel-item v-for="(word, i) in words" :key="i">
             <v-sheet
-              tile
               class="px-1 px-sm-16 py-1 py-sm-16 carousel-item-wrap"
+              rounded
             >
               <div v-if="isMobile" class="actions">
                 <v-btn @click="toggleDone(word._id, !done)" icon x-large>
@@ -121,7 +117,6 @@
 </template>
 
 <script>
-import GroupFilter from "@/components/common/GroupFilter.vue";
 import { useAppStore } from "@/store";
 import { mapStores, mapActions } from "pinia";
 import EnglishWord from "./EnglishWord.vue";
@@ -134,7 +129,6 @@ export default {
   name: "WordCards",
 
   components: {
-    GroupFilter,
     EnglishWord,
     RussianWord,
     PlugComponent,
@@ -216,13 +210,15 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .translation {
   min-height: 140px;
 }
 
 .carousel-item-wrap {
   position: relative;
+  /* border: 4px solid;
+  border-color: var(--v-sky-base) !important; */
 }
 
 .actions {
@@ -231,4 +227,10 @@ export default {
   display: flex;
   flex-direction: column;
 }
+
+/* @media (min-width: 700px) {
+  .v-main__wrap {
+    background: var(--v-peach-lighten2);
+  }
+} */
 </style>
