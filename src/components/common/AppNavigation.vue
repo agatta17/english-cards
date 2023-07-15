@@ -1,13 +1,28 @@
 <template>
   <div v-if="!isMobile">
     <v-app-bar color="emerald" dense flat class="d-flex justify-center">
-      <v-btn to="/" text color="white" class="mr-5"> Список </v-btn>
+      <v-btn
+        :to="`/?group=${$route.query.group}`"
+        text
+        color="white"
+        class="mr-5"
+      >
+        Список
+      </v-btn>
 
-      <v-btn text to="/cards/english" color="white" class="mr-5"
+      <v-btn
+        text
+        :to="`/cards/english?group=${$route.query.group}`"
+        color="white"
+        class="mr-5"
         >Английские карточки</v-btn
       >
 
-      <v-btn text to="/cards/russian" color="white" class="mr-5"
+      <v-btn
+        text
+        :to="`/cards/russian?group=${$route.query.group}`"
+        color="white"
+        class="mr-5"
         >Русские карточки</v-btn
       >
 
@@ -27,15 +42,23 @@
         <v-icon large>mdi-folder-multiple</v-icon>
       </v-btn>
 
-      <v-btn to="/" text color="white">
+      <v-btn :to="`/?group=${$route.query.group}`" text color="white">
         <v-icon large> mdi-view-list</v-icon>
       </v-btn>
 
-      <v-btn text to="/cards/english" color="white">
+      <v-btn
+        text
+        :to="`/cards/english?group=${$route.query.group}`"
+        color="white"
+      >
         <span class="text-h6">Eng</span>
       </v-btn>
 
-      <v-btn text to="/cards/russian" color="white">
+      <v-btn
+        text
+        :to="`/cards/russian?group=${$route.query.group}`"
+        color="white"
+      >
         <span class="text-h6">Rus</span>
       </v-btn>
 
