@@ -12,12 +12,12 @@
           v-model="wordIndex"
           hide-delimiters
           :show-arrows="!isMobile"
+          height="100%"
         >
           <v-carousel-item v-for="(word, i) in words" :key="i">
             <div class="d-flex justify-center">
               <v-sheet
                 class="px-1 px-sm-16 py-1 py-sm-16 carousel-item-wrap"
-                height="100vh"
                 width="100%"
               >
                 <div class="actions">
