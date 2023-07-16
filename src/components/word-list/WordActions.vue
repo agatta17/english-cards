@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-btn @click="say(englishWord)" icon class="d-sm-inline-flex d-none">
-      <v-icon color="peach ">mdi-bullhorn-outline</v-icon>
+      <v-icon color="peach">mdi-bullhorn-outline</v-icon>
     </v-btn>
 
     <v-btn @click="toggleDone(wordId, !done)" icon>
@@ -20,7 +20,7 @@
       </v-icon>
     </v-btn>
 
-    <v-btn @click="$emit('onEdit')" icon>
+    <v-btn @click="toggleEditForm(wordId, true)" icon>
       <v-icon color="sky"> mdi-pencil </v-icon>
     </v-btn>
   </div>
@@ -59,7 +59,12 @@ export default {
   },
 
   methods: {
-    ...mapActions(useAppStore, ["say", "toggleDone", "removeWord"]),
+    ...mapActions(useAppStore, [
+      "say",
+      "toggleDone",
+      "removeWord",
+      "toggleEditForm",
+    ]),
   },
 };
 </script>

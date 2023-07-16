@@ -6,6 +6,7 @@
         text
         color="white"
         class="mr-5"
+        exact-path
       >
         Список
       </v-btn>
@@ -42,7 +43,12 @@
         <v-icon large>mdi-folder-multiple</v-icon>
       </v-btn>
 
-      <v-btn :to="`/?group=${$route.query.group}`" text color="white">
+      <v-btn
+        :to="`/?group=${$route.query.group}`"
+        text
+        color="white"
+        exact-path
+      >
         <v-icon large> mdi-view-list</v-icon>
       </v-btn>
 

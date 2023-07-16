@@ -1,11 +1,7 @@
 <template>
   <v-card class="word-card" flat tile>
     <div v-if="actionsOpen" class="actions-toggle">
-      <word-actions
-        @onEdit="toggleEditForm(word._id, true)"
-        :wordId="word._id"
-        :englishWord="word.englishWord"
-      />
+      <word-actions :wordId="word._id" :englishWord="word.englishWord" />
     </div>
 
     <v-container class="px-2 py-1 px-md-0 py-md-1 text-body-2 text-sm-body-1">
@@ -87,11 +83,7 @@
         </v-col>
 
         <v-col cols="12" sm="12" md="auto" class="d-sm-block d-none">
-          <word-actions
-            @onEdit="toggleEditForm(word._id, true)"
-            :wordId="word._id"
-            :englishWord="word.englishWord"
-          />
+          <word-actions :wordId="word._id" :englishWord="word.englishWord" />
           <div>
             <v-chip
               small
@@ -145,7 +137,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(useAppStore, ["say", "toggleEditForm"]),
+    ...mapActions(useAppStore, ["say"]),
 
     stopPropagation(event) {
       event.stopPropagation();

@@ -11,110 +11,66 @@
         <v-carousel
           v-model="wordIndex"
           hide-delimiters
-          :height="isMobile ? '100%' : 500"
           :show-arrows="!isMobile"
         >
           <v-carousel-item v-for="(word, i) in words" :key="i">
-            <v-sheet
-              class="px-1 px-sm-16 py-1 py-sm-16 carousel-item-wrap"
-              rounded
-            >
-              <div v-if="isMobile" class="actions">
-                <v-btn @click="toggleDone(word._id, !done)" icon x-large>
-                  <v-icon x-large>
-                    {{
-                      done
-                        ? "mdi-close"
-                        : `mdi-checkbox-marked-outline ${getIsSpinToggle(
-                            word._id
-                          )}`
-                    }}
-                  </v-icon>
-                </v-btn>
+            <div class="d-flex justify-center">
+              <v-sheet
+                class="px-1 px-sm-16 py-1 py-sm-16 carousel-item-wrap"
+                height="100vh"
+                width="100%"
+              >
+                <div class="actions">
+                  <v-btn @click="toggleDone(word._id, true)" icon x-large>
+                    <v-icon x-large color="emerald">
+                      {{
+                        `mdi-checkbox-marked-outline ${getIsSpinToggle(
+                          word._id
+                        )}`
+                      }}
+                    </v-icon>
+                  </v-btn>
 
-                <v-btn @click="say(word.englishWord)" icon x-large>
-                  <v-icon x-large>mdi-bullhorn</v-icon>
-                </v-btn>
-              </div>
+                  <v-btn @click="say(word.englishWord)" icon x-large>
+                    <v-icon x-large color="peach">mdi-bullhorn</v-icon>
+                  </v-btn>
 
-              <v-row justify="center" :align="isMobile ? 'center' : 'start'">
-                <v-col
-                  :cols="isMobile ? 12 : 6"
-                  class="d-flex flex-column justify-center align-center"
-                >
-                  <img
-                    class="picture"
-                    :src="word.picture"
-                    :height="isMobile ? '150px' : '300px'"
-                  />
+                  <v-btn @click="toggleEditForm(word._id, true)" icon x-large>
+                    <v-icon x-large color="sky"> mdi-pencil </v-icon>
+                  </v-btn>
+                </div>
 
-                  <div v-if="!isMobile" class="mt-4">
-                    <v-text-field
-                      @keydown.enter="
-                        (event) => addPicture(event.target.value, word._id)
-                      "
-                      label="Change the picture"
-                      dense
-                      hide-details
-                      color="cyan"
-                    />
-                  </div>
-                </v-col>
+                <img class="picture" :src="word.picture" />
 
-                <v-col
-                  :cols="isMobile ? 12 : 6"
-                  class="d-flex flex-column justify-space-between"
-                >
+                <div>
                   <component
                     :is="`${languageOfCard}Word`"
                     :word="word[`${languageOfCard}Word`]"
                     :example="word[`${languageOfCard}Example`]"
-                    :wordId="word._id"
+                    class="mt-8"
                   />
 
-                  <div class="translation d-flex align-end">
-                    <div v-show="isShowTranslation">
-                      <component
-                        :is="`${languageOfTranslation}Word`"
-                        :word="word[`${languageOfTranslation}Word`]"
-                        :example="word[`${languageOfTranslation}Example`]"
-                        :wordId="word._id"
-                      />
-                    </div>
+                  <component
+                    :is="`${languageOfTranslation}Word`"
+                    v-show="isShowTranslation"
+                    :word="word[`${languageOfTranslation}Word`]"
+                    :example="word[`${languageOfTranslation}Example`]"
+                    class="mt-8"
+                  />
 
-                    <v-btn
-                      v-show="!isShowTranslation"
-                      @click="showTranslation"
-                      depressed
-                      outlined
-                      color="blue-grey darken-2"
-                    >
-                      Translation
-                    </v-btn>
-                  </div>
-
-                  <div class="mt-8">
-                    <span
-                      v-if="word.association && !showAssociationEditor"
-                      @click="showAssociationEditor = true"
-                      class="text-h6"
-                    >
-                      {{ word.association }}
-                    </span>
-
-                    <v-text-field
-                      v-else
-                      @keydown.enter="(event) => editAssociation(event, word)"
-                      :value="word.association"
-                      label="Add association"
-                      dense
-                      hide-details
-                      color="cyan"
-                    />
-                  </div>
-                </v-col>
-              </v-row>
-            </v-sheet>
+                  <v-btn
+                    v-show="!isShowTranslation"
+                    @click="showTranslation"
+                    depressed
+                    outlined
+                    color="blue-grey darken-2"
+                    class="mt-8"
+                  >
+                    Translation
+                  </v-btn>
+                </div>
+              </v-sheet>
+            </div>
           </v-carousel-item>
         </v-carousel>
       </v-sheet>
@@ -184,6 +140,7 @@ export default {
       "addAssociation",
       "say",
       "toggleDone",
+      "toggleEditForm",
     ]),
 
     getIsSpinToggle(wordId) {
@@ -221,14 +178,8 @@ export default {
 </script>
 
 <style>
-.translation {
-  min-height: 140px;
-}
-
 .carousel-item-wrap {
   position: relative;
-  /* border: 4px solid;
-  border-color: var(--v-sky-base) !important; */
 }
 
 .actions {
@@ -238,9 +189,23 @@ export default {
   flex-direction: column;
 }
 
-/* @media (min-width: 700px) {
-  .v-main__wrap {
-    background: var(--v-peach-lighten2);
+.picture {
+  width: calc(100% - 52px);
+}
+
+@media (min-width: 450px) {
+  .carousel-item-wrap {
+    display: flex;
+    column-gap: 30px;
   }
-} */
+
+  .actions {
+    flex-direction: row;
+  }
+
+  .picture {
+    width: auto;
+    height: 300px;
+  }
+}
 </style>
