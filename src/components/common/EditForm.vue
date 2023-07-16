@@ -1,40 +1,93 @@
 <template>
-  <v-dialog v-model="formOpened" width="700">
+  <v-dialog v-model="formOpened" width="700" :fullscreen="isMobile">
     <v-card>
       <v-card-title class="text-h5 grey lighten-2">
         Word settings
       </v-card-title>
 
       <v-card-text v-if="wordData" class="pt-4">
-        <v-text-field
-          v-model="wordData.englishWord"
-          label="English word"
-          outlined
-          hide-details
-          color="emerald"
-        >
-        </v-text-field>
-        <v-text-field
-          v-model="wordData.russianWord"
-          label="Russian word"
-          outlined
-          hide-details
-          color="emerald"
-          class="mt-4"
-        >
-        </v-text-field>
-        <v-select
-          v-model="wordData.groupId"
-          :items="groups"
-          item-value="id"
-          item-text="name"
-          label="Group"
-          outlined
-          hide-details
-          color="emerald"
-          class="mt-4"
-        >
-        </v-select>
+        <v-row>
+          <v-col cols="12" sm="6" order="2" order-sm="1">
+            <v-text-field
+              v-model="wordData.englishWord"
+              label="English word"
+              outlined
+              hide-details
+              color="emerald"
+            >
+            </v-text-field>
+            <v-text-field
+              v-model="wordData.russianWord"
+              label="Russian word"
+              outlined
+              hide-details
+              color="emerald"
+              class="mt-4"
+            >
+            </v-text-field>
+            <v-select
+              v-model="wordData.groupId"
+              :items="groups"
+              item-value="id"
+              item-text="name"
+              label="Group"
+              outlined
+              hide-details
+              color="emerald"
+              class="mt-4"
+            >
+            </v-select>
+          </v-col>
+          <v-col cols="12" sm="6" order="1" order-sm="2">
+            <template v-if="isImgEditorOpen">
+              <v-textarea
+                v-model="wordData.picture"
+                label="Picture"
+                outlined
+                hide-details
+                color="emerald"
+              ></v-textarea>
+              <div class="mt-4 d-flex">
+                <v-btn @click="clearPicture" color="emerald" depressed>
+                  <span class="white--text">Clear</span>
+                </v-btn>
+
+                <v-btn
+                  :href="`https://www.google.com/search?q=${wordData.englishWord}&tbm=isch`"
+                  target="_blank"
+                  color="emerald"
+                  depressed
+                  class="ml-2"
+                >
+                  <span class="white--text">Find</span>
+                </v-btn>
+
+                <v-btn
+                  @click="closeImgEditor"
+                  color="emerald"
+                  depressed
+                  class="ml-2"
+                >
+                  <span class="white--text">Preview</span>
+                </v-btn>
+              </div>
+            </template>
+
+            <div v-else class="d-flex justify-center overflow-hidden relative">
+              <img :src="wordData.picture" width="auto" height="200px" />
+              <v-btn
+                @click="openImgEditor"
+                color="white"
+                depressed
+                absolute
+                class="img-btn"
+              >
+                <v-icon color="sky"> mdi-pencil </v-icon>
+              </v-btn>
+            </div>
+          </v-col>
+        </v-row>
+
         <v-textarea
           v-model="wordData.englishExample"
           outlined
@@ -55,14 +108,6 @@
           class="mt-4"
           rows="3"
         ></v-textarea>
-        <v-text-field
-          v-model="wordData.picture"
-          label="Picture"
-          outlined
-          hide-details
-          color="emerald"
-          class="mt-4"
-        ></v-text-field>
         <v-text-field
           v-model="wordData.association"
           label="Association"
@@ -99,6 +144,7 @@ export default {
     initData: {},
     wordData: {},
     isLoading: false,
+    isImgEditorOpen: false,
   }),
 
   computed: {
@@ -127,6 +173,10 @@ export default {
         this.appStore.editFormOpen = value;
       },
     },
+
+    isMobile() {
+      return this.$vuetify.breakpoint.smAndDown;
+    },
   },
 
   methods: {
@@ -148,10 +198,24 @@ export default {
         this.isLoading = false;
       }
     },
+
+    openImgEditor() {
+      this.isImgEditorOpen = true;
+    },
+
+    closeImgEditor() {
+      this.isImgEditorOpen = false;
+    },
+
+    clearPicture() {
+      this.wordData.picture = "";
+    },
   },
 
   watch: {
     wordIdForEdit() {
+      this.isImgEditorOpen = false;
+
       this.wordData = { ...this.word };
       delete this.wordData._id;
       this.initData = { ...this.wordData };
@@ -159,3 +223,18 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.relative {
+  position: relative;
+}
+
+.img-btn {
+  width: 35px !important;
+  height: 35px !important;
+  min-width: auto !important;
+  border-radius: 50%;
+  right: 20px;
+  top: 16px;
+}
+</style>
