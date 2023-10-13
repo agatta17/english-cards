@@ -110,6 +110,7 @@
 
                   <v-expansion-panels
                     v-if="word.moreExamples && !isRussianFlashCard"
+                    :value="isEnglishFlashCard ? 0 : null"
                     class="mt-4"
                     flat
                   >
