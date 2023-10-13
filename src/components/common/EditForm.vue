@@ -17,26 +17,23 @@
             >
             </v-text-field>
             <v-text-field
-              v-model="wordData.russianWord"
-              label="Russian word"
+              v-model="wordData.transcription"
+              label="Transcription"
               outlined
               hide-details
               color="emerald"
               class="mt-4"
             >
             </v-text-field>
-            <v-select
-              v-model="wordData.groupId"
-              :items="groups"
-              item-value="id"
-              item-text="name"
-              label="Group"
+            <v-text-field
+              v-model="wordData.partOfSpeech"
+              label="Part of speech"
               outlined
               hide-details
               color="emerald"
               class="mt-4"
             >
-            </v-select>
+            </v-text-field>
           </v-col>
           <v-col cols="12" sm="6" order="1" order-sm="2">
             <template v-if="isImgEditorOpen">
@@ -88,6 +85,35 @@
           </v-col>
         </v-row>
 
+        <v-text-field
+          v-model="wordData.definition"
+          label="Definition"
+          outlined
+          hide-details
+          color="emerald"
+          class="mt-4"
+        >
+        </v-text-field>
+        <v-text-field
+          v-model="wordData.srcSegment"
+          label="Context"
+          outlined
+          hide-details
+          color="emerald"
+          class="mt-4"
+        >
+        </v-text-field>
+        <v-textarea
+          v-model="wordData.collocates"
+          outlined
+          name="input-7-4"
+          label="Collocates"
+          color="emerald"
+          hide-details
+          class="mt-4"
+          rows="3"
+        ></v-textarea>
+
         <v-textarea
           v-model="wordData.englishExample"
           outlined
@@ -108,15 +134,89 @@
           class="mt-4"
           rows="3"
         ></v-textarea>
+        <v-textarea
+          v-model="wordData.moreExamples"
+          outlined
+          name="input-7-4"
+          label="Extra Examples"
+          color="emerald"
+          hide-details
+          class="mt-4"
+          rows="3"
+        ></v-textarea>
+
         <v-text-field
-          v-model="wordData.association"
-          label="Association"
+          v-model="wordData.russianWord"
+          label="Russian word"
           outlined
           hide-details
           color="emerald"
           class="mt-4"
         >
         </v-text-field>
+
+        <v-text-field
+          v-model="wordData.outcomes"
+          label="Outcomes"
+          outlined
+          hide-details
+          color="emerald"
+          class="mt-4"
+        >
+        </v-text-field>
+
+        <v-text-field
+          v-model="wordData.oxfordlearnersdictionaries"
+          label="Oxfordlearnersdictionaries"
+          outlined
+          hide-details
+          color="emerald"
+          class="mt-4"
+        >
+        </v-text-field>
+
+        <v-text-field
+          v-model="wordData.reverso"
+          label="Reverso"
+          outlined
+          hide-details
+          color="emerald"
+          class="mt-4"
+        >
+        </v-text-field>
+
+        <v-text-field
+          v-model="wordData.youglish"
+          label="Youglish"
+          outlined
+          hide-details
+          color="emerald"
+          class="mt-4"
+        >
+        </v-text-field>
+
+        <v-text-field
+          v-model="wordData.comments"
+          label="Comments"
+          outlined
+          hide-details
+          color="emerald"
+          class="mt-4"
+        >
+        </v-text-field>
+
+        <v-select
+          v-model="wordData.groupId"
+          :items="groups"
+          item-value="id"
+          item-text="name"
+          label="Group"
+          outlined
+          hide-details
+          color="emerald"
+          class="mt-4"
+        >
+        </v-select>
       </v-card-text>
 
       <v-card-actions>

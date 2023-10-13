@@ -54,13 +54,7 @@
             v-model="inputData"
             outlined
             name="input-7-4"
-            :label="
-              modeId === 'generateByList'
-                ? 'Word list'
-                : modeId === 'generateByTopic'
-                ? 'Topic'
-                : 'Json'
-            "
+            label="Json"
             color="emerald"
             hide-details
             class="mt-4"
@@ -106,16 +100,8 @@ export default {
     groupId: null,
     showGroupInput: false,
     newGroupName: "",
-    modeId: "generateByList",
+    modeId: "addFromReverso",
     modeTypes: [
-      {
-        id: "generateByList",
-        name: "Generate by list",
-      },
-      {
-        id: "generateByTopic",
-        name: "Generate by topic",
-      },
       {
         id: "addFromReverso",
         name: "Add from Reverso",
@@ -145,20 +131,12 @@ export default {
     ...mapActions(useAppStore, [
       "toggleWordLoader",
       "addWordList",
-      "generateSetByList",
-      "generateSetByTopic",
       "addNewGroup",
     ]),
 
     async onAdd() {
       if (this.showGroupInput)
         this.groupId = await this.addNewGroup(this.newGroupName);
-
-      if (this.modeId === "generateByList")
-        await this.generateSetByList(this.inputData, this.groupId);
-
-      if (this.modeId === "generateByTopic")
-        await this.generateSetByTopic(this.inputData, this.groupId);
 
       if (this.modeId === "addFromReverso")
         await this.addWordList(

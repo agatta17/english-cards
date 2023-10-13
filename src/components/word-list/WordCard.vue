@@ -7,42 +7,6 @@
     <v-container class="px-2 py-1 px-md-0 py-md-1 text-body-2 text-sm-body-1">
       <v-row no-gutters justify="space-between">
         <v-col
-          v-if="showTranslation || !isMobile"
-          @click="showTranslation = false"
-          cols="12"
-          sm="6"
-          md="4"
-        >
-          <div class="d-flex justify-space-between">
-            <div class="blue-grey--text text--darken-3 font-weight-medium">
-              {{ word.russianWord }}
-            </div>
-            <v-btn
-              @click.stop="actionsOpen = !actionsOpen"
-              icon
-              small
-              class="d-sm-none"
-            >
-              <v-icon color="emerald">mdi-dots-horizontal</v-icon>
-            </v-btn>
-          </div>
-
-          <div
-            class="blue-grey--text text--darken-1"
-            v-html="word.russianExample"
-          ></div>
-        </v-col>
-
-        <v-col
-          cols="12"
-          sm="6"
-          md="auto"
-          class="d-sm-flex justify-center d-none"
-        >
-          <v-img max-height="50px" max-width="80px" :src="word.picture" />
-        </v-col>
-
-        <v-col
           v-if="!showTranslation || !isMobile"
           @click="showTranslation = true"
           cols="12"
@@ -78,8 +42,43 @@
           </div>
           <div
             class="blue-grey--text text--darken-1"
-            v-html="word.englishExample"
+            v-html="word.srcSegment || word.englishExample"
           ></div>
+        </v-col>
+
+        <v-col
+          cols="12"
+          sm="6"
+          md="auto"
+          class="d-sm-flex justify-center d-none"
+        >
+          <v-img max-height="50px" max-width="80px" :src="word.picture" />
+        </v-col>
+
+        <v-col
+          v-if="showTranslation || !isMobile"
+          @click="showTranslation = false"
+          cols="12"
+          sm="6"
+          md="4"
+        >
+          <div class="d-flex justify-space-between">
+            <div
+              class="blue-grey--text text--darken-1"
+              v-html="word.definition"
+            ></div>
+            <v-btn
+              @click.stop="actionsOpen = !actionsOpen"
+              icon
+              small
+              class="d-sm-none"
+            >
+              <v-icon color="emerald">mdi-dots-horizontal</v-icon>
+            </v-btn>
+          </div>
+          <div class="blue-grey--text text--darken-3 font-weight-medium">
+            {{ word.russianWord }}
+          </div>
         </v-col>
 
         <v-col cols="12" sm="12" md="auto" class="d-sm-block d-none">
@@ -88,8 +87,9 @@
             <v-chip
               small
               class="blue-grey--text text--darken-1 blue-grey lighten-5"
-              >{{ groupName }}</v-chip
             >
+              {{ groupName }}
+            </v-chip>
           </div>
         </v-col>
       </v-row>

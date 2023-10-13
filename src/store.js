@@ -78,18 +78,43 @@ export const useAppStore = defineStore("app", {
       this.wordLoaderOpened = !this.wordLoaderOpened;
     },
 
+    async addWord(word, groupId) {
+      this.isLoading = true;
+      this.toggleWordLoader();
+
+      await apiFetch("word", "POST", {
+        word: { ...word, groupId, done: false },
+      });
+      await this.setGroup(groupId);
+      this.isLoading = false;
+    },
+
     async addWordList(list, groupId) {
       this.isLoading = true;
       this.toggleWordLoader();
       const words = list.map((word) => ({
         englishWord: word.srcText,
         englishExample: word.srcContext,
-        russianWord: word.trgText,
+        russianWord:
+          word.comment && word.comment !== "..." ? word.comment : word.trgText,
         russianExample: word.trgContext,
-        association: "",
+        srcSegment: word.srcSegment,
+        document: word.document,
+        documentTitle: word.documentTitle,
         groupId: groupId,
         done: false,
-        picture: "https://cdn-icons-png.flaticon.com/512/3983/3983886.png",
+        picture: "",
+        collocates: "",
+        comments: "",
+        transcription: "",
+        partOfSpeech: "",
+        definition: "",
+        moreExamples: "",
+        outcomes: "https://www.eltoutcomes.com/vocabulary",
+        oxfordlearnersdictionaries:
+          "https://www.oxfordlearnersdictionaries.com/",
+        reverso: `https://context.reverso.net/перевод/английский-русский/${word.srcText}`,
+        youglish: "https://youglish.com/",
       }));
 
       await apiFetch("words", "POST", { words });
@@ -106,22 +131,6 @@ export const useAppStore = defineStore("app", {
       } catch (error) {
         console.log("error >> ", error);
       }
-    },
-
-    async generateSetByList(wordList, groupId) {
-      this.isLoading = true;
-      this.toggleWordLoader();
-      await apiFetch("generate-by-list", "POST", { wordList, groupId });
-      await this.setGroup(groupId);
-      this.isLoading = false;
-    },
-
-    async generateSetByTopic(topic, groupId) {
-      this.isLoading = true;
-      this.toggleWordLoader();
-      await apiFetch("generate-by-topic", "POST", { topic, groupId });
-      await this.setGroup(groupId);
-      this.isLoading = false;
     },
 
     async setGroup(id) {
@@ -166,14 +175,6 @@ export const useAppStore = defineStore("app", {
       this.loadingToggleWordId = wordId;
       await this.updateWord(wordId, { done });
       this.loadingToggleWordId = null;
-    },
-
-    async addPicture(src, wordId) {
-      await this.updateWord(wordId, { picture: src });
-    },
-
-    async addAssociation(text, wordId) {
-      await this.updateWord(wordId, { association: text });
     },
 
     setFilter(filter) {
