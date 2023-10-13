@@ -113,7 +113,9 @@
                     class="mt-4"
                     flat
                   >
-                    <v-expansion-panel>
+                    <v-expansion-panel
+                      @click="(event) => event.stopPropagation()"
+                    >
                       <v-expansion-panel-header color="deep-orange lighten-4">
                         Extra Examples
                       </v-expansion-panel-header>
@@ -247,7 +249,7 @@ export default {
     },
 
     toggleTranslation() {
-      this.isShowTranslation = !this.isShowTranslation;
+      if (this.languageOfCard) this.isShowTranslation = !this.isShowTranslation;
     },
   },
 
