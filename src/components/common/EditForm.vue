@@ -45,10 +45,6 @@
                 color="emerald"
               ></v-textarea>
               <div class="mt-4 d-flex">
-                <v-btn @click="clearPicture" color="emerald" depressed>
-                  <span class="white--text">Clear</span>
-                </v-btn>
-
                 <v-btn
                   :href="`https://www.google.com/search?q=${wordData.englishWord}&tbm=isch`"
                   target="_blank"
@@ -148,16 +144,6 @@
         <v-text-field
           v-model="wordData.russianWord"
           label="Russian word"
-          outlined
-          hide-details
-          color="emerald"
-          class="mt-4"
-        >
-        </v-text-field>
-
-        <v-text-field
-          v-model="wordData.outcomes"
-          label="Outcomes"
           outlined
           hide-details
           color="emerald"
@@ -305,10 +291,6 @@ export default {
 
     closeImgEditor() {
       this.isImgEditorOpen = false;
-    },
-
-    clearPicture() {
-      this.wordData.picture = "";
     },
   },
 

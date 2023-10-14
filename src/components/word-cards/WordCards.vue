@@ -16,13 +16,7 @@
         >
           <v-carousel-item v-for="(word, i) in words" :key="i">
             <div class="d-flex justify-center">
-              <v-sheet
-                @click="toggleTranslation"
-                class="px-5 pt-1 pb-5"
-                width="400"
-                outlined
-                rounded
-              >
+              <v-sheet class="px-5 pt-1 pb-5" width="400" outlined rounded>
                 <div class="d-flex justify-end">
                   <v-btn @click="toggleDone(word._id, true)" icon>
                     <v-icon color="emerald">
@@ -44,6 +38,7 @@
                 </div>
 
                 <v-sheet
+                  @click="toggleTranslation"
                   min-height="480px"
                   class="d-flex flex-column justify-center"
                 >
@@ -57,7 +52,12 @@
                   </div>
 
                   <div
-                    v-if="word.picture && !isEnglishFlashCard"
+                    v-if="
+                      word.picture &&
+                      word.picture !==
+                        'https://cdn-icons-png.flaticon.com/512/3983/3983886.png' &&
+                      !isEnglishFlashCard
+                    "
                     class="mt-4 d-flex justify-center"
                   >
                     <img height="220px" :src="word.picture" />
@@ -139,23 +139,38 @@
                   </div>
 
                   <template v-if="!isEnglishFlashCard && !isRussianFlashCard">
-                    <div class="d-flex mt-4">
-                      <a :href="word.outcomes" target="_blank">
-                        <img height="15px" src="@/assets/outcomes.png" />
-                      </a>
-                      <a :href="word.reverso" target="_blank" class="ml-3">
+                    <div
+                      @click="(event) => event.stopPropagation()"
+                      class="d-flex mt-4"
+                    >
+                      <a
+                        :href="
+                          word.reverso ||
+                          `https://context.reverso.net/перевод/английский-русский/${word.englishWord}`
+                        "
+                        target="_blank"
+                      >
                         <img height="20px" src="@/assets/reverso.png" />
                       </a>
                     </div>
 
-                    <div class="d-flex">
+                    <div
+                      @click="(event) => event.stopPropagation()"
+                      class="d-flex"
+                    >
                       <a
+                        v-if="word.oxfordlearnersdictionaries"
                         :href="word.oxfordlearnersdictionaries"
                         target="_blank"
                       >
                         <img height="15px" src="@/assets/oxford.png" />
                       </a>
-                      <a :href="word.youglish" target="_blank" class="ml-3">
+                      <a
+                        v-if="word.youglish"
+                        :href="word.youglish"
+                        target="_blank"
+                        class="ml-3"
+                      >
                         <img height="15px" src="@/assets/youglish.png" />
                       </a>
                     </div>

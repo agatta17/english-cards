@@ -29,7 +29,7 @@
 
       <v-btn @click="downloadWordList" class="mr-5">Скачать слова</v-btn>
 
-      <v-btn @click="toggleWordLoader">Загрузить слова</v-btn>
+      <v-btn @click="toggleWordLoader">Добавить слова</v-btn>
     </v-app-bar>
   </div>
 

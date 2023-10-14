@@ -110,17 +110,19 @@ export const useAppStore = defineStore("app", {
         partOfSpeech: "",
         definition: "",
         moreExamples: "",
-        outcomes: "https://www.eltoutcomes.com/vocabulary",
-        oxfordlearnersdictionaries:
-          "https://www.oxfordlearnersdictionaries.com/",
+        oxfordlearnersdictionaries: "",
         reverso: `https://context.reverso.net/перевод/английский-русский/${word.srcText}`,
-        youglish: "https://youglish.com/",
+        youglish: "",
       }));
 
       await apiFetch("words", "POST", { words });
       await this.setGroup(groupId);
       this.isLoading = false;
     },
+
+    // oxfordlearnersdictionaries:
+    //   "https://www.oxfordlearnersdictionaries.com/",
+    // youglish: "https://youglish.com/",
 
     async addNewGroup(name) {
       try {
