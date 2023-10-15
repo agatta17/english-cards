@@ -23,7 +23,7 @@
                 {{ word.englishWord }}
               </a>
               <v-btn @click.stop="say(word.englishWord)" icon small>
-                <v-icon color="peach">mdi-bullhorn</v-icon>
+                <v-icon color="peach" class="mb-1">mdi-bullhorn</v-icon>
               </v-btn>
             </div>
             <v-btn

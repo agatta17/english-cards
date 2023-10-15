@@ -28,8 +28,10 @@
                     </v-icon>
                   </v-btn>
 
-                  <v-btn @click="say(word.englishWord)" icon>
-                    <v-icon color="peach">mdi-bullhorn</v-icon>
+                  <v-btn @click="removeWord(word._id)" icon>
+                    <v-icon color="terracotta ">
+                      {{ `mdi-delete-outline ${getIsSpinRemove(word._id)}` }}
+                    </v-icon>
                   </v-btn>
 
                   <v-btn @click="toggleEditForm(word._id, true)" icon>
@@ -65,6 +67,9 @@
 
                   <div v-if="!isRussianFlashCard" class="mt-4 text-h5">
                     {{ word.englishWord }}
+                    <v-btn @click="say(word.englishWord)" icon small>
+                      <v-icon color="peach" class="mb-1">mdi-bullhorn</v-icon>
+                    </v-btn>
                   </div>
 
                   <div
@@ -249,10 +254,19 @@ export default {
   },
 
   methods: {
-    ...mapActions(useAppStore, ["say", "toggleDone", "toggleEditForm"]),
+    ...mapActions(useAppStore, [
+      "say",
+      "toggleDone",
+      "removeWord",
+      "toggleEditForm",
+    ]),
 
     getIsSpinToggle(wordId) {
       return this.appStore.loadingToggleWordId === wordId ? "mdi-spin" : "";
+    },
+
+    getIsSpinRemove(wordId) {
+      return this.appStore.loadingRemoveWordId === wordId ? "mdi-spin" : "";
     },
 
     getGroupName(groupId) {
