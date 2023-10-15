@@ -1,9 +1,5 @@
 <template>
   <div>
-    <v-btn @click="say(englishWord)" icon class="d-sm-inline-flex d-none">
-      <v-icon color="peach">mdi-bullhorn-outline</v-icon>
-    </v-btn>
-
     <v-btn @click="toggleDone(wordId, !done)" icon>
       <v-icon :color="done ? 'cherry darken-1' : 'emerald'">
         {{
@@ -59,12 +55,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(useAppStore, [
-      "say",
-      "toggleDone",
-      "removeWord",
-      "toggleEditForm",
-    ]),
+    ...mapActions(useAppStore, ["toggleDone", "removeWord", "toggleEditForm"]),
   },
 };
 </script>

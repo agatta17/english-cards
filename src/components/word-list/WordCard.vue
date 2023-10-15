@@ -22,12 +22,7 @@
               >
                 {{ word.englishWord }}
               </a>
-              <v-btn
-                @click.stop="say(word.englishWord)"
-                icon
-                small
-                class="d-sm-none"
-              >
+              <v-btn @click.stop="say(word.englishWord)" icon small>
                 <v-icon color="peach">mdi-bullhorn</v-icon>
               </v-btn>
             </div>
@@ -73,13 +68,25 @@
           @click="showTranslation = false"
           cols="12"
           sm="6"
-          md="4"
+          md="5"
         >
           <div class="d-flex justify-space-between">
-            <div
-              class="blue-grey--text text--darken-1"
-              v-html="word.definition"
-            ></div>
+            <div>
+              <div
+                class="blue-grey--text text--darken-1 body-2"
+                v-html="word.definition"
+              ></div>
+              <div v-if="word.russianWord" class="d-flex flex-wrap">
+                <span
+                  v-for="word in getWordArray(word.russianWord)"
+                  :key="word"
+                  class="russian-word body-2 mr-1 mt-1"
+                >
+                  {{ word }}
+                </span>
+              </div>
+            </div>
+
             <v-btn
               @click.stop="actionsOpen = !actionsOpen"
               icon
@@ -89,9 +96,6 @@
               <v-icon color="emerald">mdi-dots-horizontal</v-icon>
             </v-btn>
           </div>
-          <div class="blue-grey--text text--darken-3 font-weight-medium">
-            {{ word.russianWord }}
-          </div>
         </v-col>
 
         <v-col cols="12" sm="12" md="auto" class="d-sm-block d-none">
@@ -99,7 +103,7 @@
           <div>
             <v-chip
               small
-              class="blue-grey--text text--darken-1 blue-grey lighten-5"
+              class="blue-grey--text text--darken-2 amber lighten-4"
             >
               {{ groupName }}
             </v-chip>
@@ -155,6 +159,10 @@ export default {
     stopPropagation(event) {
       event.stopPropagation();
     },
+
+    getWordArray(string) {
+      return string.split(",");
+    },
   },
 };
 </script>
@@ -179,5 +187,15 @@ export default {
 
 .text-decoration-none {
   text-decoration: none;
+}
+
+.russian-word {
+  background: #e3f2fd;
+  border: solid 1px #78909c;
+  border-radius: 4px;
+  padding-left: 6px;
+  padding-right: 6px;
+  padding-top: 2px;
+  padding-bottom: 4px;
 }
 </style>
