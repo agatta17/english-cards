@@ -52,7 +52,20 @@
           md="auto"
           class="d-sm-flex justify-center d-none"
         >
-          <v-img max-height="50px" max-width="80px" :src="word.picture" />
+          <v-card width="80px" height="50px" flat color="blue-grey lighten-5">
+            <v-img
+              v-if="
+                word.picture &&
+                word.picture !==
+                  'https://cdn-icons-png.flaticon.com/512/3983/3983886.png'
+              "
+              max-height="50px"
+              max-width="80px"
+              :src="word.picture"
+              :lazy-src="word.picture"
+            >
+            </v-img>
+          </v-card>
         </v-col>
 
         <v-col
