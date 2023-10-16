@@ -92,14 +92,25 @@
 
                   <div
                     v-if="word.srcSegment && !isRussianFlashCard"
+                    v-html="
+                      word.srcSegment?.replace(
+                        word.englishWord,
+                        `<em>${word.englishWord}</em>`
+                      ) || word.englishExample
+                    "
                     class="mt-4 blue-grey--text"
-                  >
-                    {{ word.srcSegment }}
-                  </div>
+                  ></div>
 
                   <template v-if="word.collocates && !isRussianFlashCard">
                     <div class="mt-4 body-2 font-weight-bold">Collocates</div>
-                    <div v-html="word.collocates"></div>
+                    <ul>
+                      <li
+                        v-for="item in word.collocates.split('\n')"
+                        :key="item"
+                      >
+                        {{ item }}
+                      </li>
+                    </ul>
                   </template>
 
                   <div
@@ -125,7 +136,14 @@
                         Extra Examples
                       </v-expansion-panel-header>
                       <v-expansion-panel-content color="deep-orange lighten-5">
-                        <div class="mt-4" v-html="word.moreExamples"></div>
+                        <ul class="mt-4">
+                          <li
+                            v-for="item in word.moreExamples.split('\n')"
+                            :key="item"
+                          >
+                            {{ item }}
+                          </li>
+                        </ul>
                       </v-expansion-panel-content>
                     </v-expansion-panel>
                   </v-expansion-panels>

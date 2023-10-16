@@ -37,7 +37,12 @@
           </div>
           <div
             class="blue-grey--text text--darken-1"
-            v-html="word.srcSegment || word.englishExample"
+            v-html="
+              word.srcSegment?.replace(
+                word.englishWord,
+                `<em>${word.englishWord}</em>`
+              ) || word.englishExample
+            "
           ></div>
         </v-col>
 
