@@ -51,6 +51,21 @@
                       {{ word }}
                     </span>
                   </div>
+
+                  <div class="mt-6 questions">
+                    <v-card
+                      v-for="(item, i) in 4"
+                      :key="i"
+                      outlined
+                      class="px-3 py-2 mb-2"
+                    >
+                      {{ word.englishWord }}
+                    </v-card>
+                  </div>
+
+                  <v-btn depressed color="cyan" class="mt-4 white--text">
+                    Done
+                  </v-btn>
                 </v-sheet>
               </v-sheet>
             </div>
@@ -110,3 +125,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.questions {
+  cursor: pointer;
+}
+</style>
