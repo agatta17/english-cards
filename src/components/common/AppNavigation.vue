@@ -2,34 +2,42 @@
   <div v-if="!isMobile">
     <v-app-bar color="emerald" dense flat class="d-flex justify-center">
       <v-btn
-        :to="`/?group=${$route.query.group}`"
+        :to="`/${groupQueryParamString}`"
         text
         color="white"
         class="mr-5"
         exact-path
       >
-        Список
+        List
       </v-btn>
 
       <v-btn
         text
-        :to="`/cards/english?group=${$route.query.group}`"
+        :to="`/cards/english${groupQueryParamString}`"
         color="white"
         class="mr-5"
-        >Английские карточки</v-btn
+        >English flashcards</v-btn
       >
 
       <v-btn
         text
-        :to="`/cards/russian?group=${$route.query.group}`"
+        :to="`/cards/russian${groupQueryParamString}`"
         color="white"
         class="mr-5"
-        >Русские карточки</v-btn
+        >Russian flashcards</v-btn
       >
 
-      <v-btn @click="downloadWordList" class="mr-5">Скачать слова</v-btn>
+      <v-btn
+        text
+        :to="`/quiz${groupQueryParamString}`"
+        color="white"
+        class="mr-5"
+        >Quiz</v-btn
+      >
 
-      <v-btn @click="toggleWordLoader">Добавить слова</v-btn>
+      <v-btn @click="downloadWordList" class="mr-5" depressed>Download</v-btn>
+
+      <v-btn @click="toggleWordLoader" depressed>Create</v-btn>
     </v-app-bar>
   </div>
 
@@ -91,6 +99,10 @@ export default {
   computed: {
     isMobile() {
       return this.$vuetify.breakpoint.smAndDown;
+    },
+
+    groupQueryParamString() {
+      return this.$route.query.group ? `?group=${this.$route.query.group}` : "";
     },
   },
 

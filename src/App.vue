@@ -81,4 +81,14 @@ export default {
 em {
   background: var(--v-error-lighten5);
 }
+
+.russian-word {
+  background: #e3f2fd;
+  border: solid 1px #78909c;
+  border-radius: 4px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 4px;
+  padding-bottom: 6px;
+}
 </style>

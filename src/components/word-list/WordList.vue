@@ -1,15 +1,17 @@
 <template>
-  <v-container>
+  <div>
     <loader-component v-if="isLoading" />
 
-    <choose-group v-else-if="currentGroupId === null" />
+    <choose-group v-else-if="!currentGroupId" />
 
     <plug-component v-else-if="!words.length" />
 
-    <v-sheet v-else max-width="1240" width="100%" class="mt-md-2">
-      <word-card v-for="word in words" :key="word._id" :word="word" />
-    </v-sheet>
-  </v-container>
+    <v-container v-else>
+      <v-sheet max-width="1240" width="100%" class="mt-md-2">
+        <word-card v-for="word in words" :key="word._id" :word="word" />
+      </v-sheet>
+    </v-container>
+  </div>
 </template>
 
 <script>

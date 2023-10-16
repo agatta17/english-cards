@@ -2,7 +2,7 @@
   <div>
     <loader-component v-if="isLoading" />
 
-    <choose-group v-else-if="currentGroupId === null" />
+    <choose-group v-else-if="!currentGroupId" />
 
     <plug-component v-else-if="!words.length" />
 
@@ -326,15 +326,5 @@ export default {
   padding-right: 6px;
   padding-bottom: 1px;
   font-size: 14px;
-}
-
-.russian-word {
-  background: #e3f2fd;
-  border: solid 1px #78909c;
-  border-radius: 4px;
-  padding-left: 8px;
-  padding-right: 8px;
-  padding-top: 4px;
-  padding-bottom: 6px;
 }
 </style>
