@@ -53,10 +53,10 @@
 
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn @click="toggleWordLoader" color="emerald" text> Отменить </v-btn>
+      <v-btn @click="toggleWordLoader" color="emerald" text> Cancel </v-btn>
 
       <v-btn @click="onAdd" color="emerald" depressed>
-        <span class="white--text">Добавить</span>
+        <span class="white--text">Save</span>
       </v-btn>
     </v-card-actions>
   </v-card>
@@ -82,6 +82,14 @@ export default {
     groups() {
       return this.appStore.groups;
     },
+
+    currentGroupId() {
+      return this.appStore.currentGroupId;
+    },
+
+    wordLoaderOpened() {
+      return this.appStore.wordLoaderOpened;
+    },
   },
 
   methods: {
@@ -96,6 +104,23 @@ export default {
         this.groupId = await this.addNewGroup(this.newGroupName);
 
       await this.addWordList(JSON.parse(this.inputData).results, this.groupId);
+    },
+
+    initData() {
+      this.groupId = this.currentGroupId;
+      this.inputData = "";
+      this.showGroupInput = false;
+      this.newGroupName = "";
+    },
+  },
+
+  watch: {
+    wordLoaderOpened: {
+      handler(val) {
+        if (val) this.initData();
+      },
+
+      immediate: true,
     },
   },
 };

@@ -80,7 +80,6 @@ export const useAppStore = defineStore("app", {
 
     async addWord(word, groupId) {
       this.isLoading = true;
-      this.toggleWordLoader();
 
       await apiFetch("word", "POST", {
         word: { ...word, groupId, done: false },
