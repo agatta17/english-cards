@@ -36,38 +36,65 @@
             </v-text-field>
           </v-col>
           <v-col cols="12" sm="6" order="1" order-sm="2">
-            <template v-if="isImgEditorOpen">
+            <div v-if="isImgEditorOpen" class="d-flex">
               <v-textarea
                 v-model="wordData.picture"
                 label="Picture"
                 outlined
                 hide-details
                 color="emerald"
+                height="200px"
               ></v-textarea>
-              <div class="mt-4 d-flex">
+              <div class="d-flex flex-column ml-2">
+                <v-btn
+                  href="https://dictionary.langeek.co/"
+                  target="_blank"
+                  color="emerald"
+                  depressed
+                >
+                  <span class="white--text">langeek</span>
+                </v-btn>
+
+                <v-btn
+                  href="https://quizlet.com/838325350/autosaved"
+                  target="_blank"
+                  color="emerald"
+                  depressed
+                  class="mt-2"
+                >
+                  <span class="white--text">quizlet</span>
+                </v-btn>
+
                 <v-btn
                   :href="`https://www.google.com/search?q=${wordData.englishWord}&tbm=isch`"
                   target="_blank"
                   color="emerald"
                   depressed
-                  class="ml-2"
+                  class="mt-2"
                 >
-                  <span class="white--text">Find</span>
+                  <span class="white--text">google</span>
                 </v-btn>
 
                 <v-btn
                   @click="closeImgEditor"
                   color="emerald"
                   depressed
-                  class="ml-2"
+                  class="mt-2"
                 >
                   <span class="white--text">Preview</span>
                 </v-btn>
               </div>
-            </template>
+            </div>
 
             <div v-else class="d-flex justify-center overflow-hidden relative">
-              <img :src="wordData.picture" width="auto" height="200px" />
+              <img
+                :src="
+                  wordData.picture ||
+                  'https://cdn.dribbble.com/users/215249/screenshots/2575539/media/b1f1e90c56a4d81c3783b4fdc25acddf.gif'
+                "
+                width="auto"
+                height="200px"
+              />
               <v-btn
                 @click="openImgEditor"
                 color="white"
@@ -81,15 +108,16 @@
           </v-col>
         </v-row>
 
-        <v-text-field
+        <v-textarea
           v-model="wordData.definition"
           label="Definition"
           outlined
           hide-details
           color="emerald"
           class="mt-4"
+          rows="3"
         >
-        </v-text-field>
+        </v-textarea>
         <v-text-field
           v-model="wordData.srcSegment"
           label="Context"
