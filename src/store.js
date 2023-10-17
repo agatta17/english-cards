@@ -119,10 +119,6 @@ export const useAppStore = defineStore("app", {
       this.isLoading = false;
     },
 
-    // oxfordlearnersdictionaries:
-    //   "https://www.oxfordlearnersdictionaries.com/",
-    // youglish: "https://youglish.com/",
-
     async addNewGroup(name) {
       try {
         const id = Date.now();
@@ -135,6 +131,7 @@ export const useAppStore = defineStore("app", {
     },
 
     async setGroup(id) {
+      if (typeof id === "undefined") return;
       this.isLoading = true;
       this.currentGroupId = Number(id);
       this.words = await apiFetch(`words?group_id=${id}`);
@@ -144,6 +141,11 @@ export const useAppStore = defineStore("app", {
     say(text) {
       this.textForSpeech = text;
       this.speechSounds = true;
+    },
+
+    async getRandomWordList(count) {
+      const data = await apiFetch(`random-words?count=${count}`);
+      return data;
     },
 
     async removeWord(wordId) {

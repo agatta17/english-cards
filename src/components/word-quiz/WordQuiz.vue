@@ -14,7 +14,7 @@
           :show-arrows="!isMobile"
           height="100%"
         >
-          <v-carousel-item v-for="(word, i) in words" :key="i">
+          <v-carousel-item v-for="(word, i) in wordsWithOptions" :key="i">
             <div class="d-flex justify-center">
               <v-sheet class="px-5 pt-1 pb-5" width="400" outlined rounded>
                 <v-sheet
@@ -54,12 +54,12 @@
 
                   <div class="mt-6 questions">
                     <v-card
-                      v-for="(item, i) in 4"
-                      :key="i"
+                      v-for="option in word.options"
+                      :key="option"
                       outlined
                       class="px-3 py-2 mb-2"
                     >
-                      {{ word.englishWord }}
+                      {{ option }}
                     </v-card>
                   </div>
 
@@ -78,13 +78,13 @@
 
 <script>
 import { useAppStore } from "@/store";
-import { mapStores } from "pinia";
+import { mapActions, mapStores } from "pinia";
 import PlugComponent from "@/components/common/PlugComponent.vue";
 import ChooseGroup from "@/components/common/ChooseGroup.vue";
 import LoaderComponent from "@/components/common/LoaderComponent.vue";
 
 export default {
-  name: "WordList",
+  name: "WordQuiz",
 
   components: {
     PlugComponent,
@@ -95,6 +95,9 @@ export default {
   data() {
     return {
       wordIndex: 0,
+      randomWordList: [],
+      optionCount: 4,
+      wordsWithOptions: [],
     };
   },
 
@@ -116,11 +119,53 @@ export default {
     isMobile() {
       return this.$vuetify.breakpoint.smAndDown;
     },
+
+    firstWord() {
+      return this.words[0]?.englishWord;
+    },
   },
 
   methods: {
     getWordArray(string) {
       return string.split(",");
+    },
+
+    ...mapActions(useAppStore, ["getRandomWordList"]),
+
+    async getRandomList() {
+      const list = await this.getRandomWordList(
+        this.words.length * (this.optionCount - 1)
+      );
+
+      this.randomWordList = list.map(({ englishWord }) => englishWord);
+    },
+
+    randomInteger(min, max) {
+      const rand = min + Math.random() * (max + 1 - min);
+      return Math.floor(rand);
+    },
+  },
+
+  watch: {
+    firstWord: {
+      async handler() {
+        if (!this.words.length) return;
+
+        await this.getRandomList();
+
+        this.wordsWithOptions = this.words.map((item, i) => {
+          const start = (this.optionCount - 1) * i;
+          const options = this.randomWordList.slice(
+            start,
+            start + this.optionCount - 1
+          );
+          const random = this.randomInteger(0, this.optionCount - 1);
+          options.splice(random, 0, item.englishWord);
+          return { ...item, options };
+        });
+      },
+
+      immediate: true,
     },
   },
 };
