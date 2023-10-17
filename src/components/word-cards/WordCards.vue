@@ -246,6 +246,10 @@ export default {
       return this.appStore.filteredWordsForCards;
     },
 
+    firstWord() {
+      return this.words[0]?.englishWord;
+    },
+
     groups() {
       return this.appStore.groups;
     },
@@ -301,10 +305,13 @@ export default {
   },
 
   watch: {
-    wordIndex() {
-      this.isShowTranslation = false;
-      if (this.languageOfCard === "english")
-        this.say(this.words[this.wordIndex].englishWord);
+    wordIndex: {
+      handler() {
+        this.isShowTranslation = false;
+        if (this.languageOfCard === "english")
+          this.say(this.words[this.wordIndex].englishWord);
+      },
+      immediate: true,
     },
 
     words(newVal, oldVal) {
@@ -313,6 +320,13 @@ export default {
 
     languageOfCard() {
       this.isShowTranslation = false;
+      if (this.languageOfCard === "english")
+        this.say(this.words[this.wordIndex].englishWord);
+    },
+
+    firstWord() {
+      if (this.languageOfCard === "english")
+        this.say(this.words[this.wordIndex].englishWord);
     },
   },
 };
