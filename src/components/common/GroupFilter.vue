@@ -20,12 +20,62 @@
         <v-list-item
           v-for="group in groups"
           :key="group.id"
-          :to="`${$route.path}?group=${group.id}`"
-          class="item"
+          :to="
+            groupIdForEditing === group.id
+              ? ''
+              : `${$route.path}?group=${group.id}`
+          "
           exact-active-class="active-item"
         >
           <v-list-item-content>
-            <v-list-item-title>{{ group.name }}</v-list-item-title>
+            <v-list-item-title>
+              <template v-if="groupIdForEditing === group.id">
+                <v-text-field
+                  @blur="groupIdForEditing = null"
+                  @input="newName = $event"
+                  :value="group.name"
+                  class="text-body-2"
+                  hide-details
+                  dense
+                  outlined
+                  color="white"
+                  autofocus
+                >
+                  <template v-slot:append>
+                    <v-btn
+                      @click="onDeleteGroup(group._id)"
+                      :loading="isDeletionLoading"
+                      icon
+                      small
+                    >
+                      <v-icon color="white" small>mdi-delete</v-icon>
+                    </v-btn>
+
+                    <v-btn
+                      @click="onChangeGroup(group._id)"
+                      :loading="isChangeLoading"
+                      icon
+                      small
+                    >
+                      <v-icon color="white" small>mdi-content-save</v-icon>
+                    </v-btn>
+                  </template>
+                </v-text-field>
+              </template>
+
+              <template v-else>
+                <span>{{ group.name }}</span>
+
+                <v-btn
+                  @click.prevent="toggleEditor(group.id)"
+                  icon
+                  x-small
+                  class="ml-1"
+                >
+                  <v-icon color="sky" small> mdi-pencil </v-icon>
+                </v-btn>
+              </template>
+            </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -49,6 +99,15 @@ export default {
     isOpen: {
       type: Boolean,
     },
+  },
+
+  data() {
+    return {
+      groupIdForEditing: null,
+      newName: "",
+      isDeletionLoading: false,
+      isChangeLoading: false,
+    };
   },
 
   computed: {
@@ -77,7 +136,26 @@ export default {
   },
 
   methods: {
-    ...mapActions(useAppStore, ["setGroup"]),
+    ...mapActions(useAppStore, ["setGroup", "changeGroup", "deleteGroup"]),
+
+    toggleEditor(id) {
+      this.groupIdForEditing = id;
+    },
+
+    async onDeleteGroup(id) {
+      this.isDeletionLoading = true;
+      await this.deleteGroup(id);
+      this.isDeletionLoading = false;
+    },
+
+    async onChangeGroup(id) {
+      if (this.newName) {
+        this.isChangeLoading = true;
+        await this.changeGroup(id, this.newName);
+        this.isChangeLoading = false;
+        this.groupIdForEditing = null;
+      }
+    },
   },
 
   watch: {

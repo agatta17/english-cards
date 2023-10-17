@@ -188,5 +188,27 @@ export const useAppStore = defineStore("app", {
       this.wordIdForEdit = wordId;
       this.editFormOpen = isFormOpen;
     },
+
+    async deleteGroup(id) {
+      try {
+        const data = await apiFetch("group", "DELETE", { _id: id });
+        if (data?.ok) this.groups = this.groups.filter(({ _id }) => _id !== id);
+      } catch (error) {
+        console.log("error >> ", error);
+      }
+    },
+
+    async changeGroup(id, name) {
+      try {
+        const data = await apiFetch("group", "PUT", { _id: id, name });
+        if (data?.ok) {
+          this.groups = this.groups.map((group) =>
+            group._id === id ? { ...group, name } : group
+          );
+        }
+      } catch (error) {
+        console.log("error >> ", error);
+      }
+    },
   },
 });
