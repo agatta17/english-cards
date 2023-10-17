@@ -56,16 +56,32 @@
                     <v-card
                       v-for="option in word.options"
                       :key="option"
+                      @click="checkAnswer(option, word.englishWord)"
                       outlined
                       class="px-3 py-2 mb-2"
                     >
-                      {{ option }}
+                      <span
+                        :class="{
+                          correct:
+                            answerIsHighlighted && option === word.englishWord,
+                        }"
+                      >
+                        {{ option }}
+                      </span>
                     </v-card>
                   </div>
 
-                  <v-btn depressed color="cyan" class="mt-4 white--text">
-                    Done
-                  </v-btn>
+                  <div class="mistake">
+                    <v-card
+                      v-if="isMistake"
+                      class="mt-1 deep-orange--text d-flex align-center justify-center"
+                      flat
+                      color="deep-orange lighten-5"
+                      height="100%"
+                    >
+                      Try again!
+                    </v-card>
+                  </div>
                 </v-sheet>
               </v-sheet>
             </div>
@@ -98,6 +114,8 @@ export default {
       randomWordList: [],
       optionCount: 4,
       wordsWithOptions: [],
+      answerIsHighlighted: false,
+      isMistake: false,
     };
   },
 
@@ -130,7 +148,7 @@ export default {
       return string.split(",");
     },
 
-    ...mapActions(useAppStore, ["getRandomWordList"]),
+    ...mapActions(useAppStore, ["getRandomWordList", "say"]),
 
     async getRandomList() {
       const list = await this.getRandomWordList(
@@ -143,6 +161,18 @@ export default {
     randomInteger(min, max) {
       const rand = min + Math.random() * (max + 1 - min);
       return Math.floor(rand);
+    },
+
+    checkAnswer(option, correct) {
+      if (option === correct) {
+        this.isMistake = false;
+        this.answerIsHighlighted = true;
+        this.say(correct);
+        setTimeout(() => this.wordIndex++, 1300);
+      } else {
+        this.isMistake = true;
+        this.say("try again");
+      }
     },
   },
 
@@ -167,6 +197,11 @@ export default {
 
       immediate: true,
     },
+
+    wordIndex() {
+      this.answerIsHighlighted = false;
+      this.isMistake = false;
+    },
   },
 };
 </script>
@@ -174,5 +209,14 @@ export default {
 <style scoped>
 .questions {
   cursor: pointer;
+}
+
+.correct {
+  color: var(--v-emerald-base);
+  font-weight: bold;
+}
+
+.mistake {
+  height: 30px;
 }
 </style>
