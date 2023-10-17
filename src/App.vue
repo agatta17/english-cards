@@ -91,4 +91,10 @@ em {
   padding-top: 4px;
   padding-bottom: 6px;
 }
+
+@media (max-width: 600px) {
+  .container {
+    padding: 0 !important;
+  }
+}
 </style>

@@ -1,13 +1,13 @@
 <template>
-  <div>
+  <div class="wrap">
     <loader-component v-if="isLoading" />
 
     <choose-group v-else-if="currentGroupId === null" />
 
     <plug-component v-else-if="!words.length" />
 
-    <v-container v-else>
-      <v-sheet>
+    <v-container v-else class="wrap">
+      <v-sheet :height="isMobile ? '100%' : 'auto'">
         <v-carousel
           v-model="wordIndex"
           hide-delimiters
@@ -15,8 +15,13 @@
           height="100%"
         >
           <v-carousel-item v-for="(word, i) in words" :key="i">
-            <div class="d-flex justify-center">
-              <v-sheet class="px-5 pt-1 pb-5" width="400" outlined rounded>
+            <div class="d-flex justify-center wrap">
+              <v-sheet
+                class="px-5 pt-1 pb-5"
+                :width="isMobile ? '100%' : '400px'"
+                :outlined="!isMobile"
+                rounded
+              >
                 <div class="d-flex justify-end">
                   <v-btn @click="toggleDone(word._id, true)" icon>
                     <v-icon color="emerald">
@@ -42,6 +47,7 @@
                 <v-sheet
                   @click="toggleTranslation"
                   min-height="480px"
+                  height="95%"
                   class="d-flex flex-column justify-center"
                 >
                   <div v-if="!isEnglishFlashCard && !isRussianFlashCard">
@@ -62,7 +68,7 @@
                     "
                     class="mt-4 d-flex justify-center"
                   >
-                    <img height="220px" :src="word.picture" />
+                    <img :src="word.picture" class="card-picture" />
                   </div>
 
                   <div v-if="!isRussianFlashCard" class="mt-4 text-h5">
@@ -263,7 +269,7 @@ export default {
     },
 
     isMobile() {
-      return this.$vuetify.breakpoint.smAndDown;
+      return this.$vuetify.breakpoint.xs;
     },
 
     isEnglishFlashCard() {
@@ -340,5 +346,14 @@ export default {
   padding-right: 6px;
   padding-bottom: 1px;
   font-size: 14px;
+}
+
+.card-picture {
+  max-width: 100%;
+  max-height: 220px;
+}
+
+.wrap {
+  height: 100%;
 }
 </style>
