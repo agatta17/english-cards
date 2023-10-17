@@ -2,7 +2,7 @@
   <div>
     <loader-component v-if="isLoading" />
 
-    <choose-group v-else-if="!currentGroupId" />
+    <choose-group v-else-if="currentGroupId === null" />
 
     <plug-component v-else-if="!words.length" />
 

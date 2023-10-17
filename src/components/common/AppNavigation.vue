@@ -48,36 +48,27 @@
         text
         color="white"
       >
-        <v-icon large>mdi-folder-multiple</v-icon>
+        <v-icon>mdi-folder-multiple</v-icon>
       </v-btn>
 
-      <v-btn
-        :to="`/?group=${$route.query.group}`"
-        text
-        color="white"
-        exact-path
-      >
-        <v-icon large> mdi-view-list</v-icon>
+      <v-btn :to="`/${groupQueryParamString}`" text color="white" exact-path>
+        <v-icon> mdi-view-list</v-icon>
       </v-btn>
 
-      <v-btn
-        text
-        :to="`/cards/english?group=${$route.query.group}`"
-        color="white"
-      >
-        <span class="text-h6">Eng</span>
+      <v-btn text :to="`/cards/english${groupQueryParamString}`" color="white">
+        <span class="text-subtitle-1">Eng</span>
       </v-btn>
 
-      <v-btn
-        text
-        :to="`/cards/russian?group=${$route.query.group}`"
-        color="white"
-      >
-        <span class="text-h6">Rus</span>
+      <v-btn text :to="`/cards/russian${groupQueryParamString}`" color="white">
+        <span class="text-subtitle-1">Rus</span>
+      </v-btn>
+
+      <v-btn text :to="`/quiz${groupQueryParamString}`" color="white">
+        <span class="text-subtitle-1">Quiz</span>
       </v-btn>
 
       <v-btn @click="toggleWordLoader" text color="white">
-        <v-icon large>mdi-cloud-upload</v-icon>
+        <v-icon>mdi-cloud-upload</v-icon>
       </v-btn>
     </v-app-bar>
   </div>
