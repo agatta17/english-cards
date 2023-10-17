@@ -12,5 +12,8 @@ Vue.use(VueRouter);
 
 Vue.use(PiniaVuePlugin);
 const pinia = createPinia();
+pinia.use(({ store }) => {
+  store.router = router;
+});
 
 new Vue({ pinia, router, vuetify, render: (h) => h(App) }).$mount("#app");

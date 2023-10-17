@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import apiFetch from "@/utils/api";
+// import router from "@/router";
 
 export const useAppStore = defineStore("app", {
   state: () => ({
@@ -84,7 +85,9 @@ export const useAppStore = defineStore("app", {
       await apiFetch("word", "POST", {
         word: { ...word, groupId, done: false },
       });
-      await this.setGroup(groupId);
+
+      this.router.push({ query: { group: groupId } });
+
       this.isLoading = false;
     },
 
@@ -115,7 +118,7 @@ export const useAppStore = defineStore("app", {
       }));
 
       await apiFetch("words", "POST", { words });
-      await this.setGroup(groupId);
+      this.router.push({ query: { group: groupId } });
       this.isLoading = false;
     },
 
