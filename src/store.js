@@ -147,7 +147,9 @@ export const useAppStore = defineStore("app", {
     },
 
     async getRandomWordList(count) {
+      this.isLoading = true;
       const data = await apiFetch(`random-words?count=${count}`);
+      this.isLoading = false;
       return data;
     },
 
