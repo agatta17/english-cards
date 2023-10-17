@@ -219,7 +219,7 @@
       </v-btn>
     </div>
 
-    <v-card-actions>
+    <v-card-actions class="px-0">
       <v-spacer></v-spacer>
       <v-btn @click="toggleWordLoader" color="emerald" text> Cancel </v-btn>
 

@@ -1,12 +1,12 @@
 <template>
   <div class="text-center">
-    <v-dialog v-model="wordLoaderOpened" width="700">
+    <v-dialog v-model="wordLoaderOpened" width="700" :fullscreen="isMobile">
       <v-card>
         <v-card-title class="text-h5 grey lighten-2">
           Добавление слов
         </v-card-title>
 
-        <v-card-text class="pt-4">
+        <v-card-text class="pt-4 px-4">
           <v-tabs v-model="tab">
             <v-tab v-for="mode in modeTypes" :key="mode.id">
               <div>{{ mode.name }}</div>
@@ -59,6 +59,10 @@ export default {
       set: function () {
         this.toggleWordLoader();
       },
+    },
+
+    isMobile() {
+      return this.$vuetify.breakpoint.smAndDown;
     },
   },
 
