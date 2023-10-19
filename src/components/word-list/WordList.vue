@@ -7,8 +7,18 @@
     <plug-component v-else-if="!words.length" />
 
     <v-container v-else>
-      <v-sheet max-width="1240" width="100%" class="mt-md-2">
+      <v-sheet max-width="1240" width="100%">
         <word-card v-for="word in words" :key="word._id" :word="word" />
+
+        <div class="d-flex justify-center">
+          <v-btn
+            @click="copyList"
+            text
+            class="text-body-2 font-weight-bold text-decoration-underline emerald--text"
+          >
+            Copy list
+          </v-btn>
+        </div>
       </v-sheet>
     </v-container>
   </div>
@@ -49,6 +59,15 @@ export default {
 
     isMobile() {
       return this.$vuetify.breakpoint.smAndDown;
+    },
+  },
+
+  methods: {
+    copyList() {
+      const wordList = this.words
+        .map(({ englishWord }) => englishWord)
+        .join(", ");
+      navigator.clipboard.writeText(wordList);
     },
   },
 };
