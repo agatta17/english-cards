@@ -42,6 +42,12 @@
                   <v-btn @click="toggleEditForm(word._id, true)" icon>
                     <v-icon color="sky"> mdi-pencil </v-icon>
                   </v-btn>
+
+                  <v-btn @click="soundIsOn = !soundIsOn" icon>
+                    <v-icon color="peach">
+                      {{ soundIsOn ? "mdi-music" : "mdi-music-off" }}
+                    </v-icon>
+                  </v-btn>
                 </div>
 
                 <v-sheet
@@ -242,6 +248,7 @@ export default {
     return {
       wordIndex: 0,
       isShowTranslation: false,
+      soundIsOn: true,
     };
   },
 
@@ -318,24 +325,21 @@ export default {
     wordIndex: {
       handler() {
         this.isShowTranslation = false;
-        if (this.languageOfCard === "english")
+        if (this.languageOfCard === "english" && this.soundIsOn)
           this.say(this.words[this.wordIndex].englishWord);
       },
       immediate: true,
     },
 
-    words(newVal, oldVal) {
-      if (newVal.length < oldVal.length) this.isShowTranslation = false;
-    },
-
     languageOfCard() {
       this.isShowTranslation = false;
-      if (this.languageOfCard === "english")
+      if (this.languageOfCard === "english" && this.soundIsOn)
         this.say(this.words[this.wordIndex].englishWord);
     },
 
     firstWord() {
-      if (this.languageOfCard === "english")
+      this.isShowTranslation = false;
+      if (this.languageOfCard === "english" && this.soundIsOn)
         this.say(this.words[this.wordIndex].englishWord);
     },
   },
