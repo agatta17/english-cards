@@ -18,6 +18,11 @@
           color="emerald"
           class="mt-4"
         >
+          <template v-if="wordData.englishWord" v-slot:append>
+            <a :href="dictionaryLink" target="_blank" icon>
+              <v-icon>mdi-magnify</v-icon>
+            </a>
+          </template>
         </v-text-field>
         <v-text-field
           v-model="wordData.partOfSpeech"
@@ -27,6 +32,11 @@
           color="emerald"
           class="mt-4"
         >
+          <template v-if="wordData.englishWord" v-slot:append>
+            <a :href="dictionaryLink" target="_blank" icon>
+              <v-icon>mdi-magnify</v-icon>
+            </a>
+          </template>
         </v-text-field>
       </v-col>
       <v-col cols="12" sm="6" order="1" order-sm="2">
@@ -106,6 +116,11 @@
       class="mt-4"
       rows="3"
     >
+      <template v-if="wordData.englishWord" v-slot:append>
+        <a :href="dictionaryLink" target="_blank" icon>
+          <v-icon>mdi-magnify</v-icon>
+        </a>
+      </template>
     </v-textarea>
     <v-text-field
       v-model="wordData.srcSegment"
@@ -115,6 +130,11 @@
       color="emerald"
       class="mt-4"
     >
+      <template v-if="wordData.englishWord" v-slot:append>
+        <a :href="dictionaryLink" target="_blank" icon>
+          <v-icon>mdi-magnify</v-icon>
+        </a>
+      </template>
     </v-text-field>
     <v-textarea
       v-model="wordData.collocates"
@@ -125,7 +145,13 @@
       hide-details
       class="mt-4"
       rows="3"
-    ></v-textarea>
+    >
+      <template v-if="wordData.englishWord" v-slot:append>
+        <a :href="dictionaryLink" target="_blank" icon>
+          <v-icon>mdi-magnify</v-icon>
+        </a>
+      </template>
+    </v-textarea>
 
     <v-textarea
       v-model="wordData.moreExamples"
@@ -136,7 +162,13 @@
       hide-details
       class="mt-4"
       rows="3"
-    ></v-textarea>
+    >
+      <template v-if="wordData.englishWord" v-slot:append>
+        <a :href="dictionaryLink" target="_blank" icon>
+          <v-icon>mdi-magnify</v-icon>
+        </a>
+      </template>
+    </v-textarea>
 
     <v-text-field
       v-model="wordData.russianWord"
@@ -146,16 +178,11 @@
       color="emerald"
       class="mt-4"
     >
-    </v-text-field>
-
-    <v-text-field
-      v-model="wordData.oxfordlearnersdictionaries"
-      label="Oxfordlearnersdictionaries"
-      outlined
-      hide-details
-      color="emerald"
-      class="mt-4"
-    >
+      <template v-if="wordData.englishWord" v-slot:append>
+        <a :href="translateLink" target="_blank" icon>
+          <v-icon>mdi-magnify</v-icon>
+        </a>
+      </template>
     </v-text-field>
 
     <v-text-field
@@ -166,6 +193,15 @@
       color="emerald"
       class="mt-4"
     >
+      <template v-if="wordData.englishWord" v-slot:append>
+        <a
+          :href="`https://context.reverso.net/перевод/английский-русский/${wordData.englishWord}`"
+          target="_blank"
+          icon
+        >
+          <v-icon>mdi-magnify</v-icon>
+        </a>
+      </template>
     </v-text-field>
 
     <v-text-field
@@ -176,6 +212,11 @@
       color="emerald"
       class="mt-4"
     >
+      <template v-if="wordData.englishWord" v-slot:append>
+        <a href="https://youglish.com/" target="_blank" icon>
+          <v-icon>mdi-magnify</v-icon>
+        </a>
+      </template>
     </v-text-field>
 
     <v-text-field
@@ -253,6 +294,7 @@ export default {
     showGroupInput: false,
     newGroupName: "",
     isLoading: false,
+    dictionaryLink: "https://www.oxfordlearnersdictionaries.com/",
   }),
 
   computed: {
@@ -268,6 +310,10 @@ export default {
 
     wordLoaderOpened() {
       return this.appStore.wordLoaderOpened;
+    },
+
+    translateLink() {
+      return `https://www.lingvolive.com/ru-ru/translate/en-ru/${this.wordData.englishWord}`;
     },
   },
 

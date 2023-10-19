@@ -188,13 +188,6 @@
                       class="d-flex"
                     >
                       <a
-                        v-if="word.oxfordlearnersdictionaries"
-                        :href="word.oxfordlearnersdictionaries"
-                        target="_blank"
-                      >
-                        <img height="15px" src="@/assets/oxford.png" />
-                      </a>
-                      <a
                         v-if="word.youglish"
                         :href="word.youglish"
                         target="_blank"

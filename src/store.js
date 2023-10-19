@@ -112,7 +112,6 @@ export const useAppStore = defineStore("app", {
         partOfSpeech: "",
         definition: "",
         moreExamples: "",
-        oxfordlearnersdictionaries: "",
         reverso: `https://context.reverso.net/перевод/английский-русский/${word.srcText}`,
         youglish: "",
       }));
