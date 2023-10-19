@@ -1,13 +1,13 @@
 <template>
-  <div>
+  <div class="wrap">
     <loader-component v-if="isLoading" />
 
     <choose-group v-else-if="currentGroupId === null" />
 
     <plug-component v-else-if="!words.length" />
 
-    <v-container v-else>
-      <v-sheet>
+    <v-container v-else class="wrap">
+      <v-sheet :height="isMobile ? '100%' : 'auto'">
         <v-carousel
           v-model="wordIndex"
           hide-delimiters
@@ -15,10 +15,16 @@
           height="100%"
         >
           <v-carousel-item v-for="(word, i) in wordsWithOptions" :key="i">
-            <div class="d-flex justify-center">
-              <v-sheet class="px-5 pt-1 pb-5" width="400" outlined rounded>
+            <div class="d-flex justify-center wrap">
+              <v-sheet
+                class="px-5 pt-1 pb-5"
+                :width="isMobile ? '100%' : '400px'"
+                :outlined="!isMobile"
+                rounded
+              >
                 <v-sheet
                   min-height="480px"
+                  height="95%"
                   class="d-flex flex-column justify-center"
                 >
                   <div
@@ -135,7 +141,7 @@ export default {
     },
 
     isMobile() {
-      return this.$vuetify.breakpoint.smAndDown;
+      return this.$vuetify.breakpoint.xs;
     },
 
     firstWord() {

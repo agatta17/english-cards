@@ -73,7 +73,7 @@
 
                   <div v-if="!isRussianFlashCard" class="mt-4 text-h5">
                     {{ word.englishWord }}
-                    <v-btn @click="say(word.englishWord)" icon small>
+                    <v-btn @click.stop="say(word.englishWord)" icon small>
                       <v-icon color="peach" class="mb-1">mdi-bullhorn</v-icon>
                     </v-btn>
                   </div>
@@ -344,9 +344,5 @@ export default {
 .card-picture {
   max-width: 100%;
   max-height: 220px;
-}
-
-.wrap {
-  height: 100%;
 }
 </style>

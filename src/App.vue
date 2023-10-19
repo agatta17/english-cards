@@ -97,4 +97,8 @@ em {
     padding: 0 !important;
   }
 }
+
+.wrap {
+  height: 100%;
+}
 </style>
