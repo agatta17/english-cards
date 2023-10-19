@@ -98,14 +98,20 @@
 
                   <div
                     v-if="word.srcSegment && !isRussianFlashCard"
-                    v-html="
-                      word.srcSegment?.replace(
-                        word.englishWord,
-                        `<em>${word.englishWord}</em>`
-                      ) || word.englishExample
-                    "
                     class="mt-4 blue-grey--text"
-                  ></div>
+                  >
+                    <span
+                      v-html="
+                        word.srcSegment?.replace(
+                          word.englishWord,
+                          `<em>${word.englishWord}</em>`
+                        ) || word.englishExample
+                      "
+                    ></span>
+                    <v-btn @click.stop="say(word.srcSegment)" icon small>
+                      <v-icon color="peach" class="mb-1">mdi-bullhorn</v-icon>
+                    </v-btn>
+                  </div>
 
                   <template v-if="word.collocates && !isRussianFlashCard">
                     <div class="mt-4 body-2 font-weight-bold">Collocates</div>
@@ -122,8 +128,19 @@
                   <div
                     v-if="word.englishExample && !isRussianFlashCard"
                     class="mt-4 blue--text text--darken-4"
-                    v-html="word.englishExample"
-                  ></div>
+                  >
+                    <span v-html="word.englishExample"></span>
+                    <v-btn
+                      @click.stop="
+                        say(word.englishExample.replace(/<em>|<\/em>/g, ''))
+                      "
+                      icon
+                      small
+                    >
+                      <v-icon color="peach" class="mb-1">mdi-bullhorn</v-icon>
+                    </v-btn>
+                  </div>
+
                   <div
                     v-if="word.russianExample && !isEnglishFlashCard"
                     class="mt-1"
@@ -181,12 +198,6 @@
                       >
                         <img height="20px" src="@/assets/reverso.png" />
                       </a>
-                    </div>
-
-                    <div
-                      @click="(event) => event.stopPropagation()"
-                      class="d-flex"
-                    >
                       <a
                         v-if="word.youglish"
                         :href="word.youglish"
