@@ -14,6 +14,7 @@
               outlined
               hide-details
               color="emerald"
+              clearable
             >
             </v-text-field>
             <v-text-field
@@ -23,9 +24,10 @@
               hide-details
               color="emerald"
               class="mt-4"
+              clearable
             >
               <template v-if="wordData.englishWord" v-slot:append>
-                <a :href="dictionaryLink" target="_blank" icon>
+                <a @click="goTo(dictionaryLink)" icon>
                   <v-icon>mdi-magnify</v-icon>
                 </a>
               </template>
@@ -37,9 +39,10 @@
               hide-details
               color="emerald"
               class="mt-4"
+              clearable
             >
               <template v-if="wordData.englishWord" v-slot:append>
-                <a :href="dictionaryLink" target="_blank" icon>
+                <a @click="goTo(dictionaryLink)" icon>
                   <v-icon>mdi-magnify</v-icon>
                 </a>
               </template>
@@ -54,11 +57,11 @@
                 hide-details
                 color="emerald"
                 height="200px"
+                clearable
               ></v-textarea>
               <div class="d-flex flex-column ml-2">
                 <v-btn
-                  href="https://dictionary.langeek.co/"
-                  target="_blank"
+                  @click="goTo('https://dictionary.langeek.co/')"
                   color="emerald"
                   depressed
                 >
@@ -66,8 +69,7 @@
                 </v-btn>
 
                 <v-btn
-                  href="https://quizlet.com/838325350/autosaved"
-                  target="_blank"
+                  @click="goTo('https://quizlet.com/838325350/autosaved')"
                   color="emerald"
                   depressed
                   class="mt-2"
@@ -126,9 +128,10 @@
           color="emerald"
           class="mt-4"
           rows="3"
+          clearable
         >
           <template v-if="wordData.englishWord" v-slot:append>
-            <a :href="dictionaryLink" target="_blank" icon>
+            <a @click="goTo(dictionaryLink)" icon>
               <v-icon>mdi-magnify</v-icon>
             </a>
           </template>
@@ -140,9 +143,10 @@
           hide-details
           color="emerald"
           class="mt-4"
+          clearable
         >
           <template v-if="wordData.englishWord" v-slot:append>
-            <a :href="dictionaryLink" target="_blank" icon>
+            <a @click="goTo(dictionaryLink)" icon>
               <v-icon>mdi-magnify</v-icon>
             </a>
           </template>
@@ -156,9 +160,10 @@
           hide-details
           class="mt-4"
           rows="3"
+          clearable
         >
           <template v-if="wordData.englishWord" v-slot:append>
-            <a :href="dictionaryLink" target="_blank" icon>
+            <a @click="goTo(dictionaryLink)" icon>
               <v-icon>mdi-magnify</v-icon>
             </a>
           </template>
@@ -173,6 +178,7 @@
           hide-details
           class="mt-4"
           rows="3"
+          clearable
         ></v-textarea>
         <v-textarea
           v-model="wordData.russianExample"
@@ -183,6 +189,7 @@
           hide-details
           class="mt-4"
           rows="3"
+          clearable
         ></v-textarea>
         <v-textarea
           v-model="wordData.moreExamples"
@@ -193,9 +200,10 @@
           hide-details
           class="mt-4"
           rows="3"
+          clearable
         >
           <template v-if="wordData.englishWord" v-slot:append>
-            <a :href="dictionaryLink" target="_blank" icon>
+            <a @click="goTo(dictionaryLink)" icon>
               <v-icon>mdi-magnify</v-icon>
             </a>
           </template>
@@ -208,9 +216,10 @@
           hide-details
           color="emerald"
           class="mt-4"
+          clearable
         >
           <template v-if="wordData.englishWord" v-slot:append>
-            <a :href="translateLink" target="_blank" icon>
+            <a @click="goTo(translateLink)" icon>
               <v-icon>mdi-magnify</v-icon>
             </a>
           </template>
@@ -223,6 +232,7 @@
           hide-details
           color="emerald"
           class="mt-4"
+          clearable
         >
           <template v-if="wordData.englishWord" v-slot:append>
             <a
@@ -242,9 +252,10 @@
           hide-details
           color="emerald"
           class="mt-4"
+          clearable
         >
           <template v-if="wordData.englishWord" v-slot:append>
-            <a href="https://youglish.com/" target="_blank" icon>
+            <a @click="goTo('https://youglish.com/')" icon>
               <v-icon>mdi-magnify</v-icon>
             </a>
           </template>
@@ -257,6 +268,7 @@
           hide-details
           color="emerald"
           class="mt-4"
+          clearable
         >
         </v-text-field>
 
@@ -365,6 +377,12 @@ export default {
 
     closeImgEditor() {
       this.isImgEditorOpen = false;
+    },
+
+    goTo(link) {
+      navigator.clipboard
+        .writeText(this.wordData.englishWord)
+        .then(() => window.open(link, "_blank"));
     },
   },
 
