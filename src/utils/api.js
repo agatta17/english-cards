@@ -13,9 +13,6 @@ export default async function apiFetch(route, method = "GET", request) {
     const data = await response.json();
     return data;
   } catch (e) {
-    return {
-      ok: false,
-      error: e,
-    };
+    throw new Error(e);
   }
 }

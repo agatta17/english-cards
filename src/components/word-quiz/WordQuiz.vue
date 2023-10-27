@@ -6,6 +6,8 @@
 
     <plug-component v-else-if="!words.length" />
 
+    <div v-else-if="isError">Error!!!</div>
+
     <v-container v-else class="wrap">
       <v-sheet :height="isMobile ? '100%' : 'auto'">
         <v-carousel
@@ -122,6 +124,7 @@ export default {
       wordsWithOptions: [],
       answerIsHighlighted: false,
       isMistake: false,
+      isError: false,
     };
   },
 
@@ -157,11 +160,15 @@ export default {
     ...mapActions(useAppStore, ["getRandomWordList", "say"]),
 
     async getRandomList() {
-      const list = await this.getRandomWordList(
-        this.words.length * (this.optionCount - 1)
-      );
+      try {
+        const list = await this.getRandomWordList(
+          this.words.length * (this.optionCount - 1)
+        );
 
-      this.randomWordList = list.map(({ englishWord }) => englishWord);
+        this.randomWordList = list.map(({ englishWord }) => englishWord);
+      } catch {
+        throw new Error("Error getting quiz data");
+      }
     },
 
     randomInteger(min, max) {
@@ -187,18 +194,24 @@ export default {
       async handler() {
         if (!this.words.length) return;
 
-        await this.getRandomList();
+        try {
+          this.isError = false;
 
-        this.wordsWithOptions = this.words.map((item, i) => {
-          const start = (this.optionCount - 1) * i;
-          const options = this.randomWordList.slice(
-            start,
-            start + this.optionCount - 1
-          );
-          const random = this.randomInteger(0, this.optionCount - 1);
-          options.splice(random, 0, item.englishWord);
-          return { ...item, options };
-        });
+          await this.getRandomList();
+
+          this.wordsWithOptions = this.words.map((item, i) => {
+            const start = (this.optionCount - 1) * i;
+            const options = this.randomWordList.slice(
+              start,
+              start + this.optionCount - 1
+            );
+            const random = this.randomInteger(0, this.optionCount - 1);
+            options.splice(random, 0, item.englishWord);
+            return { ...item, options };
+          });
+        } catch {
+          this.isError = true;
+        }
       },
 
       immediate: true,

@@ -20,6 +20,8 @@ export const useAppStore = defineStore("app", {
     isLoading: false,
     loadingToggleWordId: null,
     loadingRemoveWordId: null,
+
+    errorText: "",
   }),
 
   getters: {
@@ -69,9 +71,14 @@ export const useAppStore = defineStore("app", {
     },
 
     async getGroups() {
-      this.isLoading = true;
-      this.groups = await apiFetch("groups");
-      this.isLoading = false;
+      try {
+        this.isLoading = true;
+        this.groups = await apiFetch("groups");
+      } catch {
+        this.errorText = "Error getting groups";
+      } finally {
+        this.isLoading = false;
+      }
     },
 
     toggleWordLoader() {
@@ -79,49 +86,64 @@ export const useAppStore = defineStore("app", {
     },
 
     async addWord(word, groupId) {
-      this.isLoading = true;
+      try {
+        this.isLoading = true;
 
-      await apiFetch("word", "POST", {
-        word: { ...word, groupId, done: false },
-      });
+        await apiFetch("word", "POST", {
+          word: { ...word, groupId, done: false },
+        });
 
-      if (this.currentGroupId === groupId) {
-        this.setGroup(groupId);
-      } else {
-        this.router.push({ query: { group: groupId } });
+        if (this.currentGroupId === groupId) {
+          this.setGroup(groupId);
+        } else {
+          this.router.push({ query: { group: groupId } });
+        }
+      } catch {
+        this.errorText = "Error adding word";
+      } finally {
+        this.isLoading = false;
       }
-
-      this.isLoading = false;
     },
 
     async addWordList(list, groupId) {
-      this.isLoading = true;
-      this.toggleWordLoader();
-      const words = list.map((word) => ({
-        englishWord: word.srcText,
-        englishExample: word.srcContext,
-        russianWord:
-          word.comment && word.comment !== "..." ? word.comment : word.trgText,
-        russianExample: word.trgContext,
-        srcSegment: word.srcSegment,
-        document: word.document,
-        documentTitle: word.documentTitle,
-        groupId: groupId,
-        done: false,
-        picture: "",
-        collocates: "",
-        comments: "",
-        transcription: "",
-        partOfSpeech: "",
-        definition: "",
-        moreExamples: "",
-        reverso: `https://context.reverso.net/перевод/английский-русский/${word.srcText}`,
-        youglish: "",
-      }));
+      try {
+        this.isLoading = true;
+        this.toggleWordLoader();
+        const words = list.map((word) => ({
+          englishWord: word.srcText,
+          englishExample: word.srcContext,
+          russianWord:
+            word.comment && word.comment !== "..."
+              ? word.comment
+              : word.trgText,
+          russianExample: word.trgContext,
+          srcSegment: word.srcSegment,
+          document: word.document,
+          documentTitle: word.documentTitle,
+          groupId: groupId,
+          done: false,
+          picture: "",
+          collocates: "",
+          comments: "",
+          transcription: "",
+          partOfSpeech: "",
+          definition: "",
+          moreExamples: "",
+          reverso: `https://context.reverso.net/перевод/английский-русский/${word.srcText}`,
+          youglish: "",
+        }));
 
-      await apiFetch("words", "POST", { words });
-      this.router.push({ query: { group: groupId } });
-      this.isLoading = false;
+        await apiFetch("words", "POST", { words });
+        if (this.currentGroupId === groupId) {
+          this.setGroup(groupId);
+        } else {
+          this.router.push({ query: { group: groupId } });
+        }
+      } catch {
+        this.errorText = "Error adding words";
+      } finally {
+        this.isLoading = false;
+      }
     },
 
     async addNewGroup(name) {
@@ -130,17 +152,24 @@ export const useAppStore = defineStore("app", {
         await apiFetch("group", "POST", { group: { id, name } });
         this.groups.push({ id, name });
         return id;
-      } catch (error) {
-        console.log("error >> ", error);
+      } catch {
+        this.errorText = "Error adding group";
+        throw new Error();
       }
     },
 
     async setGroup(id) {
       if (typeof id === "undefined") return;
-      this.isLoading = true;
-      this.currentGroupId = Number(id);
-      this.words = await apiFetch(`words?group_id=${id}`);
-      this.isLoading = false;
+
+      try {
+        this.isLoading = true;
+        this.currentGroupId = Number(id);
+        this.words = await apiFetch(`words?group_id=${id}`);
+      } catch {
+        this.errorText = "Error getting words";
+      } finally {
+        this.isLoading = false;
+      }
     },
 
     say(text) {
@@ -149,10 +178,16 @@ export const useAppStore = defineStore("app", {
     },
 
     async getRandomWordList(count) {
-      this.isLoading = true;
-      const data = await apiFetch(`random-words?count=${count}`);
-      this.isLoading = false;
-      return data;
+      try {
+        this.isLoading = true;
+        const data = await apiFetch(`random-words?count=${count}`);
+        return data;
+      } catch {
+        this.errorText = "Error getting quiz data";
+        throw new Error("Error getting quiz data");
+      } finally {
+        this.isLoading = false;
+      }
     },
 
     async removeWord(wordId) {
@@ -161,8 +196,8 @@ export const useAppStore = defineStore("app", {
         const data = await apiFetch("word", "DELETE", { _id: wordId });
         if (data?.ok)
           this.words = this.words.filter(({ _id }) => _id !== wordId);
-      } catch (error) {
-        console.log("error >> ", error);
+      } catch {
+        this.errorText = "Deletion error";
       } finally {
         this.loadingRemoveWordId = null;
       }
@@ -176,15 +211,18 @@ export const useAppStore = defineStore("app", {
             word._id === wordId ? { ...word, ...newData } : word
           );
         }
-      } catch (error) {
-        console.log("error >> ", error);
+      } catch {
+        this.errorText = "Update error";
       }
     },
 
     async toggleDone(wordId, done) {
-      this.loadingToggleWordId = wordId;
-      await this.updateWord(wordId, { done });
-      this.loadingToggleWordId = null;
+      try {
+        this.loadingToggleWordId = wordId;
+        await this.updateWord(wordId, { done });
+      } finally {
+        this.loadingToggleWordId = null;
+      }
     },
 
     setFilter(filter) {
@@ -200,8 +238,8 @@ export const useAppStore = defineStore("app", {
       try {
         const data = await apiFetch("group", "DELETE", { _id: id });
         if (data?.ok) this.groups = this.groups.filter(({ _id }) => _id !== id);
-      } catch (error) {
-        console.log("error >> ", error);
+      } catch {
+        this.errorText = "Deletion error";
       }
     },
 
@@ -213,8 +251,8 @@ export const useAppStore = defineStore("app", {
             group._id === id ? { ...group, name } : group
           );
         }
-      } catch (error) {
-        console.log("error >> ", error);
+      } catch {
+        this.errorText = "Update error";
       }
     },
   },

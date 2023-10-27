@@ -100,10 +100,17 @@ export default {
     ]),
 
     async onAdd() {
-      if (this.showGroupInput)
-        this.groupId = await this.addNewGroup(this.newGroupName);
+      try {
+        if (this.showGroupInput)
+          this.groupId = await this.addNewGroup(this.newGroupName);
 
-      await this.addWordList(JSON.parse(this.inputData).results, this.groupId);
+        await this.addWordList(
+          JSON.parse(this.inputData).results,
+          this.groupId
+        );
+      } catch {
+        return;
+      }
     },
 
     initData() {

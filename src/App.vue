@@ -8,6 +8,16 @@
         <word-loader />
         <edit-form />
       </v-main>
+
+      <v-snackbar v-model="errorIsOpen" right top color="terracotta">
+        {{ errorText }}
+
+        <template v-slot:action="{ attrs }">
+          <v-btn @click="errorIsOpen = false" text v-bind="attrs">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </template>
+      </v-snackbar>
     </v-app>
 
     <speech v-model="play" />
@@ -37,6 +47,7 @@ export default {
   data() {
     return {
       groupFilterIsOpen: false,
+      errorTimeout: 4000,
     };
   },
 
@@ -58,6 +69,19 @@ export default {
 
     isMobile() {
       return this.$vuetify.breakpoint.smAndDown;
+    },
+
+    errorText() {
+      return this.appStore.errorText;
+    },
+
+    errorIsOpen: {
+      get() {
+        return this.appStore.errorText ? true : false;
+      },
+      set(newVal) {
+        if (!newVal) this.appStore.errorText = "";
+      },
     },
   },
 

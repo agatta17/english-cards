@@ -357,10 +357,14 @@ export default {
     },
 
     async save() {
-      if (this.showGroupInput)
-        this.groupId = await this.addNewGroup(this.newGroupName);
+      try {
+        if (this.showGroupInput)
+          this.groupId = await this.addNewGroup(this.newGroupName);
 
-      await this.addWord(this.wordData, this.groupId);
+        await this.addWord(this.wordData, this.groupId);
+      } catch {
+        return;
+      }
     },
 
     clearData() {
