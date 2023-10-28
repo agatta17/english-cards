@@ -22,6 +22,7 @@ export const useAppStore = defineStore("app", {
     loadingRemoveWordId: null,
 
     errorText: "",
+    isErrorOfGettingWords: false,
   }),
 
   getters: {
@@ -162,11 +163,13 @@ export const useAppStore = defineStore("app", {
       if (typeof id === "undefined") return;
 
       try {
+        this.isErrorOfGettingWords = false;
         this.isLoading = true;
         this.currentGroupId = Number(id);
         this.words = await apiFetch(`words?group_id=${id}`);
       } catch {
         this.errorText = "Error getting words";
+        this.isErrorOfGettingWords = true;
       } finally {
         this.isLoading = false;
       }

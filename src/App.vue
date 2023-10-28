@@ -2,10 +2,15 @@
   <div id="app">
     <v-app>
       <group-filter :is-open.sync="groupFilterIsOpen" />
+
       <v-main>
         <app-navigation :group-filter-is-open.sync="groupFilterIsOpen" />
-        <router-view> </router-view>
+
+        <error-component v-if="isErrorOfGettingWords" />
+        <router-view v-else> </router-view>
+
         <word-loader />
+
         <edit-form />
       </v-main>
 
@@ -32,6 +37,7 @@ import EditForm from "@/components/common/EditForm.vue";
 import Speech from "@/components/common/SpeechComponent.vue";
 import { useAppStore } from "@/store";
 import { mapStores, mapActions } from "pinia";
+import ErrorComponent from "@/components/common/ErrorComponent.vue";
 
 export default {
   name: "App",
@@ -42,6 +48,7 @@ export default {
     WordLoader,
     EditForm,
     Speech,
+    ErrorComponent,
   },
 
   data() {
@@ -73,6 +80,10 @@ export default {
 
     errorText() {
       return this.appStore.errorText;
+    },
+
+    isErrorOfGettingWords() {
+      return this.appStore.isErrorOfGettingWords;
     },
 
     errorIsOpen: {

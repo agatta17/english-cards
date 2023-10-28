@@ -6,7 +6,7 @@
 
     <plug-component v-else-if="!words.length" />
 
-    <div v-else-if="isError">Error!!!</div>
+    <error-component v-else-if="isError" />
 
     <v-container v-else class="wrap">
       <v-sheet :height="isMobile ? '100%' : 'auto'">
@@ -106,6 +106,7 @@ import { mapActions, mapStores } from "pinia";
 import PlugComponent from "@/components/common/PlugComponent.vue";
 import ChooseGroup from "@/components/common/ChooseGroup.vue";
 import LoaderComponent from "@/components/common/LoaderComponent.vue";
+import ErrorComponent from "@/components/common/ErrorComponent.vue";
 
 export default {
   name: "WordQuiz",
@@ -114,6 +115,7 @@ export default {
     PlugComponent,
     ChooseGroup,
     LoaderComponent,
+    ErrorComponent,
   },
 
   data() {
