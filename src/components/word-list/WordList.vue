@@ -1,42 +1,46 @@
 <template>
   <div>
-    <div class="d-flex justify-center">
-      <v-btn
-        @click="copyList"
-        text
-        class="text-body-2 font-weight-bold text-decoration-underline emerald--text"
-      >
-        Copy list
-      </v-btn>
-      <v-btn
-        @click="isLineView = !isLineView"
-        text
-        class="text-body-2 font-weight-bold text-decoration-underline emerald--text"
-      >
-        {{ isLineView ? "Show cards" : "Show lines" }}
-      </v-btn>
-    </div>
-
     <loader-component v-if="isLoading" />
 
     <choose-group v-else-if="currentGroupId === null" />
 
     <plug-component v-else-if="!words.length" />
 
-    <v-container v-else-if="isLineView">
-      <v-sheet max-width="1240" width="100%">
-        <word-card v-for="word in words" :key="word._id" :word="word" />
-      </v-sheet>
-    </v-container>
+    <template v-else>
+      <div class="d-flex justify-center">
+        <v-btn
+          @click="copyList"
+          text
+          class="text-body-2 font-weight-bold text-decoration-underline emerald--text"
+        >
+          Copy list
+        </v-btn>
+        <v-btn
+          @click="isLineView = !isLineView"
+          text
+          class="text-body-2 font-weight-bold text-decoration-underline emerald--text"
+        >
+          {{ isLineView ? "Show cards" : "Show lines" }}
+        </v-btn>
+      </div>
 
-    <div v-else class="d-flex flex-wrap justify-center pb-4">
-      <full-card
-        v-for="word in words"
-        :key="word._id"
-        :word="word"
-        class="pa-2"
-      />
-    </div>
+      <v-container v-if="isLineView">
+        <v-sheet max-width="1240" width="100%">
+          <word-card v-for="word in words" :key="word._id" :word="word" />
+        </v-sheet>
+      </v-container>
+
+      <div v-else class="d-flex flex-wrap justify-center pb-4">
+        <div
+          v-for="word in words"
+          :key="word._id"
+          class="pa-2 flex-grow-1 flex-sm-grow-0"
+        >
+          <full-card :word="word" />
+          <v-divider v-if="isMobile"></v-divider>
+        </div>
+      </div>
+    </template>
   </div>
 </template>
 
@@ -82,7 +86,7 @@ export default {
     },
 
     isMobile() {
-      return this.$vuetify.breakpoint.smAndDown;
+      return this.$vuetify.breakpoint.xs;
     },
   },
 
