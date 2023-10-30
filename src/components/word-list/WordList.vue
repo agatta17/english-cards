@@ -1,26 +1,42 @@
 <template>
   <div>
+    <div class="d-flex justify-center">
+      <v-btn
+        @click="copyList"
+        text
+        class="text-body-2 font-weight-bold text-decoration-underline emerald--text"
+      >
+        Copy list
+      </v-btn>
+      <v-btn
+        @click="isLineView = !isLineView"
+        text
+        class="text-body-2 font-weight-bold text-decoration-underline emerald--text"
+      >
+        {{ isLineView ? "Show cards" : "Show lines" }}
+      </v-btn>
+    </div>
+
     <loader-component v-if="isLoading" />
 
     <choose-group v-else-if="currentGroupId === null" />
 
     <plug-component v-else-if="!words.length" />
 
-    <v-container v-else>
+    <v-container v-else-if="isLineView">
       <v-sheet max-width="1240" width="100%">
         <word-card v-for="word in words" :key="word._id" :word="word" />
-
-        <div class="d-flex justify-center">
-          <v-btn
-            @click="copyList"
-            text
-            class="text-body-2 font-weight-bold text-decoration-underline emerald--text"
-          >
-            Copy list
-          </v-btn>
-        </div>
       </v-sheet>
     </v-container>
+
+    <div v-else class="d-flex flex-wrap justify-center pb-4">
+      <full-card
+        v-for="word in words"
+        :key="word._id"
+        :word="word"
+        class="pa-2"
+      />
+    </div>
   </div>
 </template>
 
@@ -31,6 +47,7 @@ import WordCard from "./WordCard.vue";
 import PlugComponent from "@/components/common/PlugComponent.vue";
 import ChooseGroup from "@/components/common/ChooseGroup.vue";
 import LoaderComponent from "@/components/common/LoaderComponent.vue";
+import FullCard from "@/components/common/FullCard.vue";
 
 export default {
   name: "WordList",
@@ -40,6 +57,13 @@ export default {
     PlugComponent,
     ChooseGroup,
     LoaderComponent,
+    FullCard,
+  },
+
+  data() {
+    return {
+      isLineView: true,
+    };
   },
 
   computed: {
