@@ -244,6 +244,7 @@ export default {
     wordIndex() {
       this.answerIsHighlighted = false;
       this.isMistake = false;
+      this.isShowFullCard = false;
     },
   },
 };
