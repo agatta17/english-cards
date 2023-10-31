@@ -15,20 +15,24 @@
           height="100%"
         >
           <v-carousel-item v-for="(word, i) in words" :key="i">
-            <full-card
-              v-if="isShowTranslation"
-              @toggle="toggleTranslation"
-              :word="word"
-              :sound-is-on.sync="soundIsOn"
-              :is-show-translation="true"
-            />
-            <full-card
-              v-else
-              @toggle="toggleTranslation"
-              :word="word"
-              :sound-is-on.sync="soundIsOn"
-              :is-show-translation="false"
-            />
+            <transition name="slide-up" mode="out-in">
+              <full-card
+                v-if="isShowTranslation"
+                @toggle="toggleTranslation"
+                :word="word"
+                :sound-is-on.sync="soundIsOn"
+                :is-show-translation="true"
+                key="full"
+              />
+              <full-card
+                v-else
+                @toggle="toggleTranslation"
+                :word="word"
+                :sound-is-on.sync="soundIsOn"
+                :is-show-translation="false"
+                full="part"
+              />
+            </transition>
           </v-carousel-item>
         </v-carousel>
       </v-sheet>
@@ -130,3 +134,20 @@ export default {
   },
 };
 </script>
+
+<style>
+.slide-up-enter-active,
+.slide-up-leave-active {
+  transition: all 0.15s ease-out;
+}
+
+.slide-up-enter-from {
+  opacity: 0;
+  transform: translateY(160px);
+}
+
+.slide-up-leave-to {
+  opacity: 0;
+  transform: translateY(-160px);
+}
+</style>

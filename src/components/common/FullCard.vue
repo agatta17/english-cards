@@ -47,15 +47,16 @@
         </div>
 
         <div
-          v-if="
+          v-show="
             word.picture &&
             word.picture !==
               'https://cdn-icons-png.flaticon.com/512/3983/3983886.png' &&
             !isEnglishFlashCard
           "
-          class="mt-4 d-flex justify-center"
         >
-          <img :src="word.picture" class="card-picture" />
+          <v-card height="220px" flat class="mt-4 d-flex justify-center">
+            <img :src="word.picture" class="card-picture" />
+          </v-card>
         </div>
 
         <div v-if="!isRussianFlashCard" class="mt-4 text-h5">
