@@ -138,7 +138,7 @@ em {
 }
 
 .wrap {
-  height: 100%;
+  min-height: 100%;
 }
 
 .slide-up-enter-active,

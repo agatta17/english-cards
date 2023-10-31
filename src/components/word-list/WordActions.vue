@@ -19,6 +19,10 @@
     <v-btn @click="toggleEditForm(wordId, true)" icon>
       <v-icon color="sky"> mdi-pencil </v-icon>
     </v-btn>
+
+    <v-btn @click="$emit('open-full-card')" icon>
+      <v-icon color="sky"> mdi-information-outline </v-icon>
+    </v-btn>
   </div>
 </template>
 

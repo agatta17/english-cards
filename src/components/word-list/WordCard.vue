@@ -1,7 +1,11 @@
 <template>
   <v-card class="word-card" flat tile>
     <div v-if="actionsOpen" class="actions-toggle">
-      <word-actions :wordId="word._id" :englishWord="word.englishWord" />
+      <word-actions
+        @open-full-card="fullCardIsOpen = true"
+        :wordId="word._id"
+        :englishWord="word.englishWord"
+      />
     </div>
 
     <v-container class="px-2 py-1 px-md-0 py-md-1 text-body-2 text-sm-body-1">
@@ -104,7 +108,11 @@
         </v-col>
 
         <v-col cols="12" sm="12" md="auto" class="d-sm-block d-none">
-          <word-actions :wordId="word._id" :englishWord="word.englishWord" />
+          <word-actions
+            @open-full-card="fullCardIsOpen = true"
+            :wordId="word._id"
+            :englishWord="word.englishWord"
+          />
           <div>
             <v-chip
               small
@@ -116,6 +124,8 @@
         </v-col>
       </v-row>
     </v-container>
+
+    <full-card-dialog :open.sync="fullCardIsOpen" :word="word" />
   </v-card>
 </template>
 
@@ -123,12 +133,14 @@
 import { useAppStore } from "@/store";
 import { mapStores, mapActions } from "pinia";
 import WordActions from "./WordActions.vue";
+import FullCardDialog from "./FullCardDialog.vue";
 
 export default {
   name: "WordCard",
 
   components: {
     WordActions,
+    FullCardDialog,
   },
 
   props: {
@@ -139,6 +151,7 @@ export default {
     return {
       showTranslation: false,
       actionsOpen: false,
+      fullCardIsOpen: false,
     };
   },
 
