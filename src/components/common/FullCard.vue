@@ -27,10 +27,26 @@
           <v-icon color="sky"> mdi-pencil </v-icon>
         </v-btn>
 
-        <v-btn v-if="test" @click="$emit('update:soundIsOn', !soundIsOn)" icon>
+        <v-btn
+          v-if="checkSoundIsOn"
+          @click="$emit('update:soundIsOn', !soundIsOn)"
+          icon
+        >
           <v-icon color="peach">
             {{ soundIsOn ? "mdi-music" : "mdi-music-off" }}
           </v-icon>
+        </v-btn>
+
+        <v-btn
+          v-if="isShowFullCard"
+          @click="$emit('update:isShowFullCard', false)"
+          icon
+        >
+          <v-icon color="sky">{{
+            isShowFullCard
+              ? "mdi-help-circle-outline"
+              : "mdi-information-outline"
+          }}</v-icon>
         </v-btn>
       </div>
 
@@ -203,6 +219,7 @@ export default {
     word: { type: Object, default: () => {} },
     isShowTranslation: { type: Boolean, default: true },
     soundIsOn: { require: false },
+    isShowFullCard: { type: Boolean, default: false },
   },
 
   computed: {
@@ -228,7 +245,7 @@ export default {
       return this.languageOfCard === "russian" && !this.isShowTranslation;
     },
 
-    test() {
+    checkSoundIsOn() {
       return typeof this.soundIsOn !== "undefined";
     },
   },

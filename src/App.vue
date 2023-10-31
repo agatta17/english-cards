@@ -117,6 +117,10 @@ em {
   background: var(--v-error-lighten5);
 }
 
+.relative {
+  position: relative;
+}
+
 .russian-word {
   background: #e3f2fd;
   border: solid 1px #78909c;
@@ -135,5 +139,20 @@ em {
 
 .wrap {
   height: 100%;
+}
+
+.slide-up-enter-active,
+.slide-up-leave-active {
+  transition: all 0.15s ease-out;
+}
+
+.slide-up-enter-from {
+  opacity: 0;
+  transform: translateY(160px);
+}
+
+.slide-up-leave-to {
+  opacity: 0;
+  transform: translateY(-160px);
 }
 </style>
