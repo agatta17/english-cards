@@ -1,7 +1,9 @@
 <template>
   <div id="app">
-    <v-app>
-      <group-filter :is-open.sync="groupFilterIsOpen" />
+    <loader-component v-if="appIsLoading" />
+
+    <v-app v-else>
+      <group-filter v-if="username" :is-open.sync="groupFilterIsOpen" />
 
       <v-main>
         <app-navigation :group-filter-is-open.sync="groupFilterIsOpen" />
@@ -38,6 +40,7 @@ import Speech from "@/components/common/SpeechComponent.vue";
 import { useAppStore } from "@/store";
 import { mapStores, mapActions } from "pinia";
 import ErrorComponent from "@/components/common/ErrorComponent.vue";
+import LoaderComponent from "@/components/common/LoaderComponent.vue";
 
 export default {
   name: "App",
@@ -49,6 +52,7 @@ export default {
     EditForm,
     Speech,
     ErrorComponent,
+    LoaderComponent,
   },
 
   data() {
@@ -61,6 +65,10 @@ export default {
   computed: {
     ...mapStores(useAppStore),
 
+    appIsLoading() {
+      return this.appStore.appIsLoading;
+    },
+
     play: {
       get() {
         return this.appStore.speechSounds;
@@ -68,10 +76,6 @@ export default {
       set(newVal) {
         this.appStore.speechSounds = newVal;
       },
-    },
-
-    initialGroupId() {
-      return this.$router.currentRoute.query.group;
     },
 
     isMobile() {
@@ -86,6 +90,10 @@ export default {
       return this.appStore.isErrorOfGettingWords;
     },
 
+    username() {
+      return this.appStore.username;
+    },
+
     errorIsOpen: {
       get() {
         return this.appStore.errorText ? true : false;
@@ -97,17 +105,13 @@ export default {
   },
 
   methods: {
-    ...mapActions(useAppStore, ["getGroups", "setGroup"]),
+    ...mapActions(useAppStore, ["initApp"]),
   },
 
-  async mounted() {
+  mounted() {
     this.groupFilterIsOpen = this.isMobile ? false : true;
 
-    await this.getGroups();
-
-    if (this.initialGroupId) {
-      this.setGroup(this.initialGroupId);
-    }
+    this.initApp();
   },
 };
 </script>

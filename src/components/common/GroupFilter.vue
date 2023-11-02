@@ -114,7 +114,7 @@ export default {
     ...mapStores(useAppStore),
 
     groups() {
-      return [...this.appStore.groups, { id: 0, name: "All" }];
+      return [...this.appStore.groups];
     },
 
     group() {

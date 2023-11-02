@@ -6,7 +6,7 @@
       :outlined="!isMobile"
       rounded
     >
-      <div class="d-flex justify-end">
+      <div v-if="username" class="d-flex justify-end">
         <v-btn @click="toggleDone(word._id, !word.done)" icon>
           <v-icon :color="word.done ? 'cherry darken-1' : 'emerald'">
             {{
@@ -56,7 +56,7 @@
         height="95%"
         class="d-flex flex-column justify-center"
       >
-        <div v-if="!isEnglishFlashCard && !isRussianFlashCard">
+        <div v-if="!isEnglishFlashCard && !isRussianFlashCard && username">
           <v-chip small class="blue-grey--text text--darken-2 amber lighten-4">
             {{ getGroupName(word.groupId) }}
           </v-chip>
@@ -247,6 +247,10 @@ export default {
 
     checkSoundIsOn() {
       return typeof this.soundIsOn !== "undefined";
+    },
+
+    username() {
+      return this.appStore.username;
     },
   },
 

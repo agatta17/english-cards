@@ -11,33 +11,59 @@
         List
       </v-btn>
 
-      <v-btn
-        text
-        :to="`/cards/english${groupQueryParamString}`"
-        color="white"
-        class="mr-5"
-        >English flashcards</v-btn
-      >
+      <template v-if="username">
+        <v-btn
+          text
+          :to="`/cards/english${groupQueryParamString}`"
+          color="white"
+          class="mr-5"
+          >English flashcards</v-btn
+        >
 
-      <v-btn
-        text
-        :to="`/cards/russian${groupQueryParamString}`"
-        color="white"
-        class="mr-5"
-        >Russian flashcards</v-btn
-      >
+        <v-btn
+          text
+          :to="`/cards/russian${groupQueryParamString}`"
+          color="white"
+          class="mr-5"
+          >Russian flashcards</v-btn
+        >
 
-      <v-btn
-        text
-        :to="`/quiz${groupQueryParamString}`"
-        color="white"
-        class="mr-5"
-        >Quiz</v-btn
-      >
+        <v-btn
+          text
+          :to="`/quiz${groupQueryParamString}`"
+          color="white"
+          class="mr-5"
+          >Quiz</v-btn
+        >
 
-      <v-btn @click="downloadWordList" class="mr-5" depressed>Download</v-btn>
+        <v-btn @click="downloadWordList" class="mr-5" depressed>Download</v-btn>
 
-      <v-btn @click="toggleWordLoader" depressed>Create</v-btn>
+        <v-btn @click="toggleWordLoader" class="mr-5" depressed>Create</v-btn>
+
+        <v-btn @click="logout" icon color="white">
+          <v-icon>mdi-logout</v-icon>
+        </v-btn>
+      </template>
+
+      <template v-else>
+        <v-btn
+          :to="`/login${groupQueryParamString}`"
+          class="mr-5"
+          text
+          color="white"
+        >
+          Login
+        </v-btn>
+
+        <v-btn
+          :to="`/registration${groupQueryParamString}`"
+          class="mr-5"
+          text
+          color="white"
+        >
+          Registration
+        </v-btn>
+      </template>
     </v-app-bar>
   </div>
 
@@ -47,28 +73,49 @@
         @click="$emit('update:groupFilterIsOpen', true)"
         text
         color="white"
+        small
       >
         <v-icon>mdi-folder-multiple</v-icon>
       </v-btn>
 
-      <v-btn :to="`/${groupQueryParamString}`" text color="white" exact-path>
+      <v-btn
+        :to="`/${groupQueryParamString}`"
+        text
+        color="white"
+        exact-path
+        small
+      >
         <v-icon> mdi-view-list</v-icon>
       </v-btn>
 
-      <v-btn text :to="`/cards/english${groupQueryParamString}`" color="white">
+      <v-btn
+        text
+        :to="`/cards/english${groupQueryParamString}`"
+        color="white"
+        small
+      >
         <span class="text-subtitle-1">Eng</span>
       </v-btn>
 
-      <v-btn text :to="`/cards/russian${groupQueryParamString}`" color="white">
+      <v-btn
+        text
+        :to="`/cards/russian${groupQueryParamString}`"
+        color="white"
+        small
+      >
         <span class="text-subtitle-1">Rus</span>
       </v-btn>
 
-      <v-btn text :to="`/quiz${groupQueryParamString}`" color="white">
+      <v-btn text :to="`/quiz${groupQueryParamString}`" color="white" small>
         <span class="text-subtitle-1">Quiz</span>
       </v-btn>
 
-      <v-btn @click="toggleWordLoader" text color="white">
+      <v-btn @click="toggleWordLoader" text color="white" small>
         <v-icon>mdi-cloud-upload</v-icon>
+      </v-btn>
+
+      <v-btn @click="logout" text color="white" small>
+        <v-icon>mdi-logout</v-icon>
       </v-btn>
     </v-app-bar>
   </div>
@@ -76,7 +123,7 @@
 
 <script>
 import { useAppStore } from "@/store";
-import { mapActions } from "pinia";
+import { mapStores, mapActions } from "pinia";
 
 export default {
   name: "AppNavigation",
@@ -88,6 +135,8 @@ export default {
   },
 
   computed: {
+    ...mapStores(useAppStore),
+
     isMobile() {
       return this.$vuetify.breakpoint.smAndDown;
     },
@@ -95,10 +144,24 @@ export default {
     groupQueryParamString() {
       return this.$route.query.group ? `?group=${this.$route.query.group}` : "";
     },
+
+    username() {
+      return this.appStore.username;
+    },
   },
 
   methods: {
-    ...mapActions(useAppStore, ["toggleWordLoader", "downloadWordList"]),
+    ...mapActions(useAppStore, [
+      "toggleWordLoader",
+      "downloadWordList",
+      "initApp",
+    ]),
+
+    logout() {
+      localStorage.removeItem("apikey");
+      this.$router.push(`/${this.groupQueryParamString}`);
+      this.initApp();
+    },
   },
 };
 </script>

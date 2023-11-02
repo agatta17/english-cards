@@ -3,6 +3,8 @@ import apiFetch from "@/utils/api";
 
 export const useAppStore = defineStore("app", {
   state: () => ({
+    username: null,
+
     wordLoaderOpened: false,
 
     currentGroupId: null,
@@ -17,6 +19,7 @@ export const useAppStore = defineStore("app", {
     wordIdForEdit: null,
     editFormOpen: false,
 
+    appIsLoading: false,
     isLoading: false,
     loadingToggleWordId: null,
     loadingRemoveWordId: null,
@@ -26,6 +29,10 @@ export const useAppStore = defineStore("app", {
   }),
 
   getters: {
+    initialGroupId() {
+      return this.router.currentRoute.query.group;
+    },
+
     filteredWordsForList: (state) => {
       return state.words.filter(({ done }) => {
         const checkDone = () =>
@@ -45,6 +52,14 @@ export const useAppStore = defineStore("app", {
   },
 
   actions: {
+    async initApp() {
+      await this.getGroups();
+
+      if (this.initialGroupId) {
+        this.setGroup(this.initialGroupId);
+      }
+    },
+
     async downloadWordList() {
       const data = JSON.stringify({
         words: this.words,
@@ -73,12 +88,14 @@ export const useAppStore = defineStore("app", {
 
     async getGroups() {
       try {
-        this.isLoading = true;
-        this.groups = await apiFetch("groups");
+        this.appIsLoading = true;
+        const { username, groups } = await apiFetch("groups");
+        this.username = username;
+        this.groups = groups;
       } catch {
         this.errorText = "Error getting groups";
       } finally {
-        this.isLoading = false;
+        this.appIsLoading = false;
       }
     },
 
@@ -167,8 +184,8 @@ export const useAppStore = defineStore("app", {
         this.isLoading = true;
         this.currentGroupId = Number(id);
         this.words = await apiFetch(`words?group_id=${id}`);
-      } catch {
-        this.errorText = "Error getting words";
+      } catch (error) {
+        this.errorText = error?.message || "Error getting words";
         this.isErrorOfGettingWords = true;
       } finally {
         this.isLoading = false;
@@ -256,6 +273,26 @@ export const useAppStore = defineStore("app", {
         }
       } catch {
         this.errorText = "Update error";
+      }
+    },
+
+    async register(userData) {
+      try {
+        const { token } = await apiFetch("register", "POST", userData);
+        localStorage.setItem("apikey", token);
+      } catch (error) {
+        this.errorText = error.message;
+        throw error;
+      }
+    },
+
+    async login(userData) {
+      try {
+        const { token } = await apiFetch("login", "POST", userData);
+        localStorage.setItem("apikey", token);
+      } catch (error) {
+        this.errorText = error.message;
+        throw error;
       }
     },
   },

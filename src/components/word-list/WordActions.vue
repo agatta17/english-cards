@@ -1,24 +1,26 @@
 <template>
   <div>
-    <v-btn @click="toggleDone(wordId, !done)" icon>
-      <v-icon :color="done ? 'cherry darken-1' : 'emerald'">
-        {{
-          done
-            ? `mdi-clock-outline ${isSpinToggle}`
-            : `mdi-checkbox-marked-outline ${isSpinToggle}`
-        }}
-      </v-icon>
-    </v-btn>
+    <template v-if="username">
+      <v-btn @click="toggleDone(wordId, !done)" icon>
+        <v-icon :color="done ? 'cherry darken-1' : 'emerald'">
+          {{
+            done
+              ? `mdi-clock-outline ${isSpinToggle}`
+              : `mdi-checkbox-marked-outline ${isSpinToggle}`
+          }}
+        </v-icon>
+      </v-btn>
 
-    <v-btn @click="removeWord(wordId)" icon>
-      <v-icon color="terracotta ">
-        {{ `mdi-delete-outline ${isSpinRemove}` }}
-      </v-icon>
-    </v-btn>
+      <v-btn @click="removeWord(wordId)" icon>
+        <v-icon color="terracotta ">
+          {{ `mdi-delete-outline ${isSpinRemove}` }}
+        </v-icon>
+      </v-btn>
 
-    <v-btn @click="toggleEditForm(wordId, true)" icon>
-      <v-icon color="sky"> mdi-pencil </v-icon>
-    </v-btn>
+      <v-btn @click="toggleEditForm(wordId, true)" icon>
+        <v-icon color="sky"> mdi-pencil </v-icon>
+      </v-btn>
+    </template>
 
     <v-btn @click="$emit('open-full-card')" icon>
       <v-icon color="sky"> mdi-information-outline </v-icon>
@@ -55,6 +57,10 @@ export default {
       return this.appStore.loadingRemoveWordId === this.wordId
         ? "mdi-spin"
         : "";
+    },
+
+    username() {
+      return this.appStore.username;
     },
   },
 
