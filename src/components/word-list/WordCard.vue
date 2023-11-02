@@ -113,7 +113,7 @@
             :wordId="word._id"
             :englishWord="word.englishWord"
           />
-          <div v-if="username">
+          <div v-if="!owner">
             <v-chip
               small
               class="blue-grey--text text--darken-2 amber lighten-4"
@@ -170,8 +170,8 @@ export default {
       return this.$vuetify.breakpoint.smAndDown;
     },
 
-    username() {
-      return this.appStore.username;
+    owner() {
+      return this.appStore.owner;
     },
   },
 

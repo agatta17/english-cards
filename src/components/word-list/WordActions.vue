@@ -1,6 +1,6 @@
 <template>
   <div>
-    <template v-if="username">
+    <template v-if="!owner">
       <v-btn @click="toggleDone(wordId, !done)" icon>
         <v-icon :color="done ? 'cherry darken-1' : 'emerald'">
           {{
@@ -59,8 +59,8 @@ export default {
         : "";
     },
 
-    username() {
-      return this.appStore.username;
+    owner() {
+      return this.appStore.owner;
     },
   },
 

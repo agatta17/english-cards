@@ -12,29 +12,31 @@
       </v-btn>
 
       <template v-if="username">
-        <v-btn
-          text
-          :to="`/cards/english${groupQueryParamString}`"
-          color="white"
-          class="mr-5"
-          >English flashcards</v-btn
-        >
+        <template v-if="!owner">
+          <v-btn
+            text
+            :to="`/cards/english${groupQueryParamString}`"
+            color="white"
+            class="mr-5"
+            >English flashcards</v-btn
+          >
 
-        <v-btn
-          text
-          :to="`/cards/russian${groupQueryParamString}`"
-          color="white"
-          class="mr-5"
-          >Russian flashcards</v-btn
-        >
+          <v-btn
+            text
+            :to="`/cards/russian${groupQueryParamString}`"
+            color="white"
+            class="mr-5"
+            >Russian flashcards</v-btn
+          >
 
-        <v-btn
-          text
-          :to="`/quiz${groupQueryParamString}`"
-          color="white"
-          class="mr-5"
-          >Quiz</v-btn
-        >
+          <v-btn
+            text
+            :to="`/quiz${groupQueryParamString}`"
+            color="white"
+            class="mr-5"
+            >Quiz</v-btn
+          >
+        </template>
 
         <v-btn @click="downloadWordList" class="mr-5" depressed>Download</v-btn>
 
@@ -147,6 +149,10 @@ export default {
 
     username() {
       return this.appStore.username;
+    },
+
+    owner() {
+      return this.appStore.owner;
     },
   },
 

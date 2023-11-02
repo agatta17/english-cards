@@ -7,6 +7,10 @@
     <plug-component v-else-if="!words.length" />
 
     <template v-else>
+      <div v-if="owner" class="text-center mt-2 blue-grey--text">
+        Word list of {{ owner }}
+      </div>
+
       <div class="d-flex justify-center">
         <v-btn
           @click="copyList"
@@ -83,6 +87,10 @@ export default {
 
     currentGroupId() {
       return this.appStore.currentGroupId;
+    },
+
+    owner() {
+      return this.appStore.owner;
     },
 
     isMobile() {

@@ -4,6 +4,7 @@ import apiFetch from "@/utils/api";
 export const useAppStore = defineStore("app", {
   state: () => ({
     username: null,
+    owner: null,
 
     wordLoaderOpened: false,
 
@@ -167,7 +168,8 @@ export const useAppStore = defineStore("app", {
     async addNewGroup(name) {
       try {
         const id = Date.now();
-        await apiFetch("group", "POST", { group: { id, name } });
+        const user = this.username;
+        await apiFetch("group", "POST", { group: { id, name, user } });
         this.groups.push({ id, name });
         return id;
       } catch {
@@ -182,8 +184,12 @@ export const useAppStore = defineStore("app", {
       try {
         this.isErrorOfGettingWords = false;
         this.isLoading = true;
+
         this.currentGroupId = Number(id);
-        this.words = await apiFetch(`words?group_id=${id}`);
+        const data = await apiFetch(`words?group_id=${id}`);
+
+        this.words = data.words;
+        this.owner = data.owner || null;
       } catch (error) {
         this.errorText = error?.message || "Error getting words";
         this.isErrorOfGettingWords = true;
