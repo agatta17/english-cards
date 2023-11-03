@@ -72,6 +72,7 @@
   <div v-else>
     <v-app-bar color="emerald" app bottom class="d-flex justify-center">
       <v-btn
+        v-if="username"
         @click="$emit('update:groupFilterIsOpen', true)"
         text
         color="white"
@@ -90,35 +91,59 @@
         <v-icon> mdi-view-list</v-icon>
       </v-btn>
 
-      <v-btn
-        text
-        :to="`/cards/english${groupQueryParamString}`"
-        color="white"
-        small
-      >
-        <span class="text-subtitle-1">Eng</span>
-      </v-btn>
+      <template v-if="username">
+        <template v-if="!owner">
+          <v-btn
+            text
+            :to="`/cards/english${groupQueryParamString}`"
+            color="white"
+            small
+          >
+            <span class="text-subtitle-1">Eng</span>
+          </v-btn>
 
-      <v-btn
-        text
-        :to="`/cards/russian${groupQueryParamString}`"
-        color="white"
-        small
-      >
-        <span class="text-subtitle-1">Rus</span>
-      </v-btn>
+          <v-btn
+            text
+            :to="`/cards/russian${groupQueryParamString}`"
+            color="white"
+            small
+          >
+            <span class="text-subtitle-1">Rus</span>
+          </v-btn>
 
-      <v-btn text :to="`/quiz${groupQueryParamString}`" color="white" small>
-        <span class="text-subtitle-1">Quiz</span>
-      </v-btn>
+          <v-btn text :to="`/quiz${groupQueryParamString}`" color="white" small>
+            <span class="text-subtitle-1">Quiz</span>
+          </v-btn>
+        </template>
 
-      <v-btn @click="toggleWordLoader" text color="white" small>
-        <v-icon>mdi-cloud-upload</v-icon>
-      </v-btn>
+        <v-btn @click="toggleWordLoader" text color="white" small>
+          <v-icon>mdi-cloud-upload</v-icon>
+        </v-btn>
 
-      <v-btn @click="logout" text color="white" small>
-        <v-icon>mdi-logout</v-icon>
-      </v-btn>
+        <v-btn @click="logout" text color="white" small>
+          <v-icon>mdi-logout</v-icon>
+        </v-btn>
+      </template>
+
+      <template v-else>
+        <v-btn
+          :to="`/login${groupQueryParamString}`"
+          class="ml-5"
+          text
+          color="white"
+        >
+          Login
+        </v-btn>
+
+        <v-btn
+          :to="`/registration${groupQueryParamString}`"
+          class="ml-5"
+          text
+          color="white"
+        >
+          Registration
+        </v-btn>
+      </template>
     </v-app-bar>
   </div>
 </template>
