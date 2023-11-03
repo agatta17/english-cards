@@ -30,10 +30,6 @@ export const useAppStore = defineStore("app", {
   }),
 
   getters: {
-    initialGroupId() {
-      return this.router.currentRoute.query.group;
-    },
-
     filteredWordsForList: (state) => {
       return state.words.filter(({ done }) => {
         const checkDone = () =>
@@ -56,8 +52,10 @@ export const useAppStore = defineStore("app", {
     async initApp() {
       await this.getGroups();
 
-      if (this.initialGroupId) {
-        this.setGroup(this.initialGroupId);
+      const initialGroupId = this.router.currentRoute.query.group;
+
+      if (initialGroupId) {
+        this.setGroup(initialGroupId);
       }
     },
 

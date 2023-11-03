@@ -112,6 +112,10 @@ export default {
     this.groupFilterIsOpen = this.isMobile ? false : true;
 
     this.initApp();
+
+    const initialGroupId = this.$router.currentRoute.query.group;
+
+    if (!this.username && !initialGroupId) this.$router.push("/login");
   },
 };
 </script>
