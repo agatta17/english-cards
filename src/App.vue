@@ -108,10 +108,10 @@ export default {
     ...mapActions(useAppStore, ["initApp"]),
   },
 
-  mounted() {
+  async mounted() {
     this.groupFilterIsOpen = this.isMobile ? false : true;
 
-    this.initApp();
+    await this.initApp();
 
     const initialGroupId = this.$router.currentRoute.query.group;
 
