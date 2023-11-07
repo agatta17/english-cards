@@ -54,7 +54,7 @@
           text
           color="white"
         >
-          Login
+          Sign in
         </v-btn>
 
         <v-btn
@@ -63,7 +63,7 @@
           text
           color="white"
         >
-          Registration
+          Sign up
         </v-btn>
       </template>
     </v-app-bar>
@@ -132,7 +132,7 @@
           text
           color="white"
         >
-          Login
+          Sign in
         </v-btn>
 
         <v-btn
@@ -141,7 +141,7 @@
           text
           color="white"
         >
-          Registration
+          Sign up
         </v-btn>
       </template>
     </v-app-bar>
