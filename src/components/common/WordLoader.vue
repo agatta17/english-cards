@@ -1,9 +1,9 @@
 <template>
   <div class="text-center">
-    <v-dialog v-model="wordLoaderOpened" width="700" :fullscreen="isMobile">
+    <v-dialog v-model="wordLoaderOpened" width="1100" :fullscreen="isMobile">
       <v-card>
         <v-card-title class="text-h5 grey lighten-2">
-          Добавление слов
+          Create new cards
         </v-card-title>
 
         <v-card-text class="pt-4 px-4">

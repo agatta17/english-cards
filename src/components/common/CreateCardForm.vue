@@ -112,95 +112,98 @@
       </v-col>
     </v-row>
 
-    <v-textarea
-      v-model="wordData.definition"
-      label="Definition"
-      outlined
-      hide-details
-      color="emerald"
-      class="mt-4"
-      rows="2"
-      clearable
-      dense
-    >
-      <template v-if="wordData.englishWord" v-slot:append>
-        <a @click="goTo(dictionaryLink)" icon>
-          <v-icon>mdi-magnify</v-icon>
-        </a>
-      </template>
-    </v-textarea>
-    <v-text-field
-      v-model="wordData.srcSegment"
-      label="Context"
-      outlined
-      hide-details
-      color="emerald"
-      class="mt-4"
-      clearable
-      dense
-    >
-      <template v-if="wordData.englishWord" v-slot:append>
-        <a @click="goTo(dictionaryLink)" icon>
-          <v-icon>mdi-magnify</v-icon>
-        </a>
-      </template>
-    </v-text-field>
-    <v-textarea
-      v-model="wordData.collocates"
-      outlined
-      name="input-7-4"
-      label="Collocates"
-      color="emerald"
-      hide-details
-      class="mt-4"
-      rows="3"
-      clearable
-      dense
-    >
-      <template v-if="wordData.englishWord" v-slot:append>
-        <a @click="goTo(dictionaryLink)" icon>
-          <v-icon>mdi-magnify</v-icon>
-        </a>
-      </template>
-    </v-textarea>
+    <v-row>
+      <v-col cols="12" sm="6">
+        <v-textarea
+          v-model="wordData.definition"
+          label="Definition"
+          outlined
+          hide-details
+          color="emerald"
+          class="mt-4"
+          rows="2"
+          clearable
+          dense
+        >
+          <template v-if="wordData.englishWord" v-slot:append>
+            <a @click="goTo(dictionaryLink)" icon>
+              <v-icon>mdi-magnify</v-icon>
+            </a>
+          </template>
+        </v-textarea>
+        <v-text-field
+          v-model="wordData.srcSegment"
+          label="Context"
+          outlined
+          hide-details
+          color="emerald"
+          class="mt-4"
+          clearable
+          dense
+        >
+          <template v-if="wordData.englishWord" v-slot:append>
+            <a @click="goTo(dictionaryLink)" icon>
+              <v-icon>mdi-magnify</v-icon>
+            </a>
+          </template>
+        </v-text-field>
+        <v-textarea
+          v-model="wordData.collocates"
+          outlined
+          name="input-7-4"
+          label="Collocates"
+          color="emerald"
+          hide-details
+          class="mt-4"
+          rows="3"
+          clearable
+          dense
+        >
+          <template v-if="wordData.englishWord" v-slot:append>
+            <a @click="goTo(dictionaryLink)" icon>
+              <v-icon>mdi-magnify</v-icon>
+            </a>
+          </template>
+        </v-textarea>
 
-    <v-textarea
-      v-model="wordData.moreExamples"
-      outlined
-      name="input-7-4"
-      label="Extra Examples"
-      color="emerald"
-      hide-details
-      class="mt-4"
-      rows="3"
-      clearable
-      dense
-    >
-      <template v-if="wordData.englishWord" v-slot:append>
-        <a @click="goTo(dictionaryLink)" icon>
-          <v-icon>mdi-magnify</v-icon>
-        </a>
-      </template>
-    </v-textarea>
+        <v-text-field
+          v-model="wordData.russianWord"
+          label="Translation"
+          outlined
+          hide-details
+          color="emerald"
+          class="mt-4"
+          clearable
+          dense
+        >
+          <template v-if="wordData.englishWord" v-slot:append>
+            <a @click="goTo(translateLink)" icon>
+              <v-icon>mdi-magnify</v-icon>
+            </a>
+          </template>
+        </v-text-field>
+      </v-col>
+      <v-col cols="12" sm="6">
+        <v-textarea
+          v-model="wordData.moreExamples"
+          outlined
+          name="input-7-4"
+          label="Extra Examples"
+          color="emerald"
+          hide-details
+          class="mt-4"
+          rows="4"
+          clearable
+          dense
+        >
+          <template v-if="wordData.englishWord" v-slot:append>
+            <a @click="goTo(dictionaryLink)" icon>
+              <v-icon>mdi-magnify</v-icon>
+            </a>
+          </template>
+        </v-textarea>
 
-    <v-text-field
-      v-model="wordData.russianWord"
-      label="Translation"
-      outlined
-      hide-details
-      color="emerald"
-      class="mt-4"
-      clearable
-      dense
-    >
-      <template v-if="wordData.englishWord" v-slot:append>
-        <a @click="goTo(translateLink)" icon>
-          <v-icon>mdi-magnify</v-icon>
-        </a>
-      </template>
-    </v-text-field>
-
-    <!-- <v-text-field
+        <!-- <v-text-field
       v-model="wordData.reverso"
       label="Reverso"
       outlined
@@ -220,52 +223,54 @@
       </template>
     </v-text-field> -->
 
-    <v-textarea
-      v-model="wordData.comments"
-      outlined
-      label="Comments"
-      color="emerald"
-      hide-details
-      class="mt-4"
-      rows="3"
-      clearable
-      dense
-    >
-    </v-textarea>
+        <v-textarea
+          v-model="wordData.comments"
+          outlined
+          label="Comments"
+          color="emerald"
+          hide-details
+          class="mt-4"
+          rows="3"
+          clearable
+          dense
+        >
+        </v-textarea>
 
-    <div class="d-flex align-center mt-4">
-      <v-text-field
-        v-if="showGroupInput"
-        v-model="newGroupName"
-        label="Group"
-        outlined
-        hide-details
-        color="emerald"
-        clearable
-        dense
-      >
-      </v-text-field>
+        <div class="d-flex align-center mt-4">
+          <v-text-field
+            v-if="showGroupInput"
+            v-model="newGroupName"
+            label="Group"
+            outlined
+            hide-details
+            color="emerald"
+            clearable
+            dense
+          >
+          </v-text-field>
 
-      <v-select
-        v-else
-        v-model="groupId"
-        :items="groups"
-        item-value="id"
-        item-text="name"
-        label="Group"
-        outlined
-        hide-details
-        color="emerald"
-        dense
-      >
-      </v-select>
+          <v-select
+            v-else
+            v-model="groupId"
+            :items="groups"
+            item-value="id"
+            item-text="name"
+            label="Group"
+            outlined
+            hide-details
+            color="emerald"
+            dense
+          >
+          </v-select>
 
-      <v-btn @click="showGroupInput = !showGroupInput" icon class="ml-2">
-        <v-icon color="emerald" large>
-          {{ showGroupInput ? "mdi-close" : "mdi-plus" }}
-        </v-icon>
-      </v-btn>
-    </div>
+          <v-btn @click="showGroupInput = !showGroupInput" icon class="ml-2">
+            <v-icon color="emerald" large>
+              {{ showGroupInput ? "mdi-close" : "mdi-plus" }}
+            </v-icon>
+          </v-btn>
+        </div>
+      </v-col>
+    </v-row>
 
     <v-card-actions class="px-0">
       <v-spacer></v-spacer>
