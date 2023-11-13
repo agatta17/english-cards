@@ -15,6 +15,7 @@
               hide-details
               color="emerald"
               clearable
+              dense
             >
             </v-text-field>
             <v-text-field
@@ -25,6 +26,7 @@
               color="emerald"
               class="mt-4"
               clearable
+              dense
             >
               <template v-if="wordData.englishWord" v-slot:append>
                 <a @click="goTo(dictionaryLink)" icon>
@@ -40,6 +42,7 @@
               color="emerald"
               class="mt-4"
               clearable
+              dense
             >
               <template v-if="wordData.englishWord" v-slot:append>
                 <a @click="goTo(dictionaryLink)" icon>
@@ -56,8 +59,9 @@
                 outlined
                 hide-details
                 color="emerald"
-                height="200px"
+                height="150px"
                 clearable
+                dense
               ></v-textarea>
               <div class="d-flex flex-column ml-2">
                 <v-btn
@@ -105,7 +109,7 @@
                   'https://cdn.dribbble.com/users/215249/screenshots/2575539/media/b1f1e90c56a4d81c3783b4fdc25acddf.gif'
                 "
                 width="auto"
-                height="200px"
+                height="150px"
               />
               <v-btn
                 @click="openImgEditor"
@@ -127,8 +131,9 @@
           hide-details
           color="emerald"
           class="mt-4"
-          rows="3"
+          rows="2"
           clearable
+          dense
         >
           <template v-if="wordData.englishWord" v-slot:append>
             <a @click="goTo(dictionaryLink)" icon>
@@ -144,6 +149,7 @@
           color="emerald"
           class="mt-4"
           clearable
+          dense
         >
           <template v-if="wordData.englishWord" v-slot:append>
             <a @click="goTo(dictionaryLink)" icon>
@@ -161,6 +167,7 @@
           class="mt-4"
           rows="3"
           clearable
+          dense
         >
           <template v-if="wordData.englishWord" v-slot:append>
             <a @click="goTo(dictionaryLink)" icon>
@@ -177,8 +184,9 @@
           color="emerald"
           hide-details
           class="mt-4"
-          rows="3"
+          rows="2"
           clearable
+          dense
         ></v-textarea>
         <v-textarea
           v-model="wordData.russianExample"
@@ -188,8 +196,9 @@
           color="emerald"
           hide-details
           class="mt-4"
-          rows="3"
+          rows="2"
           clearable
+          dense
         ></v-textarea>
         <v-textarea
           v-model="wordData.moreExamples"
@@ -201,6 +210,7 @@
           class="mt-4"
           rows="3"
           clearable
+          dense
         >
           <template v-if="wordData.englishWord" v-slot:append>
             <a @click="goTo(dictionaryLink)" icon>
@@ -211,12 +221,13 @@
 
         <v-text-field
           v-model="wordData.russianWord"
-          label="Russian word"
+          label="Translation"
           outlined
           hide-details
           color="emerald"
           class="mt-4"
           clearable
+          dense
         >
           <template v-if="wordData.englishWord" v-slot:append>
             <a @click="goTo(translateLink)" icon>
@@ -225,7 +236,7 @@
           </template>
         </v-text-field>
 
-        <v-text-field
+        <!-- <v-text-field
           v-model="wordData.reverso"
           label="Reverso"
           outlined
@@ -243,25 +254,9 @@
               <v-icon>mdi-magnify</v-icon>
             </a>
           </template>
-        </v-text-field>
+        </v-text-field> -->
 
-        <v-text-field
-          v-model="wordData.youglish"
-          label="Youglish"
-          outlined
-          hide-details
-          color="emerald"
-          class="mt-4"
-          clearable
-        >
-          <template v-if="wordData.englishWord" v-slot:append>
-            <a @click="goTo('https://youglish.com/')" icon>
-              <v-icon>mdi-magnify</v-icon>
-            </a>
-          </template>
-        </v-text-field>
-
-        <v-text-field
+        <v-textarea
           v-model="wordData.comments"
           label="Comments"
           outlined
@@ -269,8 +264,10 @@
           color="emerald"
           class="mt-4"
           clearable
+          rows="3"
+          dense
         >
-        </v-text-field>
+        </v-textarea>
 
         <v-select
           v-model="wordData.groupId"
@@ -282,6 +279,7 @@
           hide-details
           color="emerald"
           class="mt-4"
+          dense
         >
         </v-select>
       </v-card-text>

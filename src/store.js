@@ -111,7 +111,7 @@ export const useAppStore = defineStore("app", {
         });
 
         if (this.currentGroupId === groupId) {
-          this.setGroup(groupId);
+          await this.setGroup(groupId);
         } else {
           this.router.push({ query: { group: groupId } });
         }
@@ -147,7 +147,6 @@ export const useAppStore = defineStore("app", {
           definition: "",
           moreExamples: "",
           reverso: `https://context.reverso.net/перевод/английский-русский/${word.srcText}`,
-          youglish: "",
         }));
 
         await apiFetch("words", "POST", { words });
@@ -298,6 +297,10 @@ export const useAppStore = defineStore("app", {
         this.errorText = error.message;
         throw error;
       }
+    },
+
+    setErrorText(text) {
+      this.errorText = text;
     },
   },
 });

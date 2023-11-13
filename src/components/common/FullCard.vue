@@ -8,7 +8,7 @@
     >
       <div v-if="!owner" class="d-flex justify-end">
         <v-btn @click="toggleDone(word._id, !word.done)" icon>
-          <v-icon :color="word.done ? 'cherry darken-1' : 'emerald'">
+          <v-icon :color="word.done ? 'cherry darken-1' : 'purple'">
             {{
               word.done
                 ? `mdi-clock-outline ${getIsSpinToggle(word._id)}`
@@ -188,14 +188,6 @@
               target="_blank"
             >
               <img height="20px" src="@/assets/reverso.png" />
-            </a>
-            <a
-              v-if="word.youglish"
-              :href="word.youglish"
-              target="_blank"
-              class="ml-3"
-            >
-              <img height="15px" src="@/assets/youglish.png" />
             </a>
           </div>
 

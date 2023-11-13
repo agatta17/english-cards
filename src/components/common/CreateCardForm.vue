@@ -9,6 +9,7 @@
           hide-details
           color="emerald"
           clearable
+          dense
         >
         </v-text-field>
         <v-text-field
@@ -19,6 +20,7 @@
           color="emerald"
           class="mt-4"
           clearable
+          dense
         >
           <template v-if="wordData.englishWord" v-slot:append>
             <a @click="goTo(dictionaryLink)" icon>
@@ -34,6 +36,7 @@
           color="emerald"
           class="mt-4"
           clearable
+          dense
         >
           <template v-if="wordData.englishWord" v-slot:append>
             <a @click="goTo(dictionaryLink)" icon>
@@ -50,7 +53,7 @@
             outlined
             hide-details
             color="emerald"
-            height="200px"
+            height="150px"
             clearable
           ></v-textarea>
           <div class="d-flex flex-column ml-2">
@@ -95,7 +98,7 @@
         </div>
 
         <div v-else class="d-flex justify-center overflow-hidden relative">
-          <img :src="wordData.picture" width="auto" height="200px" />
+          <img :src="wordData.picture" width="auto" height="150px" />
           <v-btn
             @click="openImgEditor"
             color="white"
@@ -116,8 +119,9 @@
       hide-details
       color="emerald"
       class="mt-4"
-      rows="3"
+      rows="2"
       clearable
+      dense
     >
       <template v-if="wordData.englishWord" v-slot:append>
         <a @click="goTo(dictionaryLink)" icon>
@@ -133,6 +137,7 @@
       color="emerald"
       class="mt-4"
       clearable
+      dense
     >
       <template v-if="wordData.englishWord" v-slot:append>
         <a @click="goTo(dictionaryLink)" icon>
@@ -150,6 +155,7 @@
       class="mt-4"
       rows="3"
       clearable
+      dense
     >
       <template v-if="wordData.englishWord" v-slot:append>
         <a @click="goTo(dictionaryLink)" icon>
@@ -168,6 +174,7 @@
       class="mt-4"
       rows="3"
       clearable
+      dense
     >
       <template v-if="wordData.englishWord" v-slot:append>
         <a @click="goTo(dictionaryLink)" icon>
@@ -178,12 +185,13 @@
 
     <v-text-field
       v-model="wordData.russianWord"
-      label="Russian word"
+      label="Translation"
       outlined
       hide-details
       color="emerald"
       class="mt-4"
       clearable
+      dense
     >
       <template v-if="wordData.englishWord" v-slot:append>
         <a @click="goTo(translateLink)" icon>
@@ -192,7 +200,7 @@
       </template>
     </v-text-field>
 
-    <v-text-field
+    <!-- <v-text-field
       v-model="wordData.reverso"
       label="Reverso"
       outlined
@@ -210,34 +218,20 @@
           <v-icon>mdi-magnify</v-icon>
         </a>
       </template>
-    </v-text-field>
+    </v-text-field> -->
 
-    <v-text-field
-      v-model="wordData.youglish"
-      label="Youglish"
-      outlined
-      hide-details
-      color="emerald"
-      class="mt-4"
-      clearable
-    >
-      <template v-if="wordData.englishWord" v-slot:append>
-        <a @click="goTo('https://youglish.com/')" icon>
-          <v-icon>mdi-magnify</v-icon>
-        </a>
-      </template>
-    </v-text-field>
-
-    <v-text-field
+    <v-textarea
       v-model="wordData.comments"
-      label="Comments"
       outlined
-      hide-details
+      label="Comments"
       color="emerald"
+      hide-details
       class="mt-4"
+      rows="3"
       clearable
+      dense
     >
-    </v-text-field>
+    </v-textarea>
 
     <div class="d-flex align-center mt-4">
       <v-text-field
@@ -248,6 +242,7 @@
         hide-details
         color="emerald"
         clearable
+        dense
       >
       </v-text-field>
 
@@ -261,6 +256,7 @@
         outlined
         hide-details
         color="emerald"
+        dense
       >
       </v-select>
 
@@ -275,7 +271,7 @@
       <v-spacer></v-spacer>
       <v-btn @click="toggleWordLoader" color="emerald" text> Cancel </v-btn>
 
-      <v-btn @click="onSave" color="emerald" depressed>
+      <v-btn @click="onSave" color="emerald" depressed :loading="isLoading">
         <span class="white--text">Save</span>
       </v-btn>
 
@@ -329,7 +325,12 @@ export default {
   },
 
   methods: {
-    ...mapActions(useAppStore, ["toggleWordLoader", "addWord", "addNewGroup"]),
+    ...mapActions(useAppStore, [
+      "toggleWordLoader",
+      "addWord",
+      "addNewGroup",
+      "setErrorText",
+    ]),
 
     openImgEditor() {
       this.isImgEditorOpen = true;
@@ -339,31 +340,48 @@ export default {
       this.isImgEditorOpen = false;
     },
 
-    onSave() {
-      this.toggleWordLoader();
-      this.save();
+    async onSave() {
+      try {
+        await this.save();
+        this.toggleWordLoader();
+      } catch {
+        return;
+      }
     },
 
     async onSaveAndAdd() {
       try {
-        this.isLoading = true;
         await this.save();
         this.clearData();
-      } catch (error) {
-        console.log("error >> ", error);
-      } finally {
-        this.isLoading = false;
+      } catch {
+        return;
       }
     },
 
     async save() {
-      try {
-        if (this.showGroupInput)
+      if (this.showGroupInput) {
+        try {
+          this.isLoading = true;
           this.groupId = await this.addNewGroup(this.newGroupName);
+        } catch {
+          throw new Error();
+        } finally {
+          this.isLoading = false;
+        }
+      }
 
+      if (!this.groupId) {
+        this.setErrorText("Choose a group");
+        throw new Error();
+      }
+
+      try {
+        this.isLoading = true;
         await this.addWord(this.wordData, this.groupId);
       } catch {
-        return;
+        throw new Error();
+      } finally {
+        this.isLoading = false;
       }
     },
 
