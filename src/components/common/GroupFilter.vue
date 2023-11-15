@@ -13,12 +13,18 @@
             Groups
           </v-list-item-title>
         </v-list-item-content>
+
+        <v-btn @click="onAddNewGroup" :loading="isCreationLoading" icon>
+          <v-icon color="white">mdi-plus-circle-outline</v-icon>
+        </v-btn>
+
         <tool-bar />
       </v-list-item>
 
       <v-list dense nav>
         <v-list-item
           v-for="group in groups"
+          :id="group.id"
           :key="group.id"
           :to="
             groupIdForEditing === group.id
@@ -107,6 +113,7 @@ export default {
       newName: "",
       isDeletionLoading: false,
       isChangeLoading: false,
+      isCreationLoading: false,
     };
   },
 
@@ -136,7 +143,12 @@ export default {
   },
 
   methods: {
-    ...mapActions(useAppStore, ["setGroup", "changeGroup", "deleteGroup"]),
+    ...mapActions(useAppStore, [
+      "setGroup",
+      "changeGroup",
+      "deleteGroup",
+      "addNewGroup",
+    ]),
 
     toggleEditor(id) {
       this.groupIdForEditing = id;
@@ -155,6 +167,16 @@ export default {
         this.isChangeLoading = false;
         this.groupIdForEditing = null;
       }
+    },
+
+    async onAddNewGroup() {
+      this.isCreationLoading = true;
+      const id = await this.addNewGroup("New group");
+      if (id) this.toggleEditor(id);
+      this.isCreationLoading = false;
+      document
+        .getElementsByClassName("v-navigation-drawer__content")[0]
+        .scrollIntoView({ behavior: "smooth", block: "end" });
     },
   },
 

@@ -165,8 +165,10 @@ export const useAppStore = defineStore("app", {
       try {
         const id = Date.now();
         const user = this.username;
-        await apiFetch("group", "POST", { group: { id, name, user } });
-        this.groups.push({ id, name });
+        const data = await apiFetch("group", "POST", {
+          group: { id, name, user },
+        });
+        this.groups.push({ id, name, _id: data.insertedId });
         return id;
       } catch {
         this.errorText = "Error adding group";
