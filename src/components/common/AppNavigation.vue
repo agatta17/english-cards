@@ -38,9 +38,13 @@
           >
         </template>
 
-        <v-btn @click="downloadWordList" class="mr-5" depressed>Download</v-btn>
+        <v-btn @click="toggleWordLoader" icon color="white">
+          <v-icon>mdi-plus-circle-outline</v-icon>
+        </v-btn>
 
-        <v-btn @click="toggleWordLoader" class="mr-5" depressed>Create</v-btn>
+        <v-btn @click="downloadWordList" icon color="white">
+          <v-icon>mdi-download-outline</v-icon>
+        </v-btn>
 
         <v-btn @click="logout" icon color="white">
           <v-icon>mdi-logout</v-icon>
@@ -117,7 +121,7 @@
         </template>
 
         <v-btn @click="toggleWordLoader" text color="white" small>
-          <v-icon>mdi-cloud-upload</v-icon>
+          <v-icon>mdi-plus-circle-outline</v-icon>
         </v-btn>
 
         <v-btn @click="logout" text color="white" small>
