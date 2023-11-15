@@ -8,7 +8,7 @@
     >
       <div v-if="!owner" class="d-flex justify-end">
         <v-btn @click="toggleDone(word._id, !word.done)" icon>
-          <v-icon :color="word.done ? 'cherry darken-1' : 'purple'">
+          <v-icon :color="word.done ? 'cherry darken-1' : 'emerald'">
             {{
               word.done
                 ? `mdi-clock-outline ${getIsSpinToggle(word._id)}`
@@ -62,14 +62,7 @@
           </v-chip>
         </div>
 
-        <div
-          v-show="
-            word.picture &&
-            word.picture !==
-              'https://cdn-icons-png.flaticon.com/512/3983/3983886.png' &&
-            !isEnglishFlashCard
-          "
-        >
+        <div v-show="word.picture && !isEnglishFlashCard">
           <v-card height="220px" flat class="mt-4 d-flex justify-center">
             <img :src="word.picture" class="card-picture" />
           </v-card>
@@ -180,13 +173,7 @@
 
         <template v-if="!isEnglishFlashCard && !isRussianFlashCard">
           <div @click="(event) => event.stopPropagation()" class="d-flex mt-4">
-            <a
-              :href="
-                word.reverso ||
-                `https://context.reverso.net/перевод/английский-русский/${word.englishWord}`
-              "
-              target="_blank"
-            >
+            <a :href="reversoLink" target="_blank">
               <img height="20px" src="@/assets/reverso.png" />
             </a>
           </div>
@@ -203,6 +190,7 @@
 <script>
 import { useAppStore } from "@/store";
 import { mapStores, mapActions } from "pinia";
+import { REVERSO_LINK } from "@/constants";
 
 export default {
   name: "FullCard",
@@ -243,6 +231,10 @@ export default {
 
     owner() {
       return this.appStore.owner;
+    },
+
+    reversoLink() {
+      return REVERSO_LINK(this.word.englishWord);
     },
   },
 

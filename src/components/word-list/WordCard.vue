@@ -20,7 +20,7 @@
           <div class="d-flex justify-space-between">
             <div>
               <a
-                :href="`https://context.reverso.net/перевод/английский-русский/${word.englishWord}`"
+                :href="reversoLink"
                 class="blue-grey--text text--darken-3 font-weight-medium text-decoration-none"
                 target="_blank"
               >
@@ -58,11 +58,7 @@
         >
           <v-card width="80px" height="50px" flat color="blue-grey lighten-5">
             <v-img
-              v-if="
-                word.picture &&
-                word.picture !==
-                  'https://cdn-icons-png.flaticon.com/512/3983/3983886.png'
-              "
+              v-if="word.picture"
               max-height="50px"
               max-width="80px"
               :src="word.picture"
@@ -134,6 +130,7 @@ import { useAppStore } from "@/store";
 import { mapStores, mapActions } from "pinia";
 import WordActions from "./WordActions.vue";
 import FullCardDialog from "./FullCardDialog.vue";
+import { REVERSO_LINK } from "@/constants";
 
 export default {
   name: "WordCard",
@@ -172,6 +169,10 @@ export default {
 
     owner() {
       return this.appStore.owner;
+    },
+
+    reversoLink() {
+      return REVERSO_LINK(this.word.englishWord);
     },
   },
 

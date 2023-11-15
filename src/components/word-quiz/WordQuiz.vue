@@ -46,14 +46,7 @@
                     height="95%"
                     class="d-flex flex-column justify-center"
                   >
-                    <div
-                      v-if="
-                        word.picture &&
-                        word.picture !==
-                          'https://cdn-icons-png.flaticon.com/512/3983/3983886.png'
-                      "
-                      class="mt-4 d-flex justify-center"
-                    >
+                    <div v-if="word.picture" class="mt-4 d-flex justify-center">
                       <img height="220px" :src="word.picture" />
                     </div>
 

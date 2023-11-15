@@ -146,7 +146,6 @@ export const useAppStore = defineStore("app", {
           partOfSpeech: "",
           definition: "",
           moreExamples: "",
-          reverso: `https://context.reverso.net/перевод/английский-русский/${word.srcText}`,
         }));
 
         await apiFetch("words", "POST", { words });

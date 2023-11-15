@@ -28,22 +28,18 @@
             </a>
           </template>
         </v-text-field>
-        <v-text-field
+
+        <v-select
           v-model="wordData.partOfSpeech"
+          :items="partOfSpeechList"
           label="Part of speech"
           outlined
           hide-details
           color="emerald"
-          class="mt-4"
-          clearable
           dense
+          class="mt-4"
         >
-          <template v-if="wordData.englishWord" v-slot:append>
-            <a @click="goTo(dictionaryLink)" icon>
-              <v-icon>mdi-magnify</v-icon>
-            </a>
-          </template>
-        </v-text-field>
+        </v-select>
       </v-col>
       <v-col cols="12" sm="6" order="1" order-sm="2">
         <div v-if="isImgEditorOpen" class="d-flex">
@@ -58,16 +54,12 @@
           ></v-textarea>
           <div class="d-flex flex-column ml-2">
             <template v-if="wordData.englishWord">
-              <v-btn
-                @click="goTo('https://dictionary.langeek.co/')"
-                color="emerald"
-                depressed
-              >
+              <v-btn @click="goTo(langeekLink)" color="emerald" depressed>
                 <span class="white--text">langeek</span>
               </v-btn>
 
               <v-btn
-                @click="goTo('https://quizlet.com/838325350/autosaved')"
+                @click="goTo(quizletLink)"
                 color="emerald"
                 depressed
                 class="mt-2"
@@ -76,7 +68,7 @@
               </v-btn>
 
               <v-btn
-                :href="`https://www.google.com/search?q=${wordData.englishWord}&tbm=isch`"
+                :href="googleLink"
                 target="_blank"
                 color="emerald"
                 depressed
@@ -203,26 +195,6 @@
           </template>
         </v-textarea>
 
-        <!-- <v-text-field
-      v-model="wordData.reverso"
-      label="Reverso"
-      outlined
-      hide-details
-      color="emerald"
-      class="mt-4"
-      clearable
-    >
-      <template v-if="wordData.englishWord" v-slot:append>
-        <a
-          :href="`https://context.reverso.net/перевод/английский-русский/${wordData.englishWord}`"
-          target="_blank"
-          icon
-        >
-          <v-icon>mdi-magnify</v-icon>
-        </a>
-      </template>
-    </v-text-field> -->
-
         <v-textarea
           v-model="wordData.comments"
           outlined
@@ -295,6 +267,14 @@
 <script>
 import { useAppStore } from "@/store";
 import { mapStores, mapActions } from "pinia";
+import {
+  PART_OF_SPEECH_LIST,
+  DICTIONARY_LINK,
+  LANGEEK_LINK,
+  QUIZLET_LINK,
+  GOOGLE_LINK,
+  TRANSLATE_LINK,
+} from "@/constants";
 
 export default {
   name: "CreateCardForm",
@@ -306,7 +286,10 @@ export default {
     showGroupInput: false,
     newGroupName: "",
     isLoading: false,
-    dictionaryLink: "https://www.oxfordlearnersdictionaries.com/",
+    dictionaryLink: DICTIONARY_LINK,
+    partOfSpeechList: PART_OF_SPEECH_LIST,
+    langeekLink: LANGEEK_LINK,
+    quizletLink: QUIZLET_LINK,
   }),
 
   computed: {
@@ -324,8 +307,12 @@ export default {
       return this.appStore.wordLoaderOpened;
     },
 
+    googleLink() {
+      return GOOGLE_LINK(this.wordData.englishWord);
+    },
+
     translateLink() {
-      return `https://www.lingvolive.com/ru-ru/translate/en-ru/${this.wordData.englishWord}`;
+      return TRANSLATE_LINK(this.wordData.englishWord);
     },
   },
 
