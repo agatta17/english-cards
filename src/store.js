@@ -122,31 +122,22 @@ export const useAppStore = defineStore("app", {
       }
     },
 
-    async addWordList(list, groupId) {
+    async addWordList(text, groupId) {
       try {
         this.isLoading = true;
         this.toggleWordLoader();
-        const words = list.map((word) => ({
-          englishWord: word.srcText,
-          englishExample: word.srcContext,
-          russianWord:
-            word.comment && word.comment !== "..."
-              ? word.comment
-              : word.trgText,
-          russianExample: word.trgContext,
-          srcSegment: word.srcSegment,
-          document: word.document,
-          documentTitle: word.documentTitle,
-          groupId: groupId,
-          done: false,
-          picture: "",
-          collocates: "",
-          comments: "",
-          transcription: "",
-          partOfSpeech: "",
-          definition: "",
-          moreExamples: "",
-        }));
+
+        const pairs = text.split("\n");
+
+        const words = pairs.map((pair) => {
+          const [englishWord, russianWord] = pair.split(" - ");
+          return {
+            englishWord,
+            russianWord,
+            groupId,
+            done: false,
+          };
+        });
 
         await apiFetch("words", "POST", { words });
         if (this.currentGroupId === groupId) {

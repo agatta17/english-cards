@@ -35,21 +35,11 @@
       v-model="inputData"
       outlined
       name="input-7-4"
-      label="Json"
+      label="Word list"
       color="emerald"
       hide-details
       class="mt-4"
     ></v-textarea>
-
-    <div class="mt-1">
-      <a
-        href="https://context.reverso.net/bst-web-user/user/favourites/shared?userName=adephimova&start=0&length=2000&order=10"
-        target="_blank"
-        class="grey--text"
-      >
-        Get Reverso data
-      </a>
-    </div>
 
     <v-card-actions>
       <v-spacer></v-spacer>
@@ -67,7 +57,7 @@ import { useAppStore } from "@/store";
 import { mapStores, mapActions } from "pinia";
 
 export default {
-  name: "AddFromReversoForm",
+  name: "AddFromTextForm",
 
   data: () => ({
     inputData: "",
@@ -104,10 +94,7 @@ export default {
         if (this.showGroupInput)
           this.groupId = await this.addNewGroup(this.newGroupName);
 
-        await this.addWordList(
-          JSON.parse(this.inputData).results,
-          this.groupId
-        );
+        await this.addWordList(this.inputData, this.groupId);
       } catch {
         return;
       }

@@ -41,9 +41,9 @@ export default {
         component: () => import("./CreateCardForm.vue"),
       },
       {
-        id: "addFromReverso",
-        name: "Add from Reverso",
-        component: () => import("./AddFromReversoForm.vue"),
+        id: "addFromText",
+        name: "Add from text",
+        component: () => import("./AddFromTextForm.vue"),
       },
     ],
   }),
