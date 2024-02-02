@@ -130,7 +130,7 @@ export const useAppStore = defineStore("app", {
         const pairs = text.split("\n");
 
         const words = pairs.map((pair) => {
-          const [englishWord, russianWord] = pair.split(" - ");
+          const [englishWord, russianWord] = pair.split("\t");
           return {
             englishWord,
             russianWord,
