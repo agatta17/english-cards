@@ -163,4 +163,8 @@ em {
   opacity: 0;
   transform: translateY(-160px);
 }
+
+.v-list-item--active:before {
+  opacity: 0 !important;
+}
 </style>
