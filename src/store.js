@@ -122,22 +122,30 @@ export const useAppStore = defineStore("app", {
       }
     },
 
-    async addWordList(text, groupId) {
+    async addWordList(text, groupId, textType) {
       try {
         this.isLoading = true;
         this.toggleWordLoader();
 
-        const pairs = text.split("\n");
+        let words = [];
 
-        const words = pairs.map((pair) => {
-          const [englishWord, russianWord] = pair.split("\t");
-          return {
-            englishWord,
-            russianWord,
-            groupId,
-            done: false,
-          };
-        });
+        if (textType === "outcomes") {
+          words = this.splitWordsFromOutcomes(text, groupId);
+        } else {
+          const pairs = text.split("\n");
+
+          words = pairs.map((pair) => {
+            const [englishWord, russianWord] = pair.split(
+              textType === "table" ? "\t" : " - "
+            );
+            return {
+              englishWord,
+              russianWord,
+              groupId,
+              done: false,
+            };
+          });
+        }
 
         await apiFetch("words", "POST", { words });
         if (this.currentGroupId === groupId) {
@@ -150,6 +158,71 @@ export const useAppStore = defineStore("app", {
       } finally {
         this.isLoading = false;
       }
+    },
+
+    splitWordsFromOutcomes(text, groupId) {
+      const words = text.split("Manage Wordlists");
+      const wordArrays = words.map((word) => word.split("\n"));
+      const result = [];
+
+      for (const array of wordArrays) {
+        const filteredArray = array.filter((item) => item);
+
+        const wordObject = { groupId, done: false };
+        wordObject.englishWord = filteredArray[0];
+        wordObject.transcription = filteredArray[1];
+        wordObject.definition = filteredArray[6].replace(
+          wordObject.englishWord,
+          "_____"
+        );
+        wordObject.partOfSpeech = filteredArray[8];
+
+        let nextIndex = 9;
+
+        if (filteredArray[nextIndex] === "Collocates") {
+          const collocatesArray = [];
+          for (let i = nextIndex + 1; i < filteredArray.length; i++) {
+            if (
+              ["Examples", "Word Family", "Word Family Examples"].includes(
+                filteredArray[i]
+              )
+            )
+              break;
+            collocatesArray.push(filteredArray[i].replace("* ", ""));
+            nextIndex++;
+          }
+          wordObject.collocates = collocatesArray.join("\n");
+          nextIndex++;
+        }
+
+        if (filteredArray[nextIndex] === "Examples") {
+          wordObject.srcSegment = filteredArray[nextIndex + 1].replace(
+            "* ",
+            ""
+          );
+          nextIndex++;
+          const examplesArray = [];
+          for (let i = nextIndex + 1; i < filteredArray.length; i++) {
+            if (
+              ["Word Family", "Word Family Examples"].includes(filteredArray[i])
+            )
+              break;
+            examplesArray.push(filteredArray[i].replace("* ", ""));
+            nextIndex++;
+          }
+          wordObject.moreExamples = examplesArray.join("\n");
+          nextIndex++;
+        }
+
+        if (filteredArray[nextIndex]) {
+          const rest = filteredArray.slice(nextIndex, filteredArray.length);
+          wordObject.comments = rest.join("\n");
+        }
+
+        result.push(wordObject);
+      }
+
+      return result;
     },
 
     async addNewGroup(name) {

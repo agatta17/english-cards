@@ -139,24 +139,14 @@
           v-html="word.russianExample"
         ></div>
 
-        <v-expansion-panels
-          v-if="word.moreExamples && !isRussianFlashCard"
-          class="mt-4"
-          flat
-        >
-          <v-expansion-panel @click="(event) => event.stopPropagation()">
-            <v-expansion-panel-header color="deep-orange lighten-4">
-              Extra Examples
-            </v-expansion-panel-header>
-            <v-expansion-panel-content color="deep-orange lighten-5">
-              <ul class="mt-4">
-                <li v-for="item in word.moreExamples.split('\n')" :key="item">
-                  {{ item }}
-                </li>
-              </ul>
-            </v-expansion-panel-content>
-          </v-expansion-panel>
-        </v-expansion-panels>
+        <template v-if="word.moreExamples && !isRussianFlashCard">
+          <div class="mt-4 body-2 font-weight-bold">Extra Examples</div>
+          <ul>
+            <li v-for="item in word.moreExamples.split('\n')" :key="item">
+              {{ item }}
+            </li>
+          </ul>
+        </template>
 
         <div
           v-if="word.russianWord && !isEnglishFlashCard"

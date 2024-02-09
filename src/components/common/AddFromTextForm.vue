@@ -1,6 +1,12 @@
 <template>
   <v-card flat>
-    <div class="d-flex align-center">
+    <v-btn-toggle v-model="textType">
+      <v-btn value="table"> From the table </v-btn>
+      <v-btn value="outcomes"> From Outcomes </v-btn>
+      <v-btn value="pairs"> Pairs separated by "-" </v-btn>
+    </v-btn-toggle>
+
+    <v-card flat width="50%" class="d-flex align-center mt-5">
       <v-text-field
         v-if="showGroupInput"
         v-model="newGroupName"
@@ -8,6 +14,8 @@
         outlined
         hide-details
         color="emerald"
+        clearable
+        dense
       >
       </v-text-field>
 
@@ -21,6 +29,7 @@
         outlined
         hide-details
         color="emerald"
+        dense
       >
       </v-select>
 
@@ -29,7 +38,7 @@
           {{ showGroupInput ? "mdi-close" : "mdi-plus" }}
         </v-icon>
       </v-btn>
-    </div>
+    </v-card>
 
     <v-textarea
       v-model="inputData"
@@ -64,6 +73,7 @@ export default {
     groupId: null,
     showGroupInput: false,
     newGroupName: "",
+    textType: "table",
   }),
 
   computed: {
@@ -94,7 +104,7 @@ export default {
         if (this.showGroupInput)
           this.groupId = await this.addNewGroup(this.newGroupName);
 
-        await this.addWordList(this.inputData, this.groupId);
+        await this.addWordList(this.inputData, this.groupId, this.textType);
       } catch {
         return;
       }
