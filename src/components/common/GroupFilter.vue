@@ -78,7 +78,12 @@
                   x-small
                   class="ml-1"
                 >
-                  <v-icon color="sky" small> mdi-pencil </v-icon>
+                  <v-icon
+                    :color="groupIdSelected == group.id ? 'white' : 'sky'"
+                    small
+                  >
+                    mdi-pencil
+                  </v-icon>
                 </v-btn>
               </template>
             </v-list-item-title>
@@ -124,7 +129,7 @@ export default {
       return [...this.appStore.groups];
     },
 
-    group() {
+    groupIdSelected() {
       return this.$route.query.group;
     },
 
@@ -181,7 +186,7 @@ export default {
   },
 
   watch: {
-    group(value) {
+    groupIdSelected(value) {
       this.setGroup(value);
     },
   },
